@@ -18,7 +18,7 @@ module.exports.config = {
 };
 
 module.exports.mongoOptions = {
-	uri: `mongodb+srv://ImmortalSnake:${process.env.PASS}@musiccraft-pp2oj.mongodb.net/giveaway`,
+	uri: process.env.DATABASE_URL,
 	options: {
 		useNewUrlParser: true,
 		reconnectInterval: 500,
