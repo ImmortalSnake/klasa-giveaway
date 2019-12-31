@@ -12,9 +12,11 @@ module.exports = class extends Command {
 	async run(msg, [message]) {
 		const finished = msg.guild.settings.finished;
 		if(finished.length === 0) return;
+
 		let text = finished[0].split('/');
 		if(message) text = finished.find(f => f.split('/')[1] === message.id);
-		if(!text) return msg.sendLocale('giveaway_not_found');
+		if(!text) throw msg.language.get('giveaway_not_found');
+
 		const chan = this.client.channels.get(text[0]);
 		if(!chan) return msg.sendLocale('giveaway_not_found');
 		const m = await chan.messages.fetch(text[1]);

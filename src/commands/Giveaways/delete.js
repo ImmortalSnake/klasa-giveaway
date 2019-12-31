@@ -11,8 +11,9 @@ module.exports = class extends Command {
 
 	async run(msg, [message]) {
 		const giveaway = msg.guild.settings.giveaways.find(g => g.message === message.id);
-		if(!giveaway) return msg.sendLocale('giveaway_not_found');
+		if(!giveaway) throw msg.language.get('giveaway_not_found');
 		await msg.guild.settings.update('giveaways', giveaway, { action: 'remove' });
+
 		return msg.sendLocale('giveaway_delete', [message.id]);
 	}
 };
