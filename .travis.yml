@@ -4,6 +4,8 @@ notifications:
   email: false
 node_js:
 - "10"
+script:
+  - npm run postinstall
 after_success:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
