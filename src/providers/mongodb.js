@@ -6,7 +6,7 @@ module.exports = class extends Provider {
 		super(...args, {
 			description: 'Allows use of MongoDB functionality throughout Klasa',
 		});
-		this.db = null;
+		this.db = {};
 	}
 
 	async init() {
