@@ -4,7 +4,7 @@
   "description": "A giveaway bot for discord made in discord.js and klasa",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ."
   },
   "author": "ImmortalSnake",
   "license": "MIT",
