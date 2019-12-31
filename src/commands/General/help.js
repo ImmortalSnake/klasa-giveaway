@@ -55,7 +55,7 @@ module.exports = class extends Command {
 
 	async buildHelp(message) {
 		const commands = await this._fetchCommands(message);
-		const { prefix } = message.guildSettings;
+		const prefix = message.guildSettings.get('prefix');
 
 		const helpMessage = [];
 		for (const [category, list] of commands) {
@@ -67,7 +67,7 @@ module.exports = class extends Command {
 
 	async buildDisplay(message) {
 		const commands = await this._fetchCommands(message);
-		const { prefix } = message.guildSettings;
+		const prefix = message.guildSettings.get('prefix');
 		const display = new RichDisplay();
 		const color = message.member.displayColor;
 		for (const [category, list] of commands) {
