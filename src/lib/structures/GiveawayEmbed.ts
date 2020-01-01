@@ -14,7 +14,7 @@ export default class GiveawayEmbed extends MessageEmbed {
 		this.setFooter(msg.author.tag, msg.author.displayAvatarURL());
 	}
 
-	public setLocaleDescription(key: string, ...args: string[]): this {
+	public setLocaleDescription(key: string, ...args: any[]): this {
 		return super.setDescription(this.language.get(key, ...args));
 	}
 

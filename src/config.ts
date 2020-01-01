@@ -6,9 +6,9 @@ export const config = {
 	typing: true,
 	preserveSettings: false,
 	noPrefixDM: true,
-	disabledCorePieces: ['providers', 'commands'],
+	disabledCorePieces: ['commands'],
 	providers: {
-		default: 'mongodb'
+		default: 'json'
 	},
 	pieceDefaults: {
 		commands: {
@@ -34,5 +34,7 @@ export const mongoOptions = {
 
 export const GiveawayOptions = {
 	// support server link here
-	support: ''
+	support: '',
+	version: '',
+	maxGiveaway: 10
 };
