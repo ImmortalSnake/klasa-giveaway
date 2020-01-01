@@ -26,7 +26,7 @@ export default class extends Command {
 		msg.send(msg.language.get('giveaway_create'), { embed: Embed })
 			.then(message => message.react('🎉'))
 			.then(reaction => {
-				msg.guild!.settings.update('giveaways', { channel: msg.channel.id, message: reaction.message.id, tleft, title, winners, running: true });
+				msg.guild!.settings.update('giveaways', { channel: msg.channel.id, message: reaction.message.id, tleft, title, winners });
 				return this.client.schedule.create('giveaway', tleft > 120000 ? 120000 : tleft, {
 					data: {
 						guild: reaction.message.guild!.id,

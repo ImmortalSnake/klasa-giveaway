@@ -13,11 +13,10 @@ export default class GiveawayManager {
 		const winners: User[] = [];
 		const giveaways = msg.guild!.settings.get('giveaways') as any[];
 		let giveaway = giveaways.find(g => g.message === msg.id);
-		if(giveaway) {
+		if (giveaway) {
 			msg.guild!.settings.update('giveaways', giveaway, { arrayAction: 'remove' });
 			msg.guild!.settings.update('finished', msg.id, { arrayAction: 'add' });
-		}
-		else {
+		} else {
 			giveaway = {
 				title: msg.embeds[0].title,
 				winners: msg.embeds[0].fields[0].value
@@ -38,14 +37,15 @@ export default class GiveawayManager {
 				const x = this.draw(list);
 				if (!winners.includes(x)) winners.push(x);
 			}
+			const winner =  winners.filter(u => u !== undefined && u !== null).map(u => u.toString()).join(', ');
 			const embed3 = new GiveawayEmbed(msg)
 				.setTitle(giveaway.title)
-				.setDescription(`**Winner: ${winners.filter(u => u !== undefined && u !== null).map(u => u.toString()).join(', ')}**`)
+				.setDescription(`**Winner: ${winner}**`)
 				.setTimestamp()
 				.addField(msg.language.get('winner_count'), giveaway.winners);
 	
 			msg.edit(embed3);
-			return msg.channel.send(msg.language.get('giveaway_won', winners.filter(u => u !== undefined && u !== null).map(u => u.toString()).join(', '), giveaway.title));
+			return msg.channel.send(msg.language.get('giveaway_won', winner, giveaway.title));
 		}
 	}
 
@@ -67,11 +67,9 @@ export default class GiveawayManager {
 		if(Guild) {
 			const giveaway = (Guild.settings.get('giveaways') as any[]).find(g => g.message === msg);
 			if(giveaway) {
-				if(!giveaway.running) return;
 				const chan = this.client.channels.get(giveaway.channel) as TextChannel;
 				if(chan) {
-					const message = await chan.messages.fetch(msg);
-					return message as KlasaMessage;
+					return await chan.messages.fetch(msg) as KlasaMessage;
 				}
 			}
 		}
