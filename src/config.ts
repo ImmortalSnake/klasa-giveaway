@@ -1,33 +1,33 @@
 import { KlasaClientOptions } from 'klasa';
 
 export const config = {
-    prefix: '..',
-    commandEditing: true,
-    typing: true,
-    preserveSettings: false,
-    noPrefixDM: true,
-    disabledCorePieces: ['providers', 'commands'],
-    providers: {
-        default: 'mongodb'
-    },
-    pieceDefaults: {
-        commands: {
-            quotedStringSupport: true,
-            runIn: ['text'],
-            usageDelim: ' '
-        }
-    }
+	prefix: '..',
+	commandEditing: true,
+	typing: true,
+	preserveSettings: false,
+	noPrefixDM: true,
+	disabledCorePieces: ['providers', 'commands'],
+	providers: {
+		default: 'mongodb'
+	},
+	pieceDefaults: {
+		commands: {
+			quotedStringSupport: true,
+			runIn: ['text'],
+			usageDelim: ' '
+		}
+	}
 } as KlasaClientOptions;
 
 export const mongoOptions = {
-    // eslint-disable-next-line no-process-env
-    uri: process.env.DATABASE_URL,
-    options: {
-        useNewUrlParser: true,
-        reconnectInterval: 500,
-        reconnectTries: Number.MAX_VALUE,
-        poolSize: 5,
-        connectTimeoutMS: 10000,
-        autoIndex: false
-    }
+	// eslint-disable-next-line no-process-env
+	uri: process.env.DATABASE_URL,
+	options: {
+		useNewUrlParser: true,
+		reconnectInterval: 500,
+		reconnectTries: Number.MAX_VALUE,
+		poolSize: 5,
+		connectTimeoutMS: 10000,
+		autoIndex: false
+	}
 };

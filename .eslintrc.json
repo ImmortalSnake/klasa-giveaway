@@ -1,7 +1,6 @@
 {
     "extends": "klasa/eslint-ts",
     "rules": {
-        "@typescript-eslint/indent": ["error", 4],
         "@typescript-eslint/no-non-null-assertion": "off",
         "no-unused-expressions": "off"
     }
