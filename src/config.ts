@@ -6,7 +6,7 @@ export const config = {
 	typing: true,
 	preserveSettings: false,
 	noPrefixDM: true,
-	disabledCorePieces: ['commands'],
+	disabledCorePieces: [],
 	providers: {
 		default: 'json'
 	},
