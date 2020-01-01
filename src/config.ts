@@ -31,3 +31,8 @@ export const mongoOptions = {
 		autoIndex: false
 	}
 };
+
+export const GiveawayOptions = {
+	// support server link here
+	support: ''
+};

@@ -1,17 +1,17 @@
-const { Command } = require('klasa');
+import { Command, KlasaMessage, CommandStore } from 'klasa';
 
-module.exports = class extends Command {
+export default class extends Command {
 
-	constructor(...args) {
-		super(...args, {
+	constructor(store: CommandStore, file: string[], directory: string) {
+		super(store, file, directory, {
 			guarded: true,
 			description: language => language.get('COMMAND_PING_DESCRIPTION')
 		});
 	}
 
-	async run(message) {
+	public async run(message: KlasaMessage): Promise<KlasaMessage | KlasaMessage[]> {
 		const msg = await message.sendLocale('COMMAND_PING');
 		return message.sendLocale('COMMAND_PINGPONG', [(msg.editedTimestamp || msg.createdTimestamp) - (message.editedTimestamp || message.createdTimestamp), Math.round(this.client.ws.ping)]);
 	}
 
-};
+}
