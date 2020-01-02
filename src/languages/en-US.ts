@@ -11,6 +11,11 @@ export default class extends Language {
 		super(store, file, directory);
 
 		this.language = {
+
+			/**
+			 * Klasa default locales
+			 */
+
 			DEFAULT: (key) => `${key} has not been localized for en-US yet.`,
 			DEFAULT_LANGUAGE: 'Default Language',
 			PREFIX_REMINDER: (prefix = `@${this.client.user!.tag}`) => `The prefix${Array.isArray(prefix) ?
@@ -179,6 +184,7 @@ export default class extends Language {
 			loading: 'loading....',
 			giveaway_description: (winners, tleft) => `
 			**React with :tada: to enter**
+
 			Winner Count: ${winners}
 			Time Left: **${tleft}**`,
 			max_giveaways: 'You can have only upto 10 giveaways in a guild! Remove a giveaway and try again!',
