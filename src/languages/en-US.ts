@@ -179,8 +179,9 @@ export default class extends Language {
 			COMMAND_REROLL_DESCRIPTION: 'Rerolls a previously finished giveaway. If you do not provide a message id, it will reroll the most recently finished giveaway',
 
 			GIVEAWAY_CREATE: ':tada: **GIVEAWAY** :tada:',
+			GIVEAWAY_END: ':tada: **GIVEAWAY ENDED** :tada:',
 			GIVEAWAY_DELETE: id => `Successfully deleted the giveaway with the id: \`${id}\``,
-			GIVEAWAY_WON: (winners, title) => `:tada: Congratulations ${winners}! You won the **${title}**`,
+			GIVEAWAY_WON: (winners, title) => `:tada: Congratulations ${winners}! You won **${title}**`,
 			NOT_ENOUGH_REACTIONS: count =>
 				`The Giveaway has ended, not enough people voted.
 				**Votes Required:** \`${count}\``,
@@ -189,7 +190,7 @@ export default class extends Language {
 				`**React with :tada: to enter**
 
 				**Winner Count:** \`${winners}\`
-				**Time Left:** \`${tleft}\``,
+				**Time Left:** ${tleft}`,
 
 			GIVEWAY_LIST_TITLE: name => `Active giveaways on **${name}**`,
 			GIVEAWAY_LIST_BODY: (i, message, channel, wCount, time, title) =>
