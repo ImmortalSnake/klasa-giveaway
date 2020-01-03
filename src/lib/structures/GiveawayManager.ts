@@ -1,8 +1,7 @@
 import { KlasaClient, KlasaMessage, ScheduledTask } from 'klasa';
-import { TextChannel, User, Message } from 'discord.js';
-import GiveawayEmbed from './GiveawayEmbed';
+import { TextChannel, User, Message, Collection, MessageEmbed } from 'discord.js';
 import Util from '../util/util';
-import { Second, Minute } from '../util/constants';
+import { Second, Minute, COLORS } from '../util/constants';
 
 interface GiveawayFinishData {
 	title?: string;
@@ -32,9 +31,7 @@ export default class GiveawayManager {
 		this.client = client;
 	}
 
-	public async finish(msg: KlasaMessage, { reroll, title, wCount }: GiveawayFinishData) {
-		const winners: User[] = [];
-
+	public async finish(msg: KlasaMessage, { reroll, title, wCount }: GiveawayFinishData): Promise<Message> {
 		if (!title || !wCount) {
 			title = msg.embeds[0].title;
 			wCount = 1;
@@ -46,26 +43,24 @@ export default class GiveawayManager {
 		}
 
 		if (msg.reactions.get('🎉')!.count < 2) {
-			const embed2 = new GiveawayEmbed(msg)
+			return msg.edit(msg.language.get('GIVEAWAY_END'), new MessageEmbed()
 				.setTitle(title)
-				.setLocaleDescription('NOT_ENOUGH_REACTIONS', wCount)
-				.setTimestamp();
-			return msg.edit(embed2);
+				.setColor(msg.guild ? msg.member!.displayColor : COLORS.PRIMARY)
+				.setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', wCount))
+				.setFooter('Ended At:')
+				.setTimestamp());
 		}
 
 		const users = await msg.reactions.get('🎉')!.users.fetch();
-		const list = users.filter(u => u.id !== this.client.user!.id).array();
-		for (let i = 0; i < wCount; i++) {
-			const x = this.draw(list);
-			if (!winners.includes(x)) winners.push(x);
-		}
-		const winner = winners.filter(u => u !== undefined && u !== null).map(u => u.toString()).join(', ');
-		const embed3 = new GiveawayEmbed(msg)
-			.setTitle(title)
-			.setDescription(`**Winner: ${winner}**`)
-			.setTimestamp();
+		const winner = this.getWinners(users, wCount);
 
-		await msg.edit(embed3);
+		await msg.edit(msg.language.get('GIVEAWAY_END'), new MessageEmbed()
+			.setTitle(title)
+			.setColor(msg.guild ? msg.member!.displayColor : COLORS.PRIMARY)
+			.setDescription(`**Winner: ${winner}**`)
+			.setFooter('Ended At:')
+			.setTimestamp());
+
 		return msg.channel.send(msg.language.get('GIVEAWAY_WON', winner, title));
 
 	}
@@ -91,9 +86,12 @@ export default class GiveawayManager {
 
 		if (endAt <= Date.now()) return this.finish(msg, { title, wCount });
 
-		return msg.edit(new GiveawayEmbed(msg)
+		return msg.edit(new MessageEmbed()
 			.setTitle(title)
-			.setLocaleDescription('GIVEAWAY_DESCRIPTION', wCount, Util.ms(endAt - Date.now())))
+			.setColor(msg.guild ? msg.member!.displayColor : COLORS.PRIMARY)
+			.setDescription(msg.language.get('GIVEAWAY_DESCRIPTION', wCount, Util.ms(endAt - Date.now())))
+			.setFooter('End At:')
+			.setTimestamp(endAt))
 			.then(() => this.create({
 				message: msg,
 				title,
@@ -125,6 +123,18 @@ export default class GiveawayManager {
 		if (remaining < 15 * Minute) return Date.now() + Minute;
 		if (remaining < 30 * Minute) return Date.now() + (2 * Minute);
 		return Date.now() + (5 * Minute);
+	}
+
+	private getWinners(users: Collection<string, User>, amount: number): string {
+		const winners: User[] = [];
+
+		const list = users.filter(user => user.id !== this.client.user!.id).array();
+		for (let i = 0; i < amount; i++) {
+			const x = this.draw(list);
+			if (!winners.includes(x)) winners.push(x);
+		}
+
+		return winners.filter(u => u !== undefined && u !== null).map(u => u.toString()).join(', ');
 	}
 
 }

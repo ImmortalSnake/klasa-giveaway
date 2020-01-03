@@ -20,7 +20,7 @@ export default class extends Command {
 			if (!giveaway) continue;
 
 			const { message, channel, wCount, title, endAt } = giveaway.data as GiveawayUpdateData;
-			mess += msg.language.get('GIVEAWAY_LIST_BODY', i, message, channel, wCount, Util.ms(endAt - Date.now()), title);
+			mess += msg.language.get('GIVEAWAY_LIST_BODY', i + 1, message, channel, wCount, Util.ms(endAt - Date.now()), title);
 		}
 
 		return msg.send(mess, { split: true });
