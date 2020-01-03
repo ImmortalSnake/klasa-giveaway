@@ -16,6 +16,13 @@
   },
   "author": "ImmortalSnake",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ImmortalSnake/Giveaway-Bot"
+  },
+  "bugs": {
+    "url": "https://github.com/ImmortalSnake/Giveaway-Bot/issues"
+  },
   "dependencies": {
     "discord.js": "github:discordjs/discord.js#master",
     "dotenv": "^8.0.0",
