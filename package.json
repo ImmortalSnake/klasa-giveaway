@@ -2,10 +2,17 @@
   "name": "giveaway",
   "version": "1.0.0",
   "description": "A giveaway bot for discord made in discord.js and klasa",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "node .",
-    "test": "eslint src"
+    "test": "eslint src/**",
+    "lint": "eslint src/** --fix",
+    "build": "tsc",
+    "postinstall": "npm run build"
+  },
+  "engines": {
+    "node": "11.x",
+    "npm": "*"
   },
   "author": "ImmortalSnake",
   "license": "MIT",
@@ -13,10 +20,14 @@
     "discord.js": "github:discordjs/discord.js#master",
     "dotenv": "^8.0.0",
     "klasa": "github:dirigeants/klasa#settings",
-    "mongodb": "^3.2.7",
-    "ms": "^2.1.2"
+    "mongodb": "^3.2.7"
   },
   "devDependencies": {
-    "eslint": "^5.16.0"
+    "@types/node": "^13.1.2",
+    "@typescript-eslint/eslint-plugin": "^2.14.0",
+    "@typescript-eslint/parser": "^2.14.0",
+    "eslint": "^5.16.0",
+    "eslint-config-bamboo": "^3.0.0",
+    "typescript": "^3.7.4"
   }
 }
