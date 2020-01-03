@@ -1,8 +1,8 @@
 import { KlasaMessage, CommandStore, Command } from 'klasa';
-import GiveawayEmbed from '../../lib/structures/GiveawayEmbed';
 import { GiveawayOptions } from '../../config';
 import Util from '../../lib/util/util';
 import GiveawayClient from '../../lib/client';
+import { MessageEmbed } from 'discord.js';
 
 export default class extends Command {
 
@@ -12,6 +12,7 @@ export default class extends Command {
 			permissionLevel: 5,
 			promptLimit: 1,
 			cooldown: 10,
+			runIn: ['text'],
 			usage: '<duration:timespan> <winner_count:int> <title:...str{0,250}>',
 			description: lang => lang.get('COMMAND_CREATE_DESCRIPTION')
 		});
@@ -21,9 +22,12 @@ export default class extends Command {
 		const giveaways = msg.guildSettings.get('giveaways.running') as string[];
 		if (giveaways.length > GiveawayOptions.maxGiveaway) throw msg.language.get('MAX_GIVEAWAYS');
 
-		const Embed = new GiveawayEmbed(msg)
+		const Embed = new MessageEmbed()
 			.setTitle(title)
-			.setLocaleDescription('GIVEAWAY_DESCRIPTION', wCount, Util.ms(time));
+			.setColor(msg.member!.displayColor)
+			.setDescription(msg.language.get('GIVEAWAY_DESCRIPTION', wCount, Util.ms(time)))
+			.setFooter(msg.language.get('ENDS_AT'))
+			.setTimestamp(Date.now() + time);
 
 		await msg.sendLocale('GIVEAWAY_CREATE', { embed: Embed })
 			.then(message => message.react('🎉'))

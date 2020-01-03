@@ -169,6 +169,11 @@ export default class extends Language {
 			TEXT_PROMPT_ABORT_OPTIONS: ['abort', 'stop', 'cancel'],
 
 
+			ENDS_AT: 'Ends At:',
+			ENDED_AT: 'Ended At:',
+			GIVEAWAY_NOT_FOUND: 'Could not find that giveaway! Try again!',
+			MAX_GIVEAWAYS: 'You can have only upto 10 giveaways in a guild! Remove a giveaway and try again!',
+			NO_RUNNING_GIVEAWAY: prefix => `There are no running giveaways in this server. Create one using the \`${prefix}create\` command!`,
 			NO_FINISHED_GIVEAWAY: prefix => `No giveaways were completed in this server. Use \`${prefix}create\` to create one and \`${prefix}end\` to end it`,
 
 			COMMAND_CREATE_DESCRIPTION: 'Creates a giveaway in the current channel!',
@@ -194,11 +199,7 @@ export default class extends Language {
 
 			GIVEWAY_LIST_TITLE: name => `Active giveaways on **${name}**`,
 			GIVEAWAY_LIST_BODY: (i, message, channel, wCount, time, title) =>
-				`\n**${i}]** \`${message}\` → <#${channel}> | \`${wCount}\` **Winner(s)** | **Ends At:** ${time} | **Title:** \`${title}\``,
-
-			GIVEAWAY_NOT_FOUND: 'Could not find that giveaway! Try again!',
-			MAX_GIVEAWAYS: 'You can have only upto 10 giveaways in a guild! Remove a giveaway and try again!',
-			NO_RUNNING_GIVEAWAY: prefix => `There are no running giveaways in this server. Create one using the \`${prefix}create\` command!`
+				`\n**${i}]** \`${message}\` → <#${channel}> | \`${wCount}\` **Winner(s)** | **Ends At:** ${time} | **Title:** \`${title}\``
 		};
 	}
 
