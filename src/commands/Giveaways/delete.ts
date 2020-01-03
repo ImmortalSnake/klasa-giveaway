@@ -15,7 +15,7 @@ export default class extends Command {
 		if (giveaways.length === 0) throw msg.language.get('NO_RUNNING_GIVEAWAY', msg.guildSettings.get('prefix'));
 
 		const id = message ? message.id : giveaways[0];
-		const giveaway = this.client.schedule.tasks.find(task => task.data.message === id);
+		const giveaway = this.client.schedule.tasks.find(task => task.data && task.data.message === id);
 		if (!giveaway || !giveaways.includes(id)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
 
 		await msg.guildSettings.update('giveaways.running', id, { arrayAction: 'remove' });

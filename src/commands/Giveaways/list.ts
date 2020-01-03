@@ -16,7 +16,7 @@ export default class extends Command {
 
 		let mess = msg.language.get('GIVEWAY_LIST_TITLE', msg.guild!.name);
 		for (let i = 0; i < giveaways.length; i++) {
-			const giveaway = this.client.schedule.tasks.find(ex => ex.data.message === giveaways[i]);
+			const giveaway = this.client.schedule.tasks.find(task => task.data && task.data.message === giveaways[i]);
 			if (!giveaway) continue;
 
 			const { message, channel, wCount, title, endAt } = giveaway.data as GiveawayUpdateData;
