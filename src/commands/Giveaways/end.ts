@@ -1,7 +1,8 @@
-import { Command, CommandStore, KlasaMessage } from 'klasa';
-import GiveawayClient from '../../lib/client';
+import { CommandStore, KlasaMessage } from 'klasa';
+import GiveawayCommand from '../../lib/base/GiveawayCommand';
+import { Message } from 'discord.js';
 
-export default class extends Command {
+export default class extends GiveawayCommand {
 
 	public constructor(store: CommandStore, file: string[], directory: string) {
 		super(store, file, directory, {
@@ -11,15 +12,21 @@ export default class extends Command {
 		});
 	}
 
-	public async run(msg: KlasaMessage, [message]: [KlasaMessage]): Promise<KlasaMessage | KlasaMessage[] | null> {
-		const giveaways = msg.guildSettings.get('giveaways') as any[];
+	public async run(msg: KlasaMessage, [message]: [Message | undefined]): Promise<KlasaMessage | KlasaMessage[] | null> {
+		const giveaways = msg.guildSettings.get('giveaways.running') as string[];
 		if (giveaways.length === 0) throw msg.language.get('no_running_giveaway', msg.prefix);
 
-		// eslint-disable-next-line prefer-destructuring
-		if (!message) message = giveaways[0].message;
-		const mess = await (this.client as GiveawayClient).giveawayManager.validate(message.id, msg.guild!.id);
-		if (!mess) throw msg.language.get('giveaway_not_found');
-		await (this.client as GiveawayClient).giveawayManager.finish(mess);
+		const id = message ? message.id : giveaways[0];
+		const giveaway = this.client.schedule.tasks.find(task => task.data.message === id);
+
+		if (!giveaway) throw msg.language.get('giveaway_not_found');
+		message = message ?? await msg.channel.messages.fetch(id);
+
+		if (!message) throw msg.language.get('giveaway_not_found');
+
+		const { title, wCount } = giveaway.data;
+		await this.client.giveawayManager.finish(message as KlasaMessage, { title, wCount });
+		await giveaway.delete();
 		return null;
 	}
 

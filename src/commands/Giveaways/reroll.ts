@@ -1,7 +1,6 @@
 import { Command, CommandStore, KlasaMessage } from 'klasa';
 import GiveawayClient from '../../lib/client';
 
-
 export default class extends Command {
 
 	constructor(store: CommandStore, file: string[], directory: string) {
@@ -13,20 +12,18 @@ export default class extends Command {
 	}
 
 	public async run(msg: KlasaMessage, [message]: [KlasaMessage | null]): Promise<KlasaMessage | KlasaMessage | null> {
-		const finished = msg.guild!.settings.get('finished') as string[];
-		if (finished.length === 0) return null;
-
 		if (message) {
-			const text = finished.find(ex => ex === message.id);
-			if (!text) throw msg.language.get('giveaway_not_found');
-
-			await (this.client as GiveawayClient).giveawayManager.finish(message);
+			if (message.author.id === this.client.user!.id && message.embeds.length) {
+				await (this.client as GiveawayClient).giveawayManager.finish(message, { reroll: true });
+			}
 		} else {
-			const text = finished[0];
-			const mess = await msg.channel.messages.fetch(text) as KlasaMessage;
+			const finished = msg.guildSettings.get('giveaways.finished') as string;
+			if (!finished) throw msg.language.get('giveaway_not_found');
 
+			const mess = await msg.channel.messages.fetch(finished) as KlasaMessage;
 			if (!mess) throw msg.language.get('giveaway_not_found');
-			await (this.client as GiveawayClient).giveawayManager.finish(mess);
+
+			await (this.client as GiveawayClient).giveawayManager.finish(mess, { reroll: true });
 		}
 
 		return null;

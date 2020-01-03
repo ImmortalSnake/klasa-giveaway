@@ -170,6 +170,7 @@ export default class extends Language {
 			TEXT_PROMPT_ABORT_OPTIONS: ['abort', 'stop', 'cancel'],
 
 
+			NO_FINISHED_GIVEAWAY: (prefix) => `No giveaways were completed in this server. Use \`${prefix}create\` to create one and \`${prefix}end\` to end it`,
 			create_description: 'Creates a giveaway in the specified channel!',
 			delete_description: 'Deletes a giveaway! (You could also simply delete the giveaway message)',
 			reroll_description: 'Rerolls a previously finished giveaway. If you do not provide a message id, it will reroll the most recently finished giveaway',
@@ -186,7 +187,7 @@ export default class extends Language {
 			**React with :tada: to enter**
 
 			Winner Count: ${winners}
-			Time Left: **${tleft}**`,
+			Time Left: ${tleft}`,
 			max_giveaways: 'You can have only upto 10 giveaways in a guild! Remove a giveaway and try again!',
 			no_running_giveaway: (prefix) => `There are no running giveaways in this server. Create one using the \`${prefix}create\` command!`
 		};

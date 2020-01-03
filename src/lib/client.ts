@@ -1,6 +1,7 @@
 import { KlasaClient, KlasaClientOptions } from 'klasa';
+import GiveawayManager from './structures/GiveawayManager';
 import './schemas/Guild';
-import GiveawayManager from './giveawayManager';
+import './structures/permissionLevels';
 
 export default class GiveawayClient extends KlasaClient {
 

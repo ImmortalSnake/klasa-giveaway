@@ -1,16 +1,16 @@
-import { MessageEmbed } from 'discord.js';
+import { MessageEmbed, ColorResolvable } from 'discord.js';
 import { KlasaMessage, Language } from 'klasa';
+import { COLORS } from '../util/constants';
 
 export default class GiveawayEmbed extends MessageEmbed {
 
 	public language: Language;
 
-	public constructor(msg: KlasaMessage, color = '#42f54e') {
+	public constructor(msg: KlasaMessage, color?: ColorResolvable) {
 		super();
 
 		this.language = msg.language;
-		this.setAuthor(msg.client.user!.tag, msg.client.user!.displayAvatarURL());
-		this.setColor(color);
+		this.setColor(color || msg.guild ? msg.member!.displayColor : COLORS.PRIMARY);
 		this.setFooter(msg.author.tag, msg.author.displayAvatarURL());
 	}
 
