@@ -25,14 +25,15 @@ export default class extends GiveawayCommand {
 			.setTitle(title)
 			.setLocaleDescription('giveaway_description', wCount, Util.ms(time));
 
-		msg.send(msg.language.get('giveaway_create'), { embed: Embed })
+		await msg.send(msg.language.get('giveaway_create'), { embed: Embed })
 			.then(message => message.react('🎉'))
 			.then(reaction => this.client.giveawayManager.create({
 				message: reaction.message,
 				time: Date.now() + time,
 				title,
 				wCount
-			})).then(task => msg.guildSettings.update('giveaways.running', task.data.message));
+			}))
+			.then(task => msg.guildSettings.update('giveaways.running', task.data.message));
 
 		return null;
 	}

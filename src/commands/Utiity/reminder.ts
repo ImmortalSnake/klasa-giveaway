@@ -2,7 +2,7 @@ import { Command, CommandStore, KlasaMessage } from 'klasa';
 
 export default class extends Command {
 
-	constructor(store: CommandStore, file: string[], directory: string) {
+	public constructor(store: CommandStore, file: string[], directory: string) {
 		super(store, file, directory, {
 			promptLimit: 1,
 			subcommands: true,

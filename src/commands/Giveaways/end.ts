@@ -8,7 +8,7 @@ export default class extends GiveawayCommand {
 		super(store, file, directory, {
 			permissionLevel: 5,
 			usage: '[message:message]',
-			description: (lang) => lang.get('end_description')
+			description: lang => lang.get('end_description')
 		});
 	}
 

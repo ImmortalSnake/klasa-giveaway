@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 import { Language, LanguageStore, util } from 'klasa';
 import { GiveawayOptions } from '../config';
 
@@ -7,7 +8,7 @@ import { GiveawayOptions } from '../config';
 
 export default class extends Language {
 
-	constructor(store: LanguageStore, file: string[], directory: string) {
+	public constructor(store: LanguageStore, file: string[], directory: string) {
 		super(store, file, directory);
 
 		this.language = {
@@ -18,9 +19,9 @@ export default class extends Language {
 
 			DEFAULT: (key) => `${key} has not been localized for en-US yet.`,
 			DEFAULT_LANGUAGE: 'Default Language',
-			PREFIX_REMINDER: (prefix = `@${this.client.user!.tag}`) => `The prefix${Array.isArray(prefix) ?
-				`es for this guild are: ${prefix.map(pre => `\`${pre}\``).join(', ')}` :
-				` in this guild is set to: \`${prefix}\``
+			PREFIX_REMINDER: (prefix = `@${this.client.user!.tag}`) => `The prefix${Array.isArray(prefix)
+				? `es for this guild are: ${prefix.map(pre => `\`${pre}\``).join(', ')}`
+				: ` in this guild is set to: \`${prefix}\``
 			}`,
 
 			// settings gateway locales
@@ -77,6 +78,7 @@ export default class extends Language {
 			INHIBITOR_MISSING_BOT_PERMS: (missing) => `Insufficient permissions, missing: **${missing}**`,
 			INHIBITOR_NSFW: 'You can only use NSFW commands in NSFW channels.',
 			INHIBITOR_PERMISSIONS: 'You do not have permission to use this command.',
+			// eslint-disable-next-line no-negated-condition
 			INHIBITOR_REQUIRED_SETTINGS: (settings) => `The guild is missing the **${settings.join(', ')}** guild setting${settings.length !== 1 ? 's' : ''} and thus the command cannot run.`,
 			INHIBITOR_RUNIN: (types) => `This command is only available in ${types} channels.`,
 			INHIBITOR_RUNIN_NONE: (name) => `The ${name} command is not configured to run in any channel.`,
@@ -163,7 +165,7 @@ export default class extends Language {
 				`• Klasa        :: v${klasaVersion}`,
 				`• Discord.js   :: v${discordVersion}`,
 				`• Node.js      :: ${processVersion}`,
-				`• Shard        :: ${(message.guild ? message.guild.shardID : 0) + 1} / ${this.client.options.shardCount}`
+				`• Shard        :: ${(message.guild ? message.guild.shardID as number : 0) + 1} / ${this.client.options.shardCount}`
 			].join('\n'),
 			COMMAND_STATS_DESCRIPTION: 'Provides some details about the bot and stats.',
 			MESSAGE_PROMPT_TIMEOUT: 'The prompt has timed out.',

@@ -6,7 +6,7 @@ export default class extends Command {
 		super(store, file, directory, {
 			permissionLevel: 5,
 			usage: '[message:message]',
-			description: (lang) => lang.get('delete_description')
+			description: lang => lang.get('delete_description')
 		});
 	}
 
