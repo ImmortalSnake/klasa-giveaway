@@ -1,12 +1,11 @@
 import { KlasaClientOptions } from 'klasa';
 
 export const config = {
+	owners: ['410806297580011520'],
 	prefix: '..',
 	commandEditing: true,
-	typing: true,
 	preserveSettings: false,
 	noPrefixDM: true,
-	disabledCorePieces: [],
 	providers: {
 		default: 'json'
 	},
