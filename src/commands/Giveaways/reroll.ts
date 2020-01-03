@@ -3,11 +3,11 @@ import GiveawayClient from '../../lib/client';
 
 export default class extends Command {
 
-	constructor(store: CommandStore, file: string[], directory: string) {
+	public constructor(store: CommandStore, file: string[], directory: string) {
 		super(store, file, directory, {
 			permissionLevel: 5,
 			usage: '[message:message]',
-			description: (lang) => lang.get('reroll_description')
+			description: lang => lang.get('reroll_description')
 		});
 	}
 

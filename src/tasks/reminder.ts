@@ -9,7 +9,7 @@ interface ReminderData {
 export default class extends Task {
 
 	public async run({ user, text }: ReminderData): Promise<void> {
-		if (user) await user.send(`Reminder: ${text}`).catch(console.log);
+		if (user) await user.send(`Reminder: ${text}`).catch(err => console.log(err));
 	}
 
 }

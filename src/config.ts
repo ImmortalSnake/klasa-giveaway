@@ -7,7 +7,7 @@ export const config = {
 	preserveSettings: false,
 	noPrefixDM: true,
 	providers: {
-		default: 'json'
+		'default': 'json'
 	},
 	pieceDefaults: {
 		commands: {

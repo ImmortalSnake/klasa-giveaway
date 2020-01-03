@@ -1,7 +1,10 @@
 {
-    "extends": "klasa/eslint-ts",
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "bamboo"
+    ],
     "rules": {
-        "@typescript-eslint/no-non-null-assertion": "off",
-        "no-unused-expressions": "off"
+        "no-unused-expressions": "off",
+        "linebreak-style": "off"
     }
 }
