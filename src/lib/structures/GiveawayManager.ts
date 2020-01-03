@@ -42,24 +42,22 @@ export default class GiveawayManager {
 			await msg.guildSettings.update('giveaways.running', msg.id, { arrayAction: 'remove' });
 		}
 
+		const embed = new MessageEmbed()
+			.setTitle(title)
+			.setColor(msg.guild ? msg.member!.displayColor : COLORS.PRIMARY)
+			.setFooter(msg.language.get('ENDED_AT'))
+			.setTimestamp();
+
 		if (msg.reactions.get('🎉')!.count < 2) {
-			return msg.edit(msg.language.get('GIVEAWAY_END'), new MessageEmbed()
-				.setTitle(title)
-				.setColor(msg.guild ? msg.member!.displayColor : COLORS.PRIMARY)
-				.setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', wCount))
-				.setFooter('Ended At:')
-				.setTimestamp());
+			return msg.edit(msg.language.get('GIVEAWAY_END'), embed
+				.setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', wCount)));
 		}
 
 		const users = await msg.reactions.get('🎉')!.users.fetch();
 		const winner = this.getWinners(users, wCount);
 
-		await msg.edit(msg.language.get('GIVEAWAY_END'), new MessageEmbed()
-			.setTitle(title)
-			.setColor(msg.guild ? msg.member!.displayColor : COLORS.PRIMARY)
-			.setDescription(`**Winner: ${winner}**`)
-			.setFooter('Ended At:')
-			.setTimestamp());
+		await msg.edit(msg.language.get('GIVEAWAY_END'), embed
+			.setDescription(`**Winner: ${winner}**`));
 
 		return msg.channel.send(msg.language.get('GIVEAWAY_WON', winner, title));
 
@@ -90,7 +88,7 @@ export default class GiveawayManager {
 			.setTitle(title)
 			.setColor(msg.guild ? msg.member!.displayColor : COLORS.PRIMARY)
 			.setDescription(msg.language.get('GIVEAWAY_DESCRIPTION', wCount, Util.ms(endAt - Date.now())))
-			.setFooter('End At:')
+			.setFooter(msg.language.get('ENDS_AT'))
 			.setTimestamp(endAt))
 			.then(() => this.create({
 				message: msg,
