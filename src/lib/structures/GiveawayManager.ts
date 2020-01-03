@@ -37,8 +37,7 @@ export default class GiveawayManager {
 
 		if (!title || !wCount) {
 			title = msg.embeds[0].title;
-			// eslint-disable-next-line radix
-			wCount = parseInt(msg.embeds[0]?.fields[0]?.value) || 1;
+			wCount = 1;
 		}
 
 		if (!reroll) {
@@ -49,9 +48,8 @@ export default class GiveawayManager {
 		if (msg.reactions.get('🎉')!.count < 2) {
 			const embed2 = new GiveawayEmbed(msg)
 				.setTitle(title)
-				.setLocaleDescription('not_enough_reactions')
-				.setTimestamp()
-				.addField(msg.language.get('winner_count'), wCount);
+				.setLocaleDescription('NOT_ENOUGH_REACTIONS', wCount)
+				.setTimestamp();
 			return msg.edit(embed2);
 		}
 
@@ -65,11 +63,10 @@ export default class GiveawayManager {
 		const embed3 = new GiveawayEmbed(msg)
 			.setTitle(title)
 			.setDescription(`**Winner: ${winner}**`)
-			.setTimestamp()
-			.addField(msg.language.get('winner_count'), wCount);
+			.setTimestamp();
 
 		await msg.edit(embed3);
-		return msg.channel.send(msg.language.get('giveaway_won', winner, title));
+		return msg.channel.send(msg.language.get('GIVEAWAY_WON', winner, title));
 
 	}
 
@@ -86,22 +83,17 @@ export default class GiveawayManager {
 		return shuffled[Math.floor(Math.random() * shuffled.length)];
 	}
 
-	public async validate(msg: string, chan: string): Promise<KlasaMessage | undefined> {
-		const channel = await this.client.channels.fetch(chan) as TextChannel;
-		const mess = await channel.messages.fetch(msg);
-
-		return mess as KlasaMessage;
-	}
 
 	public async update({ message, channel, endAt, title, wCount }: GiveawayUpdateData) {
-		const msg = await this.validate(message, channel);
+		const chan = await this.client.channels.fetch(channel) as TextChannel;
+		const msg = await chan.messages.fetch(message) as KlasaMessage;
 		if (!msg) return;
 
 		if (endAt <= Date.now()) return this.finish(msg, { title, wCount });
 
 		return msg.edit(new GiveawayEmbed(msg)
 			.setTitle(title)
-			.setLocaleDescription('giveaway_description', wCount, Util.ms(endAt - Date.now())))
+			.setLocaleDescription('GIVEAWAY_DESCRIPTION', wCount, Util.ms(endAt - Date.now())))
 			.then(() => this.create({
 				message: msg,
 				title,

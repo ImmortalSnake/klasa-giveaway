@@ -1,6 +1,4 @@
-/* eslint-disable arrow-parens */
 import { Language, LanguageStore, util } from 'klasa';
-import { GiveawayOptions } from '../config';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/camelcase */
@@ -17,7 +15,7 @@ export default class extends Language {
 			 * Klasa default locales
 			 */
 
-			DEFAULT: (key) => `${key} has not been localized for en-US yet.`,
+			DEFAULT: key => `${key} has not been localized for en-US yet.`,
 			DEFAULT_LANGUAGE: 'Default Language',
 			PREFIX_REMINDER: (prefix = `@${this.client.user!.tag}`) => `The prefix${Array.isArray(prefix)
 				? `es for this guild are: ${prefix.map(pre => `\`${pre}\``).join(', ')}`
@@ -29,32 +27,32 @@ export default class extends Language {
 			SETTING_GATEWAY_VALUE_FOR_KEY_NOEXT: (data, key) => `The value ${data} for the key ${key} does not exist.`,
 			SETTING_GATEWAY_VALUE_FOR_KEY_ALREXT: (data, key) => `The value ${data} for the key ${key} already exists.`,
 			SETTING_GATEWAY_SPECIFY_VALUE: 'You must specify the value to add or filter.',
-			SETTING_GATEWAY_KEY_NOT_ARRAY: (key) => `The key ${key} is not an Array.`,
-			SETTING_GATEWAY_KEY_NOEXT: (key) => `The key ${key} does not exist in the current data schema.`,
+			SETTING_GATEWAY_KEY_NOT_ARRAY: key => `The key ${key} is not an Array.`,
+			SETTING_GATEWAY_KEY_NOEXT: key => `The key ${key} does not exist in the current data schema.`,
 			SETTING_GATEWAY_INVALID_TYPE: 'The type parameter must be either add or remove.',
 			SETTING_GATEWAY_INVALID_FILTERED_VALUE: (piece, value) => `${piece.key} doesn't accept the value: ${value}`,
 
 			// resolver locales
 			RESOLVER_MULTI_TOO_FEW: (name, min = 1) => `Provided too few ${name}s. At least ${min} ${min === 1 ? 'is' : 'are'} required.`,
-			RESOLVER_INVALID_BOOL: (name) => `${name} must be true or false.`,
-			RESOLVER_INVALID_CHANNEL: (name) => `${name} must be a channel tag or valid channel id.`,
+			RESOLVER_INVALID_BOOL: name => `${name} must be true or false.`,
+			RESOLVER_INVALID_CHANNEL: name => `${name} must be a channel tag or valid channel id.`,
 			RESOLVER_INVALID_CUSTOM: (name, type) => `${name} must be a valid ${type}.`,
-			RESOLVER_INVALID_DATE: (name) => `${name} must be a valid date.`,
-			RESOLVER_INVALID_DURATION: (name) => `${name} must be a valid duration string.`,
-			RESOLVER_INVALID_EMOJI: (name) => `${name} must be a custom emoji tag or valid emoji id.`,
-			RESOLVER_INVALID_FLOAT: (name) => `${name} must be a valid number.`,
-			RESOLVER_INVALID_GUILD: (name) => `${name} must be a valid guild id.`,
-			RESOLVER_INVALID_INT: (name) => `${name} must be an integer.`,
-			RESOLVER_INVALID_LITERAL: (name) => `Your option did not match the only possibility: ${name}`,
-			RESOLVER_INVALID_MEMBER: (name) => `${name} must be a mention or valid user id.`,
-			RESOLVER_INVALID_MESSAGE: (name) => `${name} must be a valid message id.`,
+			RESOLVER_INVALID_DATE: name => `${name} must be a valid date.`,
+			RESOLVER_INVALID_DURATION: name => `${name} must be a valid duration string.`,
+			RESOLVER_INVALID_EMOJI: name => `${name} must be a custom emoji tag or valid emoji id.`,
+			RESOLVER_INVALID_FLOAT: name => `${name} must be a valid number.`,
+			RESOLVER_INVALID_GUILD: name => `${name} must be a valid guild id.`,
+			RESOLVER_INVALID_INT: name => `${name} must be an integer.`,
+			RESOLVER_INVALID_LITERAL: name => `Your option did not match the only possibility: ${name}`,
+			RESOLVER_INVALID_MEMBER: name => `${name} must be a mention or valid user id.`,
+			RESOLVER_INVALID_MESSAGE: name => `${name} must be a valid message id.`,
 			RESOLVER_INVALID_PIECE: (name, piece) => `${name} must be a valid ${piece} name.`,
 			RESOLVER_INVALID_REGEX_MATCH: (name, pattern) => `${name} must follow this regex pattern \`${pattern}\`.`,
-			RESOLVER_INVALID_ROLE: (name) => `${name} must be a role mention or role id.`,
-			RESOLVER_INVALID_STRING: (name) => `${name} must be a valid string.`,
-			RESOLVER_INVALID_TIME: (name) => `${name} must be a valid duration or date string.`,
-			RESOLVER_INVALID_URL: (name) => `${name} must be a valid url.`,
-			RESOLVER_INVALID_USER: (name) => `${name} must be a mention or valid user id.`,
+			RESOLVER_INVALID_ROLE: name => `${name} must be a role mention or role id.`,
+			RESOLVER_INVALID_STRING: name => `${name} must be a valid string.`,
+			RESOLVER_INVALID_TIME: name => `${name} must be a valid duration or date string.`,
+			RESOLVER_INVALID_URL: name => `${name} must be a valid url.`,
+			RESOLVER_INVALID_USER: name => `${name} must be a mention or valid user id.`,
 			RESOLVER_STRING_SUFFIX: ' characters',
 			RESOLVER_MINMAX_EXACTLY: (name, min, suffix) => `${name} must be exactly ${min}${suffix}.`,
 			RESOLVER_MINMAX_BOTH: (name, min, max, suffix) => `${name} must be between ${min} and ${max}${suffix}.`,
@@ -63,9 +61,9 @@ export default class extends Language {
 
 			REACTIONHANDLER_PROMPT: 'Which page would you like to jump to?',
 			COMMANDMESSAGE_MISSING: 'Missing one or more required arguments after end of input.',
-			COMMANDMESSAGE_MISSING_REQUIRED: (name) => `${name} is a required argument.`,
-			COMMANDMESSAGE_MISSING_OPTIONALS: (possibles) => `Missing a required option: (${possibles})`,
-			COMMANDMESSAGE_NOMATCH: (possibles) => `Your option didn't match any of the possibilities: (${possibles})`,
+			COMMANDMESSAGE_MISSING_REQUIRED: name => `${name} is a required argument.`,
+			COMMANDMESSAGE_MISSING_OPTIONALS: possibles => `Missing a required option: (${possibles})`,
+			COMMANDMESSAGE_NOMATCH: possibles => `Your option didn't match any of the possibilities: (${possibles})`,
 			// eslint-disable-next-line max-len
 			MONITOR_COMMAND_HANDLER_REPROMPT: (tag, error, time, abortOptions) => `${tag} | **${error}** | You have **${time}** seconds to respond to this prompt with a valid argument. Type **${abortOptions.join('**, **')}** to abort this prompt.`,
 			// eslint-disable-next-line max-len
@@ -75,13 +73,13 @@ export default class extends Language {
 			INHIBITOR_COOLDOWN: (remaining, guildCooldown) => `${guildCooldown ? 'Someone has' : 'You have'} already used this command. You can use this command again in ${remaining} seconds.`,
 			INHIBITOR_DISABLED_GUILD: 'This command has been disabled by an admin in this guild.',
 			INHIBITOR_DISABLED_GLOBAL: 'This command has been globally disabled by the bot owner.',
-			INHIBITOR_MISSING_BOT_PERMS: (missing) => `Insufficient permissions, missing: **${missing}**`,
+			INHIBITOR_MISSING_BOT_PERMS: missing => `Insufficient permissions, missing: **${missing}**`,
 			INHIBITOR_NSFW: 'You can only use NSFW commands in NSFW channels.',
 			INHIBITOR_PERMISSIONS: 'You do not have permission to use this command.',
 			// eslint-disable-next-line no-negated-condition
-			INHIBITOR_REQUIRED_SETTINGS: (settings) => `The guild is missing the **${settings.join(', ')}** guild setting${settings.length !== 1 ? 's' : ''} and thus the command cannot run.`,
-			INHIBITOR_RUNIN: (types) => `This command is only available in ${types} channels.`,
-			INHIBITOR_RUNIN_NONE: (name) => `The ${name} command is not configured to run in any channel.`,
+			INHIBITOR_REQUIRED_SETTINGS: settings => `The guild is missing the **${settings.join(', ')}** guild setting${settings.length !== 1 ? 's' : ''} and thus the command cannot run.`,
+			INHIBITOR_RUNIN: types => `This command is only available in ${types} channels.`,
+			INHIBITOR_RUNIN_NONE: name => `The ${name} command is not configured to run in any channel.`,
 			COMMAND_BLACKLIST_DESCRIPTION: 'Blacklists or un-blacklists users and guilds from the bot.',
 			COMMAND_BLACKLIST_SUCCESS: (usersAdded, usersRemoved, guildsAdded, guildsRemoved) => [
 				usersAdded.length ? `**Users Added**\n${util.codeBlock('', usersAdded.join(', '))}` : '',
@@ -114,7 +112,7 @@ export default class extends Language {
 			COMMAND_RELOAD: (type, name, time) => `✅ Reloaded ${type}: ${name}. (Took: ${time})`,
 			COMMAND_RELOAD_FAILED: (type, name) => `❌ Failed to reload ${type}: ${name}. Please check your Console.`,
 			COMMAND_RELOAD_ALL: (type, time) => `✅ Reloaded all ${type}. (Took: ${time})`,
-			COMMAND_RELOAD_EVERYTHING: (time) => `✅ Reloaded everything. (Took: ${time})`,
+			COMMAND_RELOAD_EVERYTHING: time => `✅ Reloaded everything. (Took: ${time})`,
 			COMMAND_RELOAD_DESCRIPTION: 'Reloads a klasa piece, or all pieces of a klasa store.',
 			COMMAND_REBOOT: 'Rebooting...',
 			COMMAND_REBOOT_DESCRIPTION: 'Reboots the bot.',
@@ -142,13 +140,13 @@ export default class extends Language {
 			COMMAND_DISABLE_WARN: 'You probably don\'t want to disable that, since you wouldn\'t be able to run any command to enable it again',
 			COMMAND_CONF_NOKEY: 'You must provide a key',
 			COMMAND_CONF_NOVALUE: 'You must provide a value',
-			COMMAND_CONF_GUARDED: (name) => `${util.toTitleCase(name)} may not be disabled.`,
+			COMMAND_CONF_GUARDED: name => `${util.toTitleCase(name)} may not be disabled.`,
 			COMMAND_CONF_UPDATED: (key, response) => `Successfully updated the key **${key}**: \`${response}\``,
 			COMMAND_CONF_KEY_NOT_ARRAY: 'This key is not array type. Use the action \'reset\' instead.',
-			COMMAND_CONF_GET_NOEXT: (key) => `The key **${key}** does not seem to exist.`,
+			COMMAND_CONF_GET_NOEXT: key => `The key **${key}** does not seem to exist.`,
 			COMMAND_CONF_GET: (key, value) => `The value for the key **${key}** is: \`${value}\``,
 			COMMAND_CONF_RESET: (key, response) => `The key **${key}** has been reset to: \`${response}\``,
-			COMMAND_CONF_NOCHANGE: (key) => `The value for **${key}** was already that value.`,
+			COMMAND_CONF_NOCHANGE: key => `The value for **${key}** was already that value.`,
 			COMMAND_CONF_SERVER_DESCRIPTION: 'Define per-guild settings.',
 			COMMAND_CONF_SERVER: (key, list) => `**Guild Settings${key}**\n${list}`,
 			COMMAND_CONF_USER_DESCRIPTION: 'Define per-user settings.',
@@ -156,7 +154,6 @@ export default class extends Language {
 			COMMAND_STATS: (memUsage, uptime, users, guilds, channels, klasaVersion, discordVersion, processVersion, message) => [
 				'= STATISTICS =',
 				'',
-				`• Version      :: ${GiveawayOptions.version}`,
 				`• Memory Usage :: ${memUsage} MB`,
 				`• Uptime       :: ${uptime}`,
 				`• Users        :: ${users}`,
@@ -166,32 +163,41 @@ export default class extends Language {
 				`• Discord.js   :: v${discordVersion}`,
 				`• Node.js      :: ${processVersion}`,
 				`• Shard        :: ${(message.guild ? message.guild.shardID as number : 0) + 1} / ${this.client.options.shardCount}`
-			].join('\n'),
+			],
 			COMMAND_STATS_DESCRIPTION: 'Provides some details about the bot and stats.',
 			MESSAGE_PROMPT_TIMEOUT: 'The prompt has timed out.',
 			TEXT_PROMPT_ABORT_OPTIONS: ['abort', 'stop', 'cancel'],
 
 
-			NO_FINISHED_GIVEAWAY: (prefix) => `No giveaways were completed in this server. Use \`${prefix}create\` to create one and \`${prefix}end\` to end it`,
-			create_description: 'Creates a giveaway in the specified channel!',
-			delete_description: 'Deletes a giveaway! (You could also simply delete the giveaway message)',
-			reroll_description: 'Rerolls a previously finished giveaway. If you do not provide a message id, it will reroll the most recently finished giveaway',
-			end_description: 'Ends a giveaway immediately. If you do not provide a message id, it will end the most recent running giveaway',
-			giveaway_create: 'GIVEAWAY',
-			giveaway_delete: (id) => `Successfully deleted the giveaway with the id: **${id}**`,
-			giveaway_not_found: 'Could not find the giveaway! Try again!',
-			giveaway_won: (winners, title) => `Congratulations ${winners}! You won the **${title}**`,
-			not_enough_reactions: 'The Giveaway has ended, not enough people voted..',
-			reminder_create: (id) => `A reminder was created with id: ${id}`,
-			winner_count: 'Winner Count',
-			loading: 'loading....',
-			giveaway_description: (winners, tleft) => `
-			**React with :tada: to enter**
+			NO_FINISHED_GIVEAWAY: prefix => `No giveaways were completed in this server. Use \`${prefix}create\` to create one and \`${prefix}end\` to end it`,
 
-			Winner Count: ${winners}
-			Time Left: ${tleft}`,
-			max_giveaways: 'You can have only upto 10 giveaways in a guild! Remove a giveaway and try again!',
-			no_running_giveaway: (prefix) => `There are no running giveaways in this server. Create one using the \`${prefix}create\` command!`
+			COMMAND_CREATE_DESCRIPTION: 'Creates a giveaway in the current channel!',
+			COMMAND_CREATE_EXTENDED: '',
+			COMMAND_DELETE_DESCRIPTION: 'Deletes a giveaway! (You could also simply delete the giveaway message)',
+			COMMAND_END_DESCRIPTION: 'Ends a giveaway immediately. If you do not provide a message id, it will end the most recent running giveaway',
+			COMMAND_LIST_DESCRIPTION: 'Lists all running giveaways in the server',
+			COMMAND_REROLL_DESCRIPTION: 'Rerolls a previously finished giveaway. If you do not provide a message id, it will reroll the most recently finished giveaway',
+
+			GIVEAWAY_CREATE: ':tada: **GIVEAWAY** :tada:',
+			GIVEAWAY_DELETE: id => `Successfully deleted the giveaway with the id: \`${id}\``,
+			GIVEAWAY_WON: (winners, title) => `:tada: Congratulations ${winners}! You won the **${title}**`,
+			NOT_ENOUGH_REACTIONS: count =>
+				`The Giveaway has ended, not enough people voted.
+				**Votes Required:** \`${count}\``,
+			REMINDER_CREATE: id => `A reminder was created with id: ${id}`,
+			GIVEAWAY_DESCRIPTION: (winners, tleft) =>
+				`**React with :tada: to enter**
+
+				**Winner Count:** \`${winners}\`
+				**Time Left:** \`${tleft}\``,
+
+			GIVEWAY_LIST_TITLE: name => `Active giveaways on **${name}**`,
+			GIVEAWAY_LIST_BODY: (i, message, channel, wCount, time, title) =>
+				`\n**${i}]** \`${message}\` → <#${channel}> | \`${wCount}\` **Winner(s)** | **Ends At:** ${time} | **Title:** \`${title}\``,
+
+			GIVEAWAY_NOT_FOUND: 'Could not find that giveaway! Try again!',
+			MAX_GIVEAWAYS: 'You can have only upto 10 giveaways in a guild! Remove a giveaway and try again!',
+			NO_RUNNING_GIVEAWAY: prefix => `There are no running giveaways in this server. Create one using the \`${prefix}create\` command!`
 		};
 	}
 
