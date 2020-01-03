@@ -1,10 +1,10 @@
-import { KlasaMessage, CommandStore } from 'klasa';
+import { KlasaMessage, CommandStore, Command } from 'klasa';
 import GiveawayEmbed from '../../lib/structures/GiveawayEmbed';
 import { GiveawayOptions } from '../../config';
-import GiveawayCommand from '../../lib/base/GiveawayCommand';
 import Util from '../../lib/util/util';
+import GiveawayClient from '../../lib/client';
 
-export default class extends GiveawayCommand {
+export default class extends Command {
 
 	public constructor(store: CommandStore, file: string[], directory: string) {
 		super(store, file, directory, {
@@ -27,7 +27,7 @@ export default class extends GiveawayCommand {
 
 		await msg.sendLocale('GIVEAWAY_CREATE', { embed: Embed })
 			.then(message => message.react('🎉'))
-			.then(reaction => this.client.giveawayManager.create({
+			.then(reaction => (this.client as GiveawayClient).giveawayManager.create({
 				message: reaction.message,
 				time: Date.now() + time,
 				title,
