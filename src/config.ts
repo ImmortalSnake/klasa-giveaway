@@ -32,8 +32,5 @@ export const mongoOptions = {
 };
 
 export const GiveawayOptions = {
-	// support server link here
-	support: '',
-	version: '',
 	maxGiveaway: 10
 };

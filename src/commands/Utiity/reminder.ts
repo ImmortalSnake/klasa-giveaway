@@ -19,7 +19,7 @@ export default class extends Command {
 				text
 			}
 		});
-		return msg.sendLocale('reminder_create', [reminder.id]);
+		return msg.sendLocale('REMINDER_CREATE', [reminder.id]);
 	}
 
 }
