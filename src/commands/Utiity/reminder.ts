@@ -7,6 +7,8 @@ export default class extends Command {
 			promptLimit: 1,
 			subcommands: true,
 			aliases: ['remind'],
+			runIn: ['text'],
+			usageDelim: ' ',
 			description: 'creates a reminder',
 			usage: '<when:time> <text:...str>'
 		});

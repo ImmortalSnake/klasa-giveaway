@@ -6,6 +6,8 @@ export default class extends Command {
 
 	public constructor(store: CommandStore, file: string[], directory: string) {
 		super(store, file, directory, {
+			runIn: ['text'],
+			usageDelim: ' ',
 			description: lang => lang.get('COMMAND_LIST_DESCRIPTION')
 		});
 	}

@@ -13,6 +13,7 @@ export default class extends Command {
 			promptLimit: 1,
 			cooldown: 10,
 			runIn: ['text'],
+			usageDelim: ' ',
 			usage: '<duration:timespan> <winner_count:int> <title:...str{0,250}>',
 			description: lang => lang.get('COMMAND_CREATE_DESCRIPTION')
 		});
