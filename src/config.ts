@@ -5,31 +5,8 @@ export const config = {
 	prefix: '..',
 	commandEditing: true,
 	preserveSettings: false,
-	noPrefixDM: true,
-	providers: {
-		'default': 'json'
-	},
-	pieceDefaults: {
-		commands: {
-			quotedStringSupport: true,
-			runIn: ['text'],
-			usageDelim: ' '
-		}
-	}
+	noPrefixDM: true
 } as KlasaClientOptions;
-
-export const mongoOptions = {
-	// eslint-disable-next-line no-process-env
-	uri: process.env.DATABASE_URL,
-	options: {
-		useNewUrlParser: true,
-		reconnectInterval: 500,
-		reconnectTries: Number.MAX_VALUE,
-		poolSize: 5,
-		connectTimeoutMS: 10000,
-		autoIndex: false
-	}
-};
 
 export const GiveawayOptions = {
 	maxGiveaway: 10

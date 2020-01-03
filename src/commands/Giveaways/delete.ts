@@ -5,6 +5,8 @@ export default class extends Command {
 	public constructor(store: CommandStore, file: string[], directory: string) {
 		super(store, file, directory, {
 			permissionLevel: 5,
+			runIn: ['text'],
+			usageDelim: ' ',
 			usage: '[message:message]',
 			description: lang => lang.get('COMMAND_DELETE_DESCRIPTION')
 		});
