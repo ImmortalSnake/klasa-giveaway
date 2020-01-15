@@ -20,7 +20,7 @@ export default class extends Command {
 
 	public async run(msg: KlasaMessage, [channel, time, wCount, title]: [TextChannel, number, number, string]): Promise<KlasaMessage | KlasaMessage[] | null> {
 		const giveaways = msg.guildSettings.get('giveaways.running') as string[];
-		if (giveaways.length > this.client.options.giveaway.maxGiveaways) throw msg.language.get('MAX_GIVEAWAYS');
+		if (giveaways.length > this.client.options.giveaway.maxGiveaways!) throw msg.language.get('MAX_GIVEAWAYS');
 
 		const embed = new MessageEmbed()
 			.setTitle(title)
