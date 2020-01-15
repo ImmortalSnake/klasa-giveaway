@@ -1,14 +1,13 @@
 {
-  "name": "giveaway",
+  "name": "giveaway-plugin",
   "version": "1.0.0",
   "description": "A giveaway bot for discord made in discord.js and klasa",
-  "main": "dist/test/index.js",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
-    "start": "node .",
     "test": "eslint src/**",
     "lint": "eslint src/** --fix",
-    "build": "tsc",
-    "postinstall": "npm run build"
+    "build": "tsc"
   },
   "engines": {
     "node": "11.x",
@@ -23,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/ImmortalSnake/Giveaway-Bot/issues"
   },
-  "dependencies": {
+  "peerDependencies": {
     "discord.js": "github:discordjs/discord.js#master",
     "klasa": "dirigeants/klasa#master"
   },
@@ -34,5 +33,9 @@
     "eslint": "^5.16.0",
     "eslint-config-bamboo": "^3.0.0",
     "typescript": "^3.7.4"
-  }
+  },
+  "files": [
+    "dist/",
+    "LICENSE"
+  ]
 }
