@@ -2,7 +2,7 @@
   "name": "giveaway",
   "version": "1.0.0",
   "description": "A giveaway bot for discord made in discord.js and klasa",
-  "main": "dist/index.js",
+  "main": "dist/test/index.js",
   "scripts": {
     "start": "node .",
     "test": "eslint src/**",
@@ -25,9 +25,7 @@
   },
   "dependencies": {
     "discord.js": "github:discordjs/discord.js#master",
-    "dotenv": "^8.0.0",
-    "klasa": "github:dirigeants/klasa#settings",
-    "mongodb": "^3.2.7"
+    "klasa": "dirigeants/klasa#master"
   },
   "devDependencies": {
     "@types/node": "^13.1.2",
