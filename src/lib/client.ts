@@ -37,8 +37,8 @@ export default class GiveawayClient extends KlasaClient {
 declare module 'discord.js' {
 	interface ClientOptions {
 		giveaway?: {
-			maxGiveaways: number;
-			requiredPermission: number;
+			maxGiveaways?: number;
+			requiredPermission?: number;
 		};
 	}
 }

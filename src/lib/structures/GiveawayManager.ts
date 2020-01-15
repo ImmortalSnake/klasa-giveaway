@@ -39,7 +39,7 @@ export default class GiveawayManager {
 
 		if (!reroll) {
 			await msg.guildSettings.update('giveaways.finished', msg.id);
-			await msg.guildSettings.update('giveaways.running', msg.id, { arrayAction: 'remove' });
+			await msg.guildSettings.update('giveaways.running', msg.id, { action: 'remove' });
 		}
 
 		const embed = new MessageEmbed()

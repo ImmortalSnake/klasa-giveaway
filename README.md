@@ -1,35 +1,52 @@
-# ![Minigame Bot](null) Minigame Bot
+# Klasa Giveaway Plugin
 
-[Invite Link](https://discordapp.com/oauth2/authorize?client_id=591249083948335105&permissions=3136&scope=bot)
+This plugin adds a customisable giveway feature in your discord klasa bot. It comes with the following commands:
 
-## Commands
+1. **create** - Creates a giveaway in the specified channel!
+2. **delete** - Deletes a giveaway!
+3. **end** - Ends a giveaway immediately
+4. **list** - Lists all running giveaways in the server
+5. **reroll** - Rerolls a previously finished giveaway.
+6. **start** - Immediately starts a giveaway in the current channel
 
-### General | 3 Commands
+## How to use
 
-| Command Name | Aliases  | Description              |
-|--------------|----------|--------------------------|
-| ..help | commands, cmd, cmds | Display help for a command. |
-| ..ping |  | Runs a connection test to Discord. |
-| ..stats |  | Provides some details about the bot and stats. |
+1. **Install the plugin**
 
-### Giveaways | 5 Commands
+   `npm i ImmortalSnake/Giveaway`\
+   or if you use yarn\
+   `yarn add ImmortalSnake/Giveaway`
 
-| Command Name | Aliases  | Description              |
-|--------------|----------|--------------------------|
-| ..create |  | Creates a giveaway in the specified channel! |
-| ..delete |  | Deletes a giveaway! (You could also simply delete the giveaway message) |
-| ..end |  | Ends a giveaway immediately. If you do not provide a message id, it will end the most recent running giveaway |
-| ..list |  | Ends a giveaway immediately. If you do not provide a message id, it will end the most recent running giveaway |
-| ..reroll |  | Rerolls a previously finished giveaway. If you do not provide a message id, it will reroll the most recently finished giveaway |
+2. **Use the plugin in your code**
 
-### Utiity | 2 Command
+   ```js
+   const { Client } = require("klasa");
 
-| Command Name | Aliases  | Description              |
-|--------------|----------|--------------------------|
-| ..reminder | remind | creates a reminder |
+   Client.use(require("@kcp/functions"));
+   new Client().login("Your Beautiful Token");
+   ```
 
-### Admin | 1 Command
+   or in typescript
 
-| Command Name | Aliases  | Description              |
-|--------------|----------|--------------------------|
-| ..conf |  | Define per-guild settings. |
+   ```ts
+   import { Client } from 'klasa';
+   import { Client as FunctionsClient } from '@kcp/functions';
+
+   Client.use(FunctionsClient);
+   new Client().login("Your Beautiful Token");
+   ```
+
+## GiveawayOptions
+
+* To your KlasaClientOptions you can optionally add giveaway options. For example:
+  
+  ```js
+  new Client({
+      giveaway: {
+          maxGiveaways: 5, // default Infinite
+          requiredPermission: 5 // default 5
+      }
+  })
+  ```
+
+* It also allows you to define your own locales. See [built in en-US Locale](./src/languages/en-US.ts)
