@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/ImmortalSnake/Giveaway-Bot/issues"
   },
-  "peerDependencies": {
+  "dependencies": {
     "discord.js": "github:discordjs/discord.js#master",
     "klasa": "dirigeants/klasa#master"
   },
