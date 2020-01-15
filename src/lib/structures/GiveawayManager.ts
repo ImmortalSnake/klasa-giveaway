@@ -48,7 +48,7 @@ export default class GiveawayManager {
 			.setFooter(msg.language.get('ENDED_AT'))
 			.setTimestamp();
 
-		if (msg.reactions.get('🎉')!.count < 2) {
+		if (msg.reactions.get('🎉')!.count! < 2) {
 			return msg.edit(msg.language.get('GIVEAWAY_END'), embed
 				.setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', wCount)));
 		}
