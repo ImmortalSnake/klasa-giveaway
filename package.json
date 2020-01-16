@@ -2,12 +2,12 @@
   "name": "giveaway-plugin",
   "version": "1.0.0",
   "description": "A giveaway bot for discord made in discord.js and klasa",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "eslint src/**",
     "lint": "eslint src/** --fix",
-    "build": "tsc"
+    "build": "yarn tsc"
   },
   "engines": {
     "node": "11.x",
