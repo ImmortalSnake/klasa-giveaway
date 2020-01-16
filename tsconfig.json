@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es2020",
         "module": "commonjs",
-        "outDir": "dist",
+        "outDir": "./dist",
         "removeComments": true,
         "strict": true,
         "skipLibCheck": true,
@@ -10,12 +10,17 @@
         "noImplicitThis": true,
         "inlineSourceMap": true,
         "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "declaration": true,
+		"types": [
+			"discord.js",
+			"klasa",
+			"node"
+		]
     },
     "include": [
-        "src",
-        "test"
+        "src/**/*",
+        "test/**/*"
     ],
     "exclude": [
         "node_modules"
