@@ -1,14 +1,13 @@
 {
-  "name": "giveaway",
+  "name": "klasa-plugin",
   "version": "1.0.0",
-  "description": "A giveaway bot for discord made in discord.js and klasa",
+  "description": "A discord giveaway plugin for klasa",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "start": "node .",
     "test": "eslint src/**",
     "lint": "eslint src/** --fix",
-    "build": "tsc",
-    "postinstall": "npm run build"
+    "build": "yarn tsc"
   },
   "engines": {
     "node": "11.x",
@@ -23,18 +22,24 @@
   "bugs": {
     "url": "https://github.com/ImmortalSnake/Giveaway-Bot/issues"
   },
-  "dependencies": {
+  "peerDependencies": {
     "discord.js": "github:discordjs/discord.js#master",
-    "dotenv": "^8.0.0",
-    "klasa": "github:dirigeants/klasa#settings",
-    "mongodb": "^3.2.7"
+    "klasa": "github:dirigeants/klasa#master"
   },
   "devDependencies": {
     "@types/node": "^13.1.2",
+    "@types/ws": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
+    "discord.js": "github:discordjs/discord.js#master",
     "eslint": "^5.16.0",
     "eslint-config-bamboo": "^3.0.0",
-    "typescript": "^3.7.4"
-  }
+    "klasa": "github:dirigeants/klasa#master",
+    "typescript": "^3.7.5"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ]
 }

@@ -1,11 +1,11 @@
-import { CommandStore, Command, KlasaMessage } from 'klasa';
+import { CommandStore, Command, KlasaMessage, KlasaClient } from 'klasa';
 import Util from '../../lib/util/util';
 import { GiveawayUpdateData } from '../../lib/structures/GiveawayManager';
 
 export default class extends Command {
 
-	public constructor(store: CommandStore, file: string[], directory: string) {
-		super(store, file, directory, {
+	public constructor(client: KlasaClient, store: CommandStore, file: string[], directory: string) {
+		super(client, store, file, directory, {
 			runIn: ['text'],
 			usageDelim: ' ',
 			description: lang => lang.get('COMMAND_LIST_DESCRIPTION')
