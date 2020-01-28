@@ -30,12 +30,15 @@
     "@types/node": "^13.1.2",
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
+    "discord.js": "github:discordjs/discord.js#master",
     "eslint": "^5.16.0",
     "eslint-config-bamboo": "^3.0.0",
-    "typescript": "^3.7.4"
+    "klasa": "github:dirigeants/klasa#master",
+    "typescript": "^3.7.5"
   },
   "files": [
     "dist/",
+    "README.md",
     "LICENSE"
   ]
 }
