@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@types/node": "^13.1.2",
+    "@types/ws": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
     "discord.js": "github:discordjs/discord.js#master",
