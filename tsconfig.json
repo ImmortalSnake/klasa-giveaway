@@ -1,22 +1,35 @@
 {
-    "compilerOptions": {
-        "target": "es2020",
-        "module": "commonjs",
-        "outDir": "dist",
-        "removeComments": true,
-        "strict": true,
-        "skipLibCheck": true,
-        "strictNullChecks": true,
-        "noImplicitThis": true,
-        "inlineSourceMap": true,
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "esModuleInterop": true
-    },
-    "include": [
-        "src"
-    ],
-    "exclude": [
-        "node_modules"
-    ]
+	"compilerOptions": {
+		"alwaysStrict": true,
+		"declaration": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"lib": ["esnext"],
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"noEmitOnError": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"outDir": "./dist",
+		"pretty": true,
+		"removeComments": false,
+		"resolveJsonModule": true,
+		"sourceMap": false,
+		"strict": true,
+		"strictBindCallApply": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"target": "esnext",
+		"types": [
+			"discord.js",
+			"klasa",
+			"node"
+		]
+	},
+	"include": [
+		"src/**/*"
+	]
 }

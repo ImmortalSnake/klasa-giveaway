@@ -1,11 +1,11 @@
-import { CommandStore, KlasaMessage, Command } from 'klasa';
+import { CommandStore, KlasaMessage, Command, KlasaClient } from 'klasa';
 import { Message } from 'discord.js';
 import GiveawayClient from '../../lib/client';
 
 export default class extends Command {
 
-	public constructor(store: CommandStore, file: string[], directory: string) {
-		super(store, file, directory, {
+	public constructor(client: KlasaClient, store: CommandStore, file: string[], directory: string) {
+		super(client, store, file, directory, {
 			permissionLevel: 5,
 			runIn: ['text'],
 			usageDelim: ' ',

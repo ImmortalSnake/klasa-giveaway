@@ -39,7 +39,7 @@ export default class GiveawayManager {
 
 		if (!reroll) {
 			await msg.guildSettings.update('giveaways.finished', msg.id);
-			await msg.guildSettings.update('giveaways.running', msg.id, { arrayAction: 'remove' });
+			await msg.guildSettings.update('giveaways.running', msg.id, { action: 'remove' });
 		}
 
 		const embed = new MessageEmbed()
@@ -48,7 +48,7 @@ export default class GiveawayManager {
 			.setFooter(msg.language.get('ENDED_AT'))
 			.setTimestamp();
 
-		if (msg.reactions.get('🎉')!.count < 2) {
+		if (msg.reactions.get('🎉')!.count! < 2) {
 			return msg.edit(msg.language.get('GIVEAWAY_END'), embed
 				.setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', wCount)));
 		}

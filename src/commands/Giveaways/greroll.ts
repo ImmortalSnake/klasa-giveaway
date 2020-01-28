@@ -1,10 +1,10 @@
-import { Command, CommandStore, KlasaMessage } from 'klasa';
+import { Command, CommandStore, KlasaMessage, KlasaClient } from 'klasa';
 import GiveawayClient from '../../lib/client';
 
 export default class extends Command {
 
-	public constructor(store: CommandStore, file: string[], directory: string) {
-		super(store, file, directory, {
+	public constructor(client: KlasaClient, store: CommandStore, file: string[], directory: string) {
+		super(client, store, file, directory, {
 			permissionLevel: 5,
 			runIn: ['text'],
 			usageDelim: ' ',

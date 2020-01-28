@@ -1,9 +1,9 @@
-import { CommandStore, KlasaMessage, Command } from 'klasa';
+import { CommandStore, KlasaMessage, Command, KlasaClient } from 'klasa';
 
 export default class extends Command {
 
-	public constructor(store: CommandStore, file: string[], directory: string) {
-		super(store, file, directory, {
+	public constructor(client: KlasaClient, store: CommandStore, file: string[], directory: string) {
+		super(client, store, file, directory, {
 			permissionLevel: 5,
 			runIn: ['text'],
 			usageDelim: ' ',
@@ -20,7 +20,7 @@ export default class extends Command {
 		const giveaway = this.client.schedule.tasks.find(task => task.data && task.data.message === id);
 		if (!giveaway || !giveaways.includes(id)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
 
-		await msg.guildSettings.update('giveaways.running', id, { arrayAction: 'remove' });
+		await msg.guildSettings.update('giveaways.running', id, { action: 'remove' });
 		await giveaway.delete();
 
 		return msg.sendLocale('GIVEAWAY_DELETE', [id]);
