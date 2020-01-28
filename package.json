@@ -1,7 +1,7 @@
 {
-  "name": "giveaway-plugin",
+  "name": "klasa-plugin",
   "version": "1.0.0",
-  "description": "A giveaway bot for discord made in discord.js and klasa",
+  "description": "A discord giveaway plugin for klasa",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
