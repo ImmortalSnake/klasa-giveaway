@@ -1,7 +1,6 @@
 import { KlasaMessage, CommandStore, Command, KlasaClient } from 'klasa';
-import Util from '../../lib/util/util';
 import GiveawayClient from '../../lib/client';
-import { MessageEmbed } from 'discord.js';
+import { TextChannel } from 'discord.js';
 
 export default class extends Command {
 
@@ -16,28 +15,15 @@ export default class extends Command {
 		});
 	}
 
-	public async run(msg: KlasaMessage, [time, wCount, title]: [number, number, string]): Promise<KlasaMessage | KlasaMessage[] | null> {
-		const giveaways = msg.guildSettings.get('giveaways.running') as string[];
+	public async run(msg: KlasaMessage, [time, winnerCount, title]: [number, number, string]): Promise<KlasaMessage | KlasaMessage[] | null> {
+		const giveaways = (this.client as GiveawayClient).giveawayManager.running.filter(g => g.guildID === msg.guild!.id);
 		if (giveaways.length > this.client.options.giveaway.maxGiveaways!) throw msg.language.get('MAX_GIVEAWAYS');
 
-		const embed = new MessageEmbed()
-			.setTitle(title)
-			.setColor(msg.member!.displayColor)
-			.setDescription(msg.language.get('GIVEAWAY_DESCRIPTION', wCount, Util.ms(time)))
-			.setFooter(msg.language.get('ENDS_AT'))
-			.setTimestamp(Date.now() + time);
-
-		await msg.channel.send(msg.language.get('GIVEAWAY_CREATE'), embed)
-			.then(message => message.react('🎉'))
-			.then(reaction => (this.client as GiveawayClient).giveawayManager.create({
-				message: reaction.message,
-				time: Date.now() + time,
-				title,
-				wCount
-			}))
-			.then(task => msg.guildSettings.update('giveaways.running', task.data.message));
-
-		return null;
+		return (this.client as GiveawayClient).giveawayManager.create(msg.channel as TextChannel, {
+			endsAt: Date.now() + time,
+			title,
+			winnerCount
+		});
 	}
 
 }

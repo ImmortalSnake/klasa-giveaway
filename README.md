@@ -22,7 +22,7 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
    ```js
    const { Client } = require("klasa");
 
-   Client.use(require("@kcp/functions"));
+   Client.use(require(""));
    new Client().login("Your Beautiful Token");
    ```
 
@@ -30,9 +30,9 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 
    ```ts
    import { Client } from 'klasa';
-   import { Client as FunctionsClient } from '@kcp/functions';
+   import { Client as GiveawayClient } from '';
 
-   Client.use(FunctionsClient);
+   Client.use(GiveawayClient);
    new Client().login("Your Beautiful Token");
    ```
 

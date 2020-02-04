@@ -1,4 +1,5 @@
 import { CommandStore, KlasaMessage, Command, KlasaClient } from 'klasa';
+import GiveawayClient from '../../lib/client';
 
 export default class extends Command {
 
@@ -13,15 +14,15 @@ export default class extends Command {
 	}
 
 	public async run(msg: KlasaMessage, [message]: [KlasaMessage | undefined]): Promise<KlasaMessage | KlasaMessage[]> {
-		const giveaways = msg.guildSettings.get('giveaways') as string[];
-		if (giveaways.length === 0) throw msg.language.get('NO_RUNNING_GIVEAWAY', msg.guildSettings.get('prefix'));
+		const running = (this.client as GiveawayClient).giveawayManager.running.find(g => g.guildID === msg.guild!.id);
+		if (!running) throw msg.language.get('NO_RUNNING_GIVEAWAY', msg.guildSettings.get('prefix'));
 
-		const id = message ? message.id : giveaways[0];
-		const giveaway = this.client.schedule.tasks.find(task => task.data && task.data.message === id);
-		if (!giveaway || !giveaways.includes(id)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
+		const id = message ? message.id : running.messageID;
+		const giveaway = (this.client as GiveawayClient).giveawayManager.running.find(g => g.messageID === id);
+		if (!giveaway) throw msg.language.get('GIVEAWAY_NOT_FOUND');
 
-		await msg.guildSettings.update('giveaways.running', id, { action: 'remove' });
-		await giveaway.delete();
+		// await msg.guildSettings.update('giveaways.running', id, { action: 'remove' });
+		await (this.client as GiveawayClient).giveawayManager.delete(id!);
 
 		return msg.sendLocale('GIVEAWAY_DELETE', [id]);
 	}

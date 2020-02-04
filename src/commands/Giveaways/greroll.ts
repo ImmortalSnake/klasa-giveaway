@@ -1,5 +1,5 @@
 import { Command, CommandStore, KlasaMessage, KlasaClient } from 'klasa';
-import GiveawayClient from '../../lib/client';
+import { GiveawayClient } from '../..';
 
 export default class extends Command {
 
@@ -13,22 +13,15 @@ export default class extends Command {
 		});
 	}
 
-	public async run(msg: KlasaMessage, [message]: [KlasaMessage | null]): Promise<KlasaMessage | KlasaMessage | null> {
-		if (message) {
-			if (message.author.id === this.client.user!.id && message.embeds.length) {
-				await (this.client as GiveawayClient).giveawayManager.finish(message, { reroll: true });
-			}
-		} else {
-			const finished = msg.guildSettings.get('giveaways.finished') as string;
-			if (!finished) throw msg.language.get('GIVEAWAY_NOT_FOUND');
-
-			const mess = await msg.channel.messages.fetch(finished) as KlasaMessage;
-			if (!mess) throw msg.language.get('GIVEAWAY_NOT_FOUND');
-
-			await (this.client as GiveawayClient).giveawayManager.finish(mess, { reroll: true });
+	public async run(msg: KlasaMessage, [message]: [KlasaMessage | null]): Promise<KlasaMessage | KlasaMessage[] | null> {
+		if (!message) {
+			message = await msg.channel.messages
+				.fetch(msg.guildSettings.get('giveaways.finished') as string) as KlasaMessage;
 		}
 
-		return null;
+		const winners = await (this.client as GiveawayClient).giveawayManager.reroll(message);
+
+		return msg.send(`🎉 **New winner(s) are**: ${winners.map(w => w.toString()).join(', ')}`);
 	}
 
 }

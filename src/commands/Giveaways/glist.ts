@@ -1,6 +1,5 @@
 import { CommandStore, Command, KlasaMessage, KlasaClient } from 'klasa';
-import Util from '../../lib/util/util';
-import { GiveawayUpdateData } from '../../lib/structures/GiveawayManager';
+import { GiveawayClient } from '../..';
 
 export default class extends Command {
 
@@ -13,16 +12,13 @@ export default class extends Command {
 	}
 
 	public async run(msg: KlasaMessage): Promise<KlasaMessage | KlasaMessage[] | null> {
-		const giveaways = msg.guildSettings.get('giveaways.running') as string[];
+		const giveaways = (this.client as GiveawayClient).giveawayManager.running.filter(g => g.guildID === msg.guild!.id);
 		if (giveaways.length === 0) throw msg.language.get('NO_RUNNING_GIVEAWAY', msg.guildSettings.get('prefix'));
 
 		let mess = msg.language.get('GIVEWAY_LIST_TITLE', msg.guild!.name);
 		for (let i = 0; i < giveaways.length; i++) {
-			const giveaway = this.client.schedule.tasks.find(task => task.data && task.data.message === giveaways[i]);
-			if (!giveaway) continue;
-
-			const { message, channel, wCount, title, endAt } = giveaway.data as GiveawayUpdateData;
-			mess += msg.language.get('GIVEAWAY_LIST_BODY', i + 1, message, channel, wCount, Util.ms(endAt - Date.now()), title);
+			const { messageID, channelID, winnerCount, title, endsAt } = giveaways[i].data;
+			mess += msg.language.get('GIVEAWAY_LIST_BODY', i + 1, messageID, channelID, winnerCount, endsAt, title);
 		}
 
 		return msg.send(mess, { split: true });

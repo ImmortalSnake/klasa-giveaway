@@ -612,7 +612,8 @@ json-stable-stringify-without-jsonify@^1.0.1:
   version "0.5.0-dev"
   resolved "https://codeload.github.com/dirigeants/klasa/tar.gz/4fa20eb767a216ef2e938f1f8d65b33c88d2c913"
   dependencies:
-    fs-nextra "^0.4.7"
+    "@klasa/request-handler" "^0.0.3"
+    fs-nextra "^0.4.5"
 
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"

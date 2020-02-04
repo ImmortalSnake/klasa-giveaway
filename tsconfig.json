@@ -4,7 +4,7 @@
 		"declaration": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"lib": ["esnext"],
+		"lib": ["es2020"],
 		"module": "commonjs",
 		"moduleResolution": "node",
 		"noEmitOnError": true,
@@ -22,7 +22,7 @@
 		"strictBindCallApply": true,
 		"strictNullChecks": true,
 		"strictPropertyInitialization": true,
-		"target": "esnext",
+		"target": "es2020",
 		"types": [
 			"discord.js",
 			"klasa",
@@ -30,6 +30,7 @@
 		]
 	},
 	"include": [
-		"src/**/*"
+		"src/**/*",
+		"test/**/*"
 	]
 }
