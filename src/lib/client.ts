@@ -1,7 +1,6 @@
 import { KlasaClient, KlasaClientOptions, util } from 'klasa';
 import GiveawayManager from './structures/GiveawayManager';
 import './schemas/Guild';
-import './structures/permissionLevels';
 import { join } from 'path';
 import { OPTIONS } from './util/constants';
 
@@ -18,6 +17,8 @@ export default class GiveawayClient extends KlasaClient {
 	public static [KlasaClient.plugin](this: GiveawayClient) {
 		util.mergeDefault(OPTIONS, this.options);
 		this.giveawayManager = new GiveawayManager(this);
+		// eslint-disable-next-line @typescript-eslint/no-floating-promises
+		this.once('klasaReady', () => this.giveawayManager.init());
 
 		const coreDirectory = join(__dirname, '../');
 

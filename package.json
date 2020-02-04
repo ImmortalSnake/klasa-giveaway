@@ -2,11 +2,12 @@
   "name": "klasa-plugin",
   "version": "1.0.0",
   "description": "A discord giveaway plugin for klasa",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
-    "test": "eslint src/**",
+    "test:lint": "eslint src/**",
     "lint": "eslint src/** --fix",
+    "sample": "node dist/test/index.js",
     "build": "yarn tsc"
   },
   "engines": {

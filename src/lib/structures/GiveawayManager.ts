@@ -1,19 +1,95 @@
-import { KlasaClient, KlasaMessage, ScheduledTask } from 'klasa';
-import { TextChannel, User, Message, Collection, MessageEmbed } from 'discord.js';
+/* eslint-disable no-throw-literal */
+import { KlasaClient, KlasaMessage } from 'klasa';
+import { TextChannel } from 'discord.js';
+import Giveaway from './Giveaway';
 import Util from '../util/util';
-import { Second, Minute, COLORS } from '../util/constants';
 
-interface GiveawayFinishData {
-	title?: string;
-	wCount?: number;
-	reroll?: boolean;
+export default class GiveawayManager {
+
+	public readonly client: KlasaClient;
+	public running: Giveaway[] = [];
+	private giveaways: Giveaway[] = [];
+
+	public constructor(client: KlasaClient) {
+		this.client = client;
+	}
+
+	public get provider() {
+		return this.client.providers.default;
+	}
+
+	public async init() {
+		const entries = await this.provider.getAll('Giveaways') as GiveawayData[];
+
+		for (const entry of entries) await this.add(entry).init();
+		setInterval(this.refresh.bind(this), 5000);
+	}
+
+	public async update(giveaway: Giveaway) {
+		if (giveaway.state === 'FINISHED') return;
+		if (giveaway.endsAt <= Date.now()) return giveaway.finish();
+
+		this.giveaways.push(giveaway);
+		return giveaway.update();
+	}
+
+	public async create(channel: TextChannel, rawData: GiveawayCreateData) {
+		const giveaway = await this.add(rawData)
+			.create(channel);
+
+		await this.provider.update('Giveaways', giveaway.messageID!, giveaway.data);
+		return null;
+	}
+
+	public delete(id: string) {
+		const index = this.giveaways.findIndex(g => g.messageID === id);
+		if (index !== -1) this.giveaways.splice(index, 1);
+
+		return this.provider.delete('Giveaways', id);
+	}
+
+	public async reroll(msg: KlasaMessage, amount = 1) {
+		if (msg?.author.id !== msg.client.user!.id
+			|| !msg.reactions.has('🎉')) throw msg.language.get('GIVEAWAY_NOT_FOUND');
+
+		const isRunning = this.running.find(g => g.messageID === msg.id);
+		if (isRunning) throw 'Giveaway is running';
+
+		const users = await msg.reactions.get('🎉')?.users.fetch();
+		if (!users?.size) throw 'Not enough reactions';
+
+		return Util.getWinners(msg, users, amount);
+	}
+
+	private refresh() {
+		if (!this.giveaways.length) return;
+		for (const giveaway of this.giveaways) {
+			if (giveaway.state !== 'FINISHED') setTimeout(this.update.bind(this, giveaway), giveaway!.refreshAt - Date.now());
+		}
+
+		this.giveaways = [];
+		this.running = this.running.filter(g => g.state !== 'FINISHED');
+	}
+
+	private add(data: GiveawayCreateData) {
+		const giveaway = new Giveaway(this, data);
+		this.giveaways.push(giveaway);
+		this.running.push(giveaway);
+
+		return giveaway;
+	}
+
 }
 
-interface GiveawayCreateData {
-	message: Message;
-	time: number;
-	wCount: number;
+
+export interface GiveawayData extends GiveawayCreateData {
+	messageID: string;
+	channelID: string;
+	guildID: string;
+	endsAt: number;
+	winnerCount: number;
 	title: string;
+	startAt?: number;
 }
 
 export interface GiveawayUpdateData {
@@ -24,115 +100,12 @@ export interface GiveawayUpdateData {
 	endAt: number;
 }
 
-export default class GiveawayManager {
-
-	public client: KlasaClient;
-	public constructor(client: KlasaClient) {
-		this.client = client;
-	}
-
-	public async finish(msg: KlasaMessage, { reroll, title, wCount }: GiveawayFinishData): Promise<Message> {
-		if (!title || !wCount) {
-			title = msg.embeds[0].title;
-			wCount = 1;
-		}
-
-		if (!reroll) {
-			await msg.guildSettings.update('giveaways.finished', msg.id);
-			await msg.guildSettings.update('giveaways.running', msg.id, { action: 'remove' });
-		}
-
-		const embed = new MessageEmbed()
-			.setTitle(title)
-			.setColor(msg.guild ? msg.member!.displayColor : COLORS.PRIMARY)
-			.setFooter(msg.language.get('ENDED_AT'))
-			.setTimestamp();
-
-		if (msg.reactions.get('🎉')!.count! < 2) {
-			return msg.edit(msg.language.get('GIVEAWAY_END'), embed
-				.setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', wCount)));
-		}
-
-		const users = await msg.reactions.get('🎉')!.users.fetch();
-		const winner = this.getWinners(users, wCount);
-
-		await msg.edit(msg.language.get('GIVEAWAY_END'), embed
-			.setDescription(`**Winner: ${winner}**`));
-
-		return msg.channel.send(msg.language.get('GIVEAWAY_WON', winner, title));
-
-	}
-
-	public shuffle(arr: any[]): any[] {
-		for (let i = arr.length; i; i--) {
-			const j = Math.floor(Math.random() * i);
-			[arr[i - 1], arr[j]] = [arr[j], arr[i - 1]];
-		}
-		return arr;
-	}
-
-	public draw(list: any[]): any {
-		const shuffled = this.shuffle(list);
-		return shuffled[Math.floor(Math.random() * shuffled.length)];
-	}
-
-
-	public async update({ message, channel, endAt, title, wCount }: GiveawayUpdateData) {
-		const chan = await this.client.channels.fetch(channel) as TextChannel;
-		const msg = await chan.messages.fetch(message) as KlasaMessage;
-		if (!msg) return;
-
-		if (endAt <= Date.now()) return this.finish(msg, { title, wCount });
-
-		return msg.edit(new MessageEmbed()
-			.setTitle(title)
-			.setColor(msg.guild ? msg.member!.displayColor : COLORS.PRIMARY)
-			.setDescription(msg.language.get('GIVEAWAY_DESCRIPTION', wCount, Util.ms(endAt - Date.now())))
-			.setFooter(msg.language.get('ENDS_AT'))
-			.setTimestamp(endAt))
-			.then(() => this.create({
-				message: msg,
-				title,
-				wCount,
-				time: endAt
-			}));
-	}
-
-	public create({ message, title, wCount, time }: GiveawayCreateData): Promise<ScheduledTask> {
-		return this.client.schedule.create('giveaway', this.nextRefresh(time - Date.now()), {
-			data: {
-				channel: message.channel.id,
-				message: message.id,
-				endAt: time,
-				title,
-				wCount
-			},
-
-			catchUp: true
-		});
-	}
-
-	private nextRefresh(remaining: number) {
-		if (remaining < 5 * Second) return Date.now() + Second;
-		if (remaining < 30 * Second) return Date.now() + Math.min(remaining - (6 * Second), 5 * Second);
-		if (remaining < 2 * Minute) return Date.now() + (15 * Second);
-		if (remaining < 5 * Minute) return Date.now() + (20 * Second);
-
-		if (remaining < 15 * Minute) return Date.now() + Minute;
-		if (remaining < 30 * Minute) return Date.now() + (2 * Minute);
-		return Date.now() + (5 * Minute);
-	}
-
-	private getWinners(users: Collection<string, User>, amount: number): string {
-		const winners: User[] = [];
-
-		const list = users.filter(user => user.id !== this.client.user!.id).array();
-		for (let i = 0; i < amount; i++) {
-			const x = this.draw(list);
-			if (!winners.includes(x)) winners.push(x);
-		}
-
-		return winners.filter(u => u !== undefined && u !== null).map(u => u.toString()).join(', ');
-	}
-
+export interface GiveawayCreateData {
+	messageID?: string;
+	channelID?: string;
+	guildID?: string;
+	title: string;
+	winnerCount: number;
+	endsAt: number;
+	startAt?: number;
 }

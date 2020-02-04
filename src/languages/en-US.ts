@@ -1,4 +1,5 @@
 import { Language, LanguageStore, KlasaClient } from 'klasa';
+import Util from '../lib/util/util';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/camelcase */
@@ -15,8 +16,8 @@ export default class extends Language {
 			ENDED_AT: 'Ended At:',
 			GIVEAWAY_NOT_FOUND: 'Could not find that giveaway! Try again!',
 			MAX_GIVEAWAYS: 'You can have only upto 10 giveaways in a guild! Remove a giveaway and try again!',
-			NO_RUNNING_GIVEAWAY: prefix => `There are no running giveaways in this server. Create one using the \`${prefix}create\` command!`,
-			NO_FINISHED_GIVEAWAY: prefix => `No giveaways were completed in this server. Use \`${prefix}create\` to create one and \`${prefix}end\` to end it`,
+			NO_RUNNING_GIVEAWAY: prefix => `There are no running giveaways in this server. Create one using the \`${prefix}gcreate\` command!`,
+			NO_FINISHED_GIVEAWAY: prefix => `No giveaways were completed in this server. Use \`${prefix}gcreate\` to create one and \`${prefix}gend\` to end it`,
 
 			COMMAND_CREATE_DESCRIPTION: 'Creates a giveaway in the specified channel!',
 			COMMAND_DELETE_DESCRIPTION: 'Deletes a giveaway! (You could also simply delete the giveaway message)',
@@ -41,7 +42,7 @@ export default class extends Language {
 
 			GIVEWAY_LIST_TITLE: name => `Active giveaways on **${name}**`,
 			GIVEAWAY_LIST_BODY: (i, message, channel, wCount, time, title) =>
-				`\n**${i}]** \`${message}\` → <#${channel}> | \`${wCount}\` **Winner(s)** | **Ends At:** ${time} | **Title:** \`${title}\``
+				`\n**${i}]** \`${message}\` → <#${channel}> | \`${wCount}\` **Winner(s)** | **Ends At:** ${Util.ms(time - Date.now())} | **Title:** \`${title}\``
 		};
 
 	}
