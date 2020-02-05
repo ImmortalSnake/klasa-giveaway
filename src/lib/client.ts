@@ -1,8 +1,10 @@
-import { KlasaClient, KlasaClientOptions, util } from 'klasa';
+import { KlasaClient, KlasaClientOptions, util, Language } from 'klasa';
 import GiveawayManager from './structures/GiveawayManager';
 import './schemas/Guild';
 import { join } from 'path';
 import { OPTIONS } from './util/constants';
+import { MessageEmbed } from 'discord.js';
+import Giveaway from './structures/Giveaway';
 
 export default class GiveawayClient extends KlasaClient {
 
@@ -37,9 +39,12 @@ export default class GiveawayClient extends KlasaClient {
 
 declare module 'discord.js' {
 	interface ClientOptions {
-		giveaway?: {
-			maxGiveaways?: number;
-			requiredPermission?: number;
-		};
+		giveaway?: GiveawayOptions;
 	}
+}
+
+export interface GiveawayOptions {
+	givewayRunEmbed?: ((giveaway: Giveaway, language: Language) => MessageEmbed | string) | MessageEmbed | string;
+	maxGiveaways?: number;
+	requiredPermission?: number;
 }

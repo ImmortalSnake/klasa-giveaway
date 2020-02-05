@@ -1,7 +1,6 @@
 import GiveawayManager, { GiveawayCreateData } from './GiveawayManager';
 import { TextChannel, MessageEmbed } from 'discord.js';
-import { KlasaMessage, Language } from 'klasa';
-import { COLORS } from '../util/constants';
+import { KlasaMessage, util, Language } from 'klasa';
 import Util from '../util/util';
 
 export type GiveawayState = 'CREATING' | 'RUNNING' | 'ENDING' | 'FINISHED';
@@ -42,6 +41,10 @@ export default class Giveaway {
 		return this.manager.client;
 	}
 
+	public get options() {
+		return this.client.options.giveaway;
+	}
+
 	public get refreshAt() {
 		const nextRefresh = this.lastRefresh + (5 * 60 * 1000);
 		return nextRefresh < this.endsAt ? nextRefresh : this.endsAt;
@@ -63,12 +66,14 @@ export default class Giveaway {
 	}
 
 	public renderEmbed(lang: Language) {
-		return new MessageEmbed()
+		if (util.isFunction(this.options.givewayRunEmbed)) return this.options.givewayRunEmbed(this, lang);
+		return this.options.givewayRunEmbed;
+		/* return this.options.givewayRunEmbed(this, lang) || new MessageEmbed()
 			.setTitle(this.title)
 			.setColor(COLORS.PRIMARY)
 			.setDescription(lang.get('GIVEAWAY_DESCRIPTION', this.winnerCount, Util.ms(this.endsAt - Date.now())))
 			.setFooter(lang.get('ENDS_AT'))
-			.setTimestamp(this.endsAt);
+			.setTimestamp(this.endsAt);*/
 	}
 
 	public async init() {
