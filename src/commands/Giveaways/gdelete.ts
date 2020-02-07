@@ -21,9 +21,7 @@ export default class extends Command {
 		const giveaway = (this.client as GiveawayClient).giveawayManager.running.find(g => g.messageID === id);
 		if (!giveaway) throw msg.language.get('GIVEAWAY_NOT_FOUND');
 
-		// await msg.guildSettings.update('giveaways.running', id, { action: 'remove' });
-		await (this.client as GiveawayClient).giveawayManager.delete(id!);
-
+		await (this.client as GiveawayClient).giveawayManager.delete(id!).catch(() => console.log());
 		return msg.sendLocale('GIVEAWAY_DELETE', [id]);
 	}
 

@@ -17,10 +17,11 @@ export default class extends Command {
 		if (!message) {
 			message = await msg.channel.messages
 				.fetch(msg.guildSettings.get('giveaways.finished') as string) as KlasaMessage;
+
+			if (!message) throw msg.language.get('NO_FINISHED_GIVEAWAY', msg.guildSettings.get('prefix'));
 		}
 
 		const winners = await (this.client as GiveawayClient).giveawayManager.reroll(message);
-
 		return msg.send(`🎉 **New winner(s) are**: ${winners.map(w => w.toString()).join(', ')}`);
 	}
 
