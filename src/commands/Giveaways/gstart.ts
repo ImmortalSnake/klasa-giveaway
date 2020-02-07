@@ -17,7 +17,8 @@ export default class extends Command {
 
 	public async run(msg: KlasaMessage, [time, winnerCount, title]: [number, number, string]): Promise<KlasaMessage | KlasaMessage[] | null> {
 		const giveaways = (this.client as GiveawayClient).giveawayManager.running.filter(g => g.guildID === msg.guild!.id);
-		if (giveaways.length > this.client.options.giveaway.maxGiveaways!) throw msg.language.get('MAX_GIVEAWAYS');
+		const max = this.client.options.giveaway.maxGiveaways!;
+		if (giveaways.length > max) throw msg.language.get('MAX_GIVEAWAYS', max);
 
 		return (this.client as GiveawayClient).giveawayManager.create(msg.channel as TextChannel, {
 			endsAt: Date.now() + time,
