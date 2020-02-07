@@ -47,4 +47,5 @@ export interface GiveawayOptions {
 	givewayRunEmbed?: ((giveaway: Giveaway, language: Language) => MessageEmbed | string) | MessageEmbed | string;
 	maxGiveaways?: number;
 	requiredPermission?: number;
+	refreshInterval?: number;
 }

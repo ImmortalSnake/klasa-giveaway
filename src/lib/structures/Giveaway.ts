@@ -46,8 +46,8 @@ export default class Giveaway {
 	}
 
 	public get refreshAt() {
-		const nextRefresh = this.lastRefresh + (5 * 60 * 1000);
-		return nextRefresh < this.endsAt ? nextRefresh : this.endsAt;
+		const nextRefresh = this.lastRefresh + this.options.refreshInterval!;
+		return Math.min(nextRefresh, this.endsAt);
 	}
 
 	public get duration() {
@@ -68,12 +68,6 @@ export default class Giveaway {
 	public renderEmbed(lang: Language) {
 		if (util.isFunction(this.options.givewayRunEmbed)) return this.options.givewayRunEmbed(this, lang);
 		return this.options.givewayRunEmbed;
-		/* return this.options.givewayRunEmbed(this, lang) || new MessageEmbed()
-			.setTitle(this.title)
-			.setColor(COLORS.PRIMARY)
-			.setDescription(lang.get('GIVEAWAY_DESCRIPTION', this.winnerCount, Util.ms(this.endsAt - Date.now())))
-			.setFooter(lang.get('ENDS_AT'))
-			.setTimestamp(this.endsAt);*/
 	}
 
 	public async init() {
@@ -95,6 +89,8 @@ export default class Giveaway {
 
 	public async update() {
 		this.state = 'RUNNING';
+		this.lastRefresh = Date.now();
+
 		const msg = await this.fetchMessage();
 		return msg.edit(this.renderEmbed(msg.language));
 	}

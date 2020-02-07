@@ -2,8 +2,15 @@ import { GiveawayOptions } from '../client';
 import { MessageEmbed } from 'discord.js';
 import Util from './util';
 
+export const Second = 1000;
+export const Minute = 60 * Second;
+export const Hour = 60 * Minute;
+export const Day = 24 * Hour;
+
+
 export const OPTIONS = {
 	giveaway: {
+		refreshInterval: 5 * Minute,
 		maxGiveaways: Infinity,
 		requiredPermission: 5,
 		givewayRunEmbed: (giveaway, language) => new MessageEmbed()
@@ -15,7 +22,3 @@ export const OPTIONS = {
 	} as GiveawayOptions
 };
 
-export const Second = 1000;
-export const Minute = 60 * Second;
-export const Hour = 60 * Minute;
-export const Day = 24 * Hour;
