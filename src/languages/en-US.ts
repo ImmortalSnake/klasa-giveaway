@@ -15,7 +15,8 @@ export default class extends Language {
 			ENDS_AT: 'Ends At:',
 			ENDED_AT: 'Ended At:',
 			GIVEAWAY_NOT_FOUND: 'Could not find that giveaway! Try again!',
-			MAX_GIVEAWAYS: 'You can have only upto 10 giveaways in a guild! Remove a giveaway and try again!',
+			MAX_GIVEAWAYS: max => `You can have only upto ${max} giveaways in a guild! Remove a giveaway and try again!`,
+			GIVEAWAY_RUNNING: 'This giveaway is running right now. Wait for it to end or use the `end` command to stop it now!',
 			NO_RUNNING_GIVEAWAY: prefix => `There are no running giveaways in this server. Create one using the \`${prefix}gcreate\` command!`,
 			NO_FINISHED_GIVEAWAY: prefix => `No giveaways were completed in this server. Use \`${prefix}gcreate\` to create one and \`${prefix}gend\` to end it`,
 

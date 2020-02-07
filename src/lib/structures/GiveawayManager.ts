@@ -53,12 +53,10 @@ export default class GiveawayManager {
 			|| !msg.reactions.has('🎉')) throw msg.language.get('GIVEAWAY_NOT_FOUND');
 
 		const isRunning = this.running.find(g => g.messageID === msg.id);
-		if (isRunning) throw 'Giveaway is running';
+		if (isRunning) throw msg.language.get('GIVEAWAY_RUNNING');
 
 		const users = await msg.reactions.get('🎉')?.users.fetch();
-		if (!users?.size) throw 'Not enough reactions';
-
-		return Util.getWinners(msg, users, amount);
+		return Util.getWinners(msg, users!, amount);
 	}
 
 	private refresh() {
