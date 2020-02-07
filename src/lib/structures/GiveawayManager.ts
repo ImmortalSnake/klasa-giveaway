@@ -42,8 +42,8 @@ export default class GiveawayManager {
 	}
 
 	public delete(id: string) {
-		const index = this.giveaways.findIndex(g => g.messageID === id);
-		if (index !== -1) this.giveaways.splice(index, 1);
+		const index = this.running.findIndex(g => g.messageID === id);
+		if (index !== -1) this.running.splice(index, 1).forEach(g => g.state = 'FINISHED');
 
 		return this.provider.delete('Giveaways', id);
 	}
@@ -62,7 +62,7 @@ export default class GiveawayManager {
 	private refresh() {
 		if (!this.giveaways.length) return;
 		for (const giveaway of this.giveaways) {
-			if (giveaway.state !== 'FINISHED') setTimeout(this.update.bind(this, giveaway), giveaway!.refreshAt - Date.now());
+			if (giveaway.state !== 'FINISHED') setTimeout(this.update.bind(this, giveaway), giveaway.refreshAt - Date.now());
 		}
 
 		this.giveaways = [];
