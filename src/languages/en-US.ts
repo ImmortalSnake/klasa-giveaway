@@ -46,11 +46,12 @@ export default class extends Language {
 			NOT_ENOUGH_REACTIONS: count =>
 				`The Giveaway has ended, not enough people voted.
 				**Votes Required:** \`${count}\``,
-			GIVEAWAY_DESCRIPTION: (winners, tleft) =>
+			GIVEAWAY_DESCRIPTION: (winners, tleft, author) =>
 				`**React with :tada: to enter**
 
 				**Winner Count:** \`${winners}\`
-				**Time Left:** ${tleft}`,
+				**Time Left:** ${tleft}
+				**Hosted By:** <@${author}>`,
 
 			GIVEWAY_LIST_TITLE: name => `Active giveaways on **${name}**`,
 			GIVEAWAY_LIST_BODY: (i, message, channel, wCount, time, title) =>

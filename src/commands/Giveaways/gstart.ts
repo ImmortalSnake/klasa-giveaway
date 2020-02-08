@@ -24,6 +24,7 @@ export default class extends Command {
 
 		return (this.client as GiveawayClient).giveawayManager.create(msg.channel as TextChannel, {
 			endsAt: Date.now() + time,
+			author: msg.author.id,
 			title,
 			winnerCount
 		});

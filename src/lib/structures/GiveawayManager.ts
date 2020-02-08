@@ -97,7 +97,7 @@ export default class GiveawayManager {
 
 
 export interface GiveawayData extends GiveawayCreateData {
-	messageID: string;
+	id: string;
 	channelID: string;
 	guildID: string;
 	endsAt: number;
@@ -105,6 +105,7 @@ export interface GiveawayData extends GiveawayCreateData {
 	title: string;
 	startAt?: number;
 	reaction: string;
+	author: string;
 }
 
 export interface GiveawayCreateData {
@@ -114,6 +115,7 @@ export interface GiveawayCreateData {
 	title: string;
 	winnerCount: number;
 	endsAt: number;
+	author?: string;
 	startAt?: number;
 	reaction?: string;
 }
