@@ -9,6 +9,13 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 5. **greroll** - Rerolls a previously finished giveaway.
 6. **gstart** - Immediately starts a giveaway in the current channel
 
+## Features
+
+* Customizable Built-in commands
+* Customizable update interval
+* Automatic loading and restarting of giveaways
+* Customizable embeds and locales
+
 ## How to use
 
 1. **Install the plugin**
@@ -40,12 +47,16 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 
 * To your KlasaClientOptions you can optionally add giveaway options.
   
-  | Option             | Type   | Default   | Description |
-  |--------------------|--------|-----------|-------------|
-  | refreshInterval    | number | 5 Minutes | Duration between each giveaway refresh |
-  | maxGiveaways       | number | Infinite  | Maximum number of giveaways a guild can have|
-  | requiredPermission | number | 5         | Minimum permission level required to run these commands |
-  | giveawayRunEmbed   | Function, string  | [See Here](src/lib/util/constants.ts) | The embed that will be shown when giveaway starts |
+  | Option             | Type    | Default   | Description |
+  |--------------------|---------|-----------|-------------|
+  | refreshInterval    | Number  | 5 Minutes | Duration between each giveaway refresh (in ms) |
+  | maxGiveaways       | Number  | Infinite  | Maximum number of giveaways a guild can have |
+  | requiredPermission | Number  | 5         | Minimum permission level required to run these commands |
+  | provider           | String  | Default Provider | Database provider to store giveaway data |
+  | enableCommands     | Boolean | true      | Whether to enable built-in commands or not |
+  | commands           | Object  | {}        | Customize default Command Options |
+  | giveawayRunMessage   | Function, string  | [See Here](src/lib/util/constants.ts) | The message that will be shown when giveaway starts |
+  | giveawayFinishMessage | Function, any | [See Here](src/lib/util/constants.ts) | Message that will be displayed once the giveaway is over |
 
   **For example:**
   
@@ -60,5 +71,3 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
   ```
 
 * It also allows you to define your own locales. See [built in en-US Locale](./src/languages/en-US.ts)
-* Coming Soon:
-  * Customizable giveaway finished embed

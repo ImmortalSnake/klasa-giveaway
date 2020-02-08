@@ -1,16 +1,18 @@
-import { CommandStore, KlasaMessage, Command, KlasaClient } from 'klasa';
+import { CommandStore, KlasaMessage, Command, KlasaClient, util, Language } from 'klasa';
 import GiveawayClient from '../../lib/client';
 
 export default class extends Command {
 
 	public constructor(client: KlasaClient, store: CommandStore, file: string[], directory: string) {
-		super(client, store, file, directory, {
+		super(client, store, file, directory, util.mergeDefault({
 			permissionLevel: 5,
 			runIn: ['text'],
 			usageDelim: ' ',
 			usage: '[message:message]',
-			description: lang => lang.get('COMMAND_DELETE_DESCRIPTION')
-		});
+			enabled: client.options.giveaway.enableCommands,
+			description: (lang: Language) => lang.get('COMMAND_DELETE_DESCRIPTION'),
+			extendedHelp: (lang: Language) => lang.get('COMMAND_DELETE_EXTENDED')
+		}, client.options.giveaway.commands!.delete));
 	}
 
 	public async run(msg: KlasaMessage, [message]: [KlasaMessage | undefined]): Promise<KlasaMessage | KlasaMessage[]> {
