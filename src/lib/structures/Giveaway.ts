@@ -16,6 +16,7 @@ export default class Giveaway {
 	public messageID?: string;
 	public channelID?: string;
 	public guildID?: string;
+	public author?: string;
 	public message: KlasaMessage | null = null;
 	public state: GiveawayState = 'CREATING';
 	public reaction: string;
@@ -23,12 +24,15 @@ export default class Giveaway {
 	public constructor(manager: GiveawayManager, data: GiveawayCreateData) {
 
 		this.manager = manager;
+
 		this.endsAt = data.endsAt;
 		this.winnerCount = data.winnerCount;
 		this.messageID = data.messageID;
 		this.channelID = data.channelID;
 		this.guildID = data.guildID;
 		this.title = data.title;
+		this.author = data.author;
+
 		this.startAt = data.startAt || Date.now();
 		this.lastRefresh = Date.now();
 		this.reaction = data.reaction || '🎉';
@@ -54,13 +58,13 @@ export default class Giveaway {
 
 	public get data(): GiveawayCreateData {
 		return {
-			messageID: this.messageID,
 			channelID: this.channelID,
 			startAt: this.startAt,
 			endsAt: this.endsAt,
 			winnerCount: this.winnerCount,
 			title: this.title,
-			reaction: this.reaction
+			reaction: this.reaction,
+			author: this.author
 		};
 	}
 

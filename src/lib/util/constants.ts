@@ -19,7 +19,7 @@ export const OPTIONS = {
 		givewayRunMessage: (giveaway, language) => new MessageEmbed()
 			.setTitle(giveaway.title)
 			.setColor('#42f54e')
-			.setDescription(language.get('GIVEAWAY_DESCRIPTION', giveaway.winnerCount, Util.ms(giveaway.endsAt - Date.now())))
+			.setDescription(language.get('GIVEAWAY_DESCRIPTION', giveaway.winnerCount, Util.ms(giveaway.endsAt - Date.now()), giveaway.author))
 			.setFooter(language.get('ENDS_AT'))
 			.setTimestamp(giveaway.endsAt),
 
