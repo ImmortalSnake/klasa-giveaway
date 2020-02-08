@@ -1,9 +1,9 @@
-import { KlasaClient, KlasaClientOptions, util, Language } from 'klasa';
+import { KlasaClient, KlasaClientOptions, util, Language, CommandOptions, KlasaMessage } from 'klasa';
 import GiveawayManager from './structures/GiveawayManager';
 import './schemas/Guild';
 import { join } from 'path';
 import { OPTIONS } from './util/constants';
-import { MessageEmbed } from 'discord.js';
+import { MessageEmbed, GuildMember } from 'discord.js';
 import Giveaway from './structures/Giveaway';
 
 export default class GiveawayClient extends KlasaClient {
@@ -44,8 +44,19 @@ declare module 'discord.js' {
 }
 
 export interface GiveawayOptions {
-	givewayRunEmbed?: ((giveaway: Giveaway, language: Language) => MessageEmbed | string) | MessageEmbed | string;
+	givewayRunMessage?: ((giveaway: Giveaway, language: Language) => MessageEmbed | string) | MessageEmbed | string;
+	giveawayFinishMessage?: ((giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage) => Promise<any> | null) | Promise<any> | any;
 	maxGiveaways?: number;
 	requiredPermission?: number;
 	refreshInterval?: number;
+	provider?: string;
+	enableCommands?: boolean;
+	commands?: {
+		create?: CommandOptions;
+		delete?: CommandOptions;
+		end?: CommandOptions;
+		list?: CommandOptions;
+		reroll?: CommandOptions;
+		start?: CommandOptions;
+	};
 }

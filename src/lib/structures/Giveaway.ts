@@ -1,5 +1,5 @@
 import GiveawayManager, { GiveawayCreateData } from './GiveawayManager';
-import { TextChannel, MessageEmbed } from 'discord.js';
+import { TextChannel, GuildMember } from 'discord.js';
 import { KlasaMessage, util, Language } from 'klasa';
 import Util from '../util/util';
 
@@ -18,8 +18,7 @@ export default class Giveaway {
 	public guildID?: string;
 	public message: KlasaMessage | null = null;
 	public state: GiveawayState = 'CREATING';
-	public reaction = '🎉';
-	// public options: { maxGiveaways?: number; requiredPermission?: number };
+	public reaction: string;
 
 	public constructor(manager: GiveawayManager, data: GiveawayCreateData) {
 
@@ -32,8 +31,7 @@ export default class Giveaway {
 		this.title = data.title;
 		this.startAt = data.startAt || Date.now();
 		this.lastRefresh = Date.now();
-		console.log(data);
-		// this.options = this.client.options.giveaway;
+		this.reaction = data.reaction || '🎉';
 
 	}
 
@@ -61,13 +59,19 @@ export default class Giveaway {
 			startAt: this.startAt,
 			endsAt: this.endsAt,
 			winnerCount: this.winnerCount,
-			title: this.title
+			title: this.title,
+			reaction: this.reaction
 		};
 	}
 
-	public renderEmbed(lang: Language) {
-		if (util.isFunction(this.options.givewayRunEmbed)) return this.options.givewayRunEmbed(this, lang);
-		return this.options.givewayRunEmbed;
+	public renderMessage(lang: Language) {
+		if (util.isFunction(this.options.givewayRunMessage)) return this.options.givewayRunMessage(this, lang);
+		return this.options.givewayRunMessage;
+	}
+
+	public finishMessage(winners: GuildMember[], msg: KlasaMessage) {
+		if (util.isFunction(this.options.giveawayFinishMessage)) return this.options.giveawayFinishMessage(this, winners, msg);
+		return this.options.giveawayFinishMessage;
 	}
 
 	public async init() {
@@ -77,7 +81,7 @@ export default class Giveaway {
 	public async create(channel?: TextChannel) {
 		if (!channel) channel = await this.client.channels.fetch(this.channelID!) as TextChannel;
 		const language = this.client.languages.get(channel.guild.settings.get('language'));
-		const msg = await channel.send(this.renderEmbed(language));
+		const msg = await channel.send(this.renderMessage(language));
 		await msg.react(this.reaction);
 
 		this.message = msg as KlasaMessage;
@@ -92,32 +96,15 @@ export default class Giveaway {
 		this.lastRefresh = Date.now();
 
 		const msg = await this.fetchMessage();
-		return msg.edit(this.renderEmbed(msg.language));
+		return msg.edit(this.renderMessage(msg.language));
 	}
 
 	public async finish() {
 		this.state = 'ENDING';
 		const msg = await this.fetchMessage();
-		const embed = new MessageEmbed()
-			.setTitle(this.title)
-			.setFooter(msg.language.get('ENDED_AT'))
-			.setTimestamp();
-
-		if (msg.reactions.get(this.reaction)?.count! < 2) {
-			await msg.edit(msg.language.get('GIVEAWAY_END'), embed
-				.setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', this.winnerCount)));
-		} else {
-			const users = await msg.reactions.get(this.reaction)!.users.fetch();
-			const winners = Util.getWinners(msg, users, this.winnerCount)
-				.filter(u => u)
-				.map(u => u!.toString())
-				.join(', ');
-
-			await msg.edit(msg.language.get('GIVEAWAY_END'), embed
-				.setDescription(`**Winner: ${winners}**`));
-
-			await msg.channel.send(msg.language.get('GIVEAWAY_WON', winners, this.title));
-		}
+		const users = await msg.reactions.get(this.reaction)!.users.fetch();
+		const winners = Util.getWinners(msg, users, this.winnerCount);
+		await this.finishMessage(winners, msg);
 
 		this.state = 'FINISHED';
 		await msg.guildSettings.update('giveaways.finished', msg.id);

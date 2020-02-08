@@ -21,11 +21,22 @@ export default class extends Language {
 			NO_FINISHED_GIVEAWAY: prefix => `No giveaways were completed in this server. Use \`${prefix}gcreate\` to create one and \`${prefix}gend\` to end it`,
 
 			COMMAND_CREATE_DESCRIPTION: 'Creates a giveaway in the specified channel!',
+			COMMAND_CREATE_EXTENDED: '',
+
 			COMMAND_DELETE_DESCRIPTION: 'Deletes a giveaway! (You could also simply delete the giveaway message)',
-			COMMAND_END_DESCRIPTION: 'Ends a giveaway immediately. If you do not provide a message id, it will end the most recent running giveaway',
+			COMMAND_DELETE_EXTENDED: '',
+
+			COMMAND_END_DESCRIPTION: 'Ends a giveaway immediately',
+			COMMAND_END_EXTENDED: 'If you do not provide a message id, it will end the most recent running giveaway',
+
 			COMMAND_LIST_DESCRIPTION: 'Lists all running giveaways in the server',
-			COMMAND_REROLL_DESCRIPTION: 'Rerolls a previously finished giveaway. If you do not provide a message id, it will reroll the most recently finished giveaway',
+			COMMAND_LIST_EXTENDED: '',
+
+			COMMAND_REROLL_DESCRIPTION: 'Rerolls a previously finished giveaway.',
+			COMMAND_REROLL_EXTENDED: 'If you do not provide a message id, it will reroll the most recently finished giveaway',
+
 			COMMAND_START_DESCRIPTION: 'Immediately starts a giveaway in the current channel',
+			COMMAND_START_EXTENDED: '',
 
 			GIVEAWAY_CREATE: ':tada: **GIVEAWAY** :tada:',
 			GIVEAWAY_END: ':tada: **GIVEAWAY ENDED** :tada:',
