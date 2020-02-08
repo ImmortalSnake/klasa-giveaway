@@ -2,12 +2,12 @@
 
 This plugin adds a customisable giveway feature in your discord klasa bot. It comes with the following commands:
 
-1. **create** - Creates a giveaway in the specified channel!
-2. **delete** - Deletes a giveaway!
-3. **end** - Ends a giveaway immediately
-4. **list** - Lists all running giveaways in the server
-5. **reroll** - Rerolls a previously finished giveaway.
-6. **start** - Immediately starts a giveaway in the current channel
+1. **gcreate** - Creates a giveaway in the specified channel!
+2. **gdelete** - Deletes a giveaway!
+3. **gend** - Ends a giveaway immediately
+4. **glist** - Lists all running giveaways in the server
+5. **greroll** - Rerolls a previously finished giveaway.
+6. **gstart** - Immediately starts a giveaway in the current channel
 
 ## How to use
 

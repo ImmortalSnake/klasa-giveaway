@@ -11,11 +11,12 @@
     "build": "yarn tsc"
   },
   "engines": {
-    "node": "11.x",
+    "node": "10.x",
     "npm": "*"
   },
   "author": "ImmortalSnake",
   "license": "MIT",
+  "homepage": "https://github.com/ImmortalSnake/klasa-giveaway",
   "repository": {
     "type": "git",
     "url": "https://github.com/ImmortalSnake/klasa-giveaway"
@@ -23,6 +24,10 @@
   "bugs": {
     "url": "https://github.com/ImmortalSnake/klasa-giveaway/issues"
   },
+  "keywords": [
+    "klasa",
+    "Discord"
+  ],
   "peerDependencies": {
     "discord.js": "github:discordjs/discord.js#master",
     "klasa": "github:dirigeants/klasa#master"
