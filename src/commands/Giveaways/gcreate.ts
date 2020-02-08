@@ -1,4 +1,4 @@
-import { KlasaMessage, CommandStore, Command, KlasaClient } from 'klasa';
+import { KlasaMessage, CommandStore, Command, KlasaClient, Possible } from 'klasa';
 import GiveawayClient from '../../lib/client';
 import { TextChannel } from 'discord.js';
 
@@ -9,12 +9,15 @@ export default class extends Command {
 			requiredPermissions: ['ADD_REACTIONS'],
 			permissionLevel: store.client.options.giveaway.requiredPermission,
 			promptLimit: 1,
-			promptTime: 60,
+			promptTime: 60 * 1000,
 			runIn: ['text'],
 			usageDelim: ' ',
-			usage: '<channel:textChannel> <duration:timespan> <winner_count:int> <title:...str{0,250}>',
+			usage: '<channel:textchannel> <duration:timespan> <winner_count:int> <title:...str{0,250}>',
 			description: lang => lang.get('COMMAND_CREATE_DESCRIPTION')
 		});
+
+		this.createCustomResolver('textchannel', (arg: string, possible: Possible, message: KlasaMessage) =>
+			this.client.arguments.get('textChannel')!.run(arg, possible, message));
 	}
 
 	public async run(msg: KlasaMessage, [channel, time, winnerCount, title]: [TextChannel, number, number, string]): Promise<KlasaMessage | KlasaMessage[] | null> {
