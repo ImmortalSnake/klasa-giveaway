@@ -13,9 +13,9 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 
 1. **Install the plugin**
 
-   `npm i ImmortalSnake/klasa-giveaway`\
+   `npm i klasa-giveaway`\
    or if you use yarn\
-   `yarn add ImmortalSnake/klasa-giveaway`
+   `yarn add klasa-giveaway`
 
 2. **Use the plugin in your code**
 
@@ -30,7 +30,7 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 
    ```ts
    import { Client } from 'klasa';
-   import { Client as GiveawayClient } from 'klasa-giveaway';
+   import { GiveawayClient } from 'klasa-giveaway';
 
    Client.use(GiveawayClient);
    new Client().login("Your Beautiful Token");
