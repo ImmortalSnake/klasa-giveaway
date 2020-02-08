@@ -11,7 +11,7 @@
     "build": "yarn tsc"
   },
   "engines": {
-    "node": "10.x",
+    "node": ">=10.1.0",
     "npm": "*"
   },
   "author": "ImmortalSnake",
