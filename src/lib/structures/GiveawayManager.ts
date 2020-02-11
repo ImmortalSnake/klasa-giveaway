@@ -18,9 +18,12 @@ export default class GiveawayManager {
 	}
 
 	public async init() {
-		const entries = await this.provider.getAll('Giveaways') as GiveawayData[];
+		const hasTable = await this.provider.hasTable('Giveaways');
+		if (!hasTable) await this.provider.createTable('Giveaways');
 
+		const entries = await this.provider.getAll('Giveaways') as GiveawayData[];
 		for (const entry of entries) await this.add(entry).init();
+
 		setInterval(this.refresh.bind(this), 5000);
 	}
 
@@ -69,10 +72,10 @@ export default class GiveawayManager {
 
 	private async update(giveaway: Giveaway) {
 		if (giveaway.state === 'FINISHED') return;
-		if (giveaway.endsAt <= Date.now()) return giveaway.finish();
+		if (giveaway.endsAt <= Date.now()) return giveaway.finish().catch();
 
 		this.giveaways.push(giveaway);
-		return giveaway.update();
+		return giveaway.update().catch();
 	}
 
 	private refresh() {
