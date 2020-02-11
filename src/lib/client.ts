@@ -8,7 +8,6 @@ import Giveaway from './structures/Giveaway';
 
 export default class GiveawayClient extends KlasaClient {
 
-	public giveawayManager = new GiveawayManager(this);
 	public constructor(options?: KlasaClientOptions) {
 		super(options);
 
@@ -38,6 +37,9 @@ export default class GiveawayClient extends KlasaClient {
 
 
 declare module 'discord.js' {
+	interface Client {
+		giveawayManager: GiveawayManager;
+	}
 	interface ClientOptions {
 		giveaway?: GiveawayOptions;
 	}

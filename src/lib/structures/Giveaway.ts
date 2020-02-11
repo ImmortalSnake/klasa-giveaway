@@ -1,4 +1,4 @@
-import GiveawayManager, { GiveawayCreateData } from './GiveawayManager';
+import GiveawayManager, { GiveawayCreateData, GiveawayData } from './GiveawayManager';
 import { TextChannel, GuildMember } from 'discord.js';
 import { KlasaMessage, util, Language } from 'klasa';
 import Util from '../util/util';
@@ -21,13 +21,13 @@ export default class Giveaway {
 	public state: GiveawayState = 'CREATING';
 	public reaction: string;
 
-	public constructor(manager: GiveawayManager, data: GiveawayCreateData) {
+	public constructor(manager: GiveawayManager, data: GiveawayCreateData | GiveawayData) {
 
 		this.manager = manager;
 
 		this.endsAt = data.endsAt;
 		this.winnerCount = data.winnerCount;
-		this.messageID = data.messageID;
+		this.messageID = data.messageID || (data as GiveawayData).id;
 		this.channelID = data.channelID;
 		this.guildID = data.guildID;
 		this.title = data.title;

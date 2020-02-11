@@ -1,5 +1,4 @@
 import { CommandStore, Command, KlasaMessage, KlasaClient, util, Language } from 'klasa';
-import { GiveawayClient } from '../..';
 
 export default class extends Command {
 
@@ -14,7 +13,7 @@ export default class extends Command {
 	}
 
 	public async run(msg: KlasaMessage): Promise<KlasaMessage | KlasaMessage[] | null> {
-		const giveaways = (this.client as GiveawayClient).giveawayManager.running.filter(g => g.guildID === msg.guild!.id);
+		const giveaways = this.client.giveawayManager.running.filter(g => g.guildID === msg.guild!.id);
 		if (giveaways.length === 0) throw msg.language.get('NO_RUNNING_GIVEAWAY', msg.guildSettings.get('prefix'));
 
 		let mess = msg.language.get('GIVEWAY_LIST_TITLE', msg.guild!.name);
