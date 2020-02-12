@@ -5,9 +5,10 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
+    "prepublish": "yarn build",
     "test": "eslint src/**",
     "lint": "eslint src/** --fix",
-    "sample": "node dist/test/index.js",
+    "start": "node dist/test/index.js",
     "build": "yarn tsc"
   },
   "engines": {
@@ -26,7 +27,8 @@
   },
   "keywords": [
     "klasa",
-    "Discord"
+    "Discord",
+    "giveaway"
   ],
   "peerDependencies": {
     "discord.js": "github:discordjs/discord.js#master",
