@@ -84,7 +84,7 @@ export default class Giveaway {
 
 	public async create(channel?: TextChannel) {
 		if (!channel) channel = await this.client.channels.fetch(this.channelID!) as TextChannel;
-		const language = this.client.languages.get(channel.guild.settings.get('language'));
+		const { language } = channel.guild;
 		const msg = await channel.send(this.renderMessage(language));
 		await msg.react(this.reaction);
 
