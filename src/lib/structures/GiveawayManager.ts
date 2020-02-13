@@ -111,7 +111,7 @@ export interface GiveawayData extends GiveawayCreateData {
 	author: string;
 }
 
-export interface GiveawayCreateData {
+export interface GiveawayCreateData extends Record<string, any> {
 	messageID?: string;
 	channelID?: string;
 	guildID?: string;

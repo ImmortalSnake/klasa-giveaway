@@ -1,15 +1,15 @@
-import { CommandStore, Command, KlasaMessage, KlasaClient, util, Language } from 'klasa';
+import { CommandStore, Command, KlasaMessage, util, Language } from 'klasa';
 
 export default class extends Command {
 
-	public constructor(client: KlasaClient, store: CommandStore, file: string[], directory: string) {
-		super(client, store, file, directory, util.mergeDefault({
+	public constructor(store: CommandStore, file: string[], directory: string) {
+		super(store, file, directory, util.mergeDefault({
 			runIn: ['text'],
 			usageDelim: ' ',
-			enabled: client.options.giveaway.enableCommands,
+			enabled: store.client.options.giveaway.enableCommands,
 			description: (lang: Language) => lang.get('COMMAND_LIST_DESCRIPTION'),
 			extendedHelp: (lang: Language) => lang.get('COMMAND_LIST_EXTENDED')
-		}, client.options.giveaway.commands!.list));
+		}, store.client.options.giveaway.commands!.list));
 	}
 
 	public async run(msg: KlasaMessage): Promise<KlasaMessage | KlasaMessage[] | null> {

@@ -31,8 +31,8 @@
     "giveaway"
   ],
   "peerDependencies": {
-    "discord.js": "github:discordjs/discord.js#master",
-    "klasa": "github:dirigeants/klasa#master"
+    "discord.js": "github:discordjs/discord.js#fe7df708e44e0280dfaf0f8e457b154781bb5140",
+    "klasa": "github:dirigeants/klasa#settings"
   },
   "devDependencies": {
     "@types/node": "^13.1.2",
@@ -42,7 +42,7 @@
     "discord.js": "github:discordjs/discord.js#fe7df708e44e0280dfaf0f8e457b154781bb5140",
     "eslint": "^5.16.0",
     "eslint-config-bamboo": "^3.0.0",
-    "klasa": "github:dirigeants/klasa#master",
+    "klasa": "github:dirigeants/klasa#settings",
     "typescript": "^3.7.5"
   },
   "files": [
