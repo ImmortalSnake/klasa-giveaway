@@ -21,6 +21,7 @@ class Util {
     }
     static getWinners(msg, users, winnerCount) {
         return users
+            .filter(u => u.id !== msg.client.user.id)
             .mapValues(u => msg.guild.member(u))
             .filter(u => Boolean(u))
             .random(winnerCount);
