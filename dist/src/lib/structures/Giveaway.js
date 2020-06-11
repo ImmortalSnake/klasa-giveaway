@@ -76,7 +76,7 @@ class Giveaway {
     async finish() {
         this.state = 'ENDING';
         const msg = await this.fetchMessage();
-        const users = await msg.reactions.get(this.reaction).users.fetch();
+        const users = await msg.reactions.resolve(this.reaction).users.fetch();
         const winners = util_1.default.getWinners(msg, users, this.winnerCount);
         await this.finishMessage(winners, msg);
         this.state = 'FINISHED';

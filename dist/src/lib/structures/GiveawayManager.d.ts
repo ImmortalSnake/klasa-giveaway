@@ -10,9 +10,9 @@ export default class GiveawayManager {
     get provider(): import("klasa").Provider;
     init(): Promise<void>;
     create(channel: TextChannel, rawData: GiveawayCreateData): Promise<null>;
-    delete(id: string): Promise<unknown>;
-    end(id: string): Promise<unknown>;
-    edit(id: string, data: GiveawayEditData): Promise<unknown>;
+    delete(id: string): Promise<any>;
+    end(id: string): Promise<any>;
+    edit(id: string, data: GiveawayEditData): Promise<any>;
     reroll(msg: KlasaMessage, data?: GiveawayRerollData): Promise<import("discord.js").GuildMember[]>;
     private update;
     private refresh;

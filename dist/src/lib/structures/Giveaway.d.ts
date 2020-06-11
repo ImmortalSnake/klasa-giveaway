@@ -28,6 +28,6 @@ export default class Giveaway {
     init(): Promise<void>;
     create(channel?: TextChannel): Promise<this>;
     update(): Promise<import("discord.js").Message>;
-    finish(): Promise<unknown>;
+    finish(): Promise<any>;
     private fetchMessage;
 }

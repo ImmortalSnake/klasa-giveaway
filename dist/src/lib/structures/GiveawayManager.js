@@ -51,12 +51,12 @@ class GiveawayManager {
         var _a, _b, _c, _d, _e;
         const reaction = ((_a = data) === null || _a === void 0 ? void 0 : _a.reaction) || '🎉';
         if (((_b = msg) === null || _b === void 0 ? void 0 : _b.author.id) !== msg.client.user.id
-            || !msg.reactions.has(reaction))
+            || !msg.reactions.cache.has(reaction))
             throw msg.language.get('GIVEAWAY_NOT_FOUND');
         const isRunning = this.running.find(g => g.messageID === msg.id);
         if (isRunning)
             throw msg.language.get('GIVEAWAY_RUNNING');
-        const users = await ((_c = msg.reactions.get(reaction)) === null || _c === void 0 ? void 0 : _c.users.fetch());
+        const users = await ((_c = msg.reactions.resolve(reaction)) === null || _c === void 0 ? void 0 : _c.users.fetch());
         return util_1.default.getWinners(msg, users, (_e = (_d = data) === null || _d === void 0 ? void 0 : _d.winnerCount, (_e !== null && _e !== void 0 ? _e : 1)));
     }
     async update(giveaway) {
