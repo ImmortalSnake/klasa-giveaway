@@ -12,7 +12,7 @@
     "build": "yarn tsc"
   },
   "engines": {
-    "node": ">=10.1.0",
+    "node": ">=12",
     "npm": "*"
   },
   "author": "ImmortalSnake",
