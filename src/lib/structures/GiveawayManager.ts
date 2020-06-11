@@ -61,12 +61,12 @@ export default class GiveawayManager {
 	public async reroll(msg: KlasaMessage, data?: GiveawayRerollData) {
 		const reaction = data?.reaction || '🎉';
 		if (msg?.author.id !== msg.client.user!.id
-			|| !msg.reactions.has(reaction)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
+			|| !msg.reactions.cache.has(reaction)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
 
 		const isRunning = this.running.find(g => g.messageID === msg.id);
 		if (isRunning) throw msg.language.get('GIVEAWAY_RUNNING');
 
-		const users = await msg.reactions.get(reaction)?.users.fetch();
+		const users = await msg.reactions.resolve(reaction)?.users.fetch();
 		return Util.getWinners(msg, users!, data?.winnerCount ?? 1);
 	}
 
