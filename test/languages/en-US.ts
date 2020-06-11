@@ -17,7 +17,6 @@ export default class extends Language {
 		for (const core of this.store.coreDirectories) {
 			const loc = join(core, ...this.file);
 			if (this.directory !== core && await pathExists(loc)) {
-				console.log(core);
 				try {
 					// eslint-disable-next-line @typescript-eslint/no-var-requires
 					const CorePiece = (req => req.default || req)(require(loc));
