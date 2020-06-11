@@ -9,6 +9,8 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 5. **greroll** - Rerolls a previously finished giveaway.
 6. **gstart** - Immediately starts a giveaway in the current channel
 
+**NOTE**: Use this version if you are using klasa v0.5.0 (stable) and discord.js v12
+
 ## Features
 
 * Customizable Built-in commands
@@ -20,9 +22,9 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 
 1. **Install the plugin**
 
-   `npm i immortalsnake/klasa-giveaway#settings`\
+   `npm i immortalsnake/klasa-giveaway#stable`\
    or if you use yarn\
-   `yarn add immortalsnake/klasa-giveaway#settings`
+   `yarn add immortalsnake/klasa-giveaway#stable`
 
 2. **Use the plugin in your code**
 
@@ -71,39 +73,3 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
   ```
 
 * It also allows you to define your own locales. See [built in en-US Locale](./src/languages/en-US.ts)
-
-## FAQ
-
-1. **Locales are broken!!**
-
-  In the [settings branch of klasa](https://github.com/dirigeants/klasa/tree/settings), overriding languages by typescript is not possible, so locales in the settings branch of this plugin is broken. To fix this you can
-  
-* Use the [master version of klasa](https://github.com/dirigeants/klasa) and klasa-giveaway available on npm
-* Write your own locales or copy them from [here](./src/languages/en-US.ts)
-* Add the following code to your language file(s):
-  
-  ```js
-  const { util: { mergeDefault, isClass } } = require('klasa');
-  const { pathExists } = require('fs-nextra');
-  const { join } = require('path');
-
-  module.exports = class extends Language {
-      async init() {
-          for (const core of this.store.coreDirectories) {
-              const loc = join(core, ...this.file);
-              if (this.dir !== core && await pathExists(loc)) {
-                  try {
-                      const CorePiece = (req => req.default || req)(require(loc));
-                      if (!isClass(CorePiece)) return;
-                      const coreLang = new CorePiece(this.store, this.file, true);
-                      this.language = mergeDefault(coreLang.language, this.language);
-                  } catch (error) {
-                      return;
-                  }
-              }
-          }
-      }
-  }
-    ```
-
-  [See Here](./src/languages/en-US.ts) for typescript implementation
