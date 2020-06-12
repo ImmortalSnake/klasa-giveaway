@@ -19,12 +19,13 @@ class default_1 extends klasa_1.Command {
         const max = this.client.options.giveaway.maxGiveaways;
         if (giveaways.length > max)
             throw msg.language.get('MAX_GIVEAWAYS', max);
-        return this.client.giveawayManager.create(msg.channel, {
+        await this.client.giveawayManager.create(msg.channel, {
             endsAt: Date.now() + time,
             author: msg.author.id,
             title,
             winnerCount
         });
+        return null;
     }
 }
 exports.default = default_1;

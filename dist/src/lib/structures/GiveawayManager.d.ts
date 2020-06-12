@@ -1,6 +1,5 @@
-/// <reference path="../client.d.ts" />
 import { KlasaClient, KlasaMessage } from 'klasa';
-import { TextChannel } from 'discord.js';
+import { TextChannel, Message, GuildMember } from 'discord.js';
 import Giveaway from './Giveaway';
 export default class GiveawayManager {
     readonly client: KlasaClient;
@@ -9,11 +8,11 @@ export default class GiveawayManager {
     constructor(client: KlasaClient);
     get provider(): import("klasa").Provider;
     init(): Promise<void>;
-    create(channel: TextChannel, rawData: GiveawayCreateData): Promise<null>;
-    delete(id: string): Promise<any>;
-    end(id: string): Promise<any>;
-    edit(id: string, data: GiveawayEditData): Promise<any>;
-    reroll(msg: KlasaMessage, data?: GiveawayRerollData): Promise<import("discord.js").GuildMember[]>;
+    create(channel: TextChannel, rawData: GiveawayCreateData): Promise<Giveaway>;
+    delete(id: string): Promise<null>;
+    end(id: string): Promise<Message | null>;
+    edit(id: string, data: GiveawayEditData): Promise<Giveaway>;
+    reroll(msg: KlasaMessage, data?: GiveawayRerollData): Promise<GuildMember[]>;
     private update;
     private refresh;
     private add;
@@ -21,7 +20,6 @@ export default class GiveawayManager {
 export interface GiveawayData extends GiveawayCreateData {
     id: string;
     channelID: string;
-    guildID: string;
     endsAt: number;
     winnerCount: number;
     title: string;

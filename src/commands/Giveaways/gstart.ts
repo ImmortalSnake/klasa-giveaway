@@ -21,12 +21,13 @@ export default class extends Command {
 		const max = this.client.options.giveaway.maxGiveaways!;
 		if (giveaways.length > max) throw msg.language.get('MAX_GIVEAWAYS', max);
 
-		return this.client.giveawayManager.create(msg.channel as TextChannel, {
+		await this.client.giveawayManager.create(msg.channel as TextChannel, {
 			endsAt: Date.now() + time,
 			author: msg.author.id,
 			title,
 			winnerCount
 		});
+		return null;
 	}
 
 }

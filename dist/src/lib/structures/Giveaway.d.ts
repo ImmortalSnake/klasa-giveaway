@@ -24,10 +24,10 @@ export default class Giveaway {
     get duration(): number;
     get data(): GiveawayCreateData;
     renderMessage(lang: Language): string | import("discord.js").MessageEmbed | undefined;
-    finishMessage(winners: GuildMember[], msg: KlasaMessage): any;
+    finishMessage(winners: GuildMember[], msg: KlasaMessage): Promise<any>;
     init(): Promise<void>;
     create(channel?: TextChannel): Promise<this>;
     update(): Promise<import("discord.js").Message>;
-    finish(): Promise<any>;
+    finish(): Promise<null>;
     private fetchMessage;
 }

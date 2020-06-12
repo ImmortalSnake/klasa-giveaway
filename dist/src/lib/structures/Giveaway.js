@@ -47,7 +47,7 @@ class Giveaway {
             return this.options.givewayRunMessage(this, lang);
         return this.options.givewayRunMessage;
     }
-    finishMessage(winners, msg) {
+    async finishMessage(winners, msg) {
         if (klasa_1.util.isFunction(this.options.giveawayFinishMessage))
             return this.options.giveawayFinishMessage(this, winners, msg);
         return this.options.giveawayFinishMessage;

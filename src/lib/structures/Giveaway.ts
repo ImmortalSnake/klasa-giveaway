@@ -73,7 +73,7 @@ export default class Giveaway {
 		return this.options.givewayRunMessage;
 	}
 
-	public finishMessage(winners: GuildMember[], msg: KlasaMessage) {
+	public async finishMessage(winners: GuildMember[], msg: KlasaMessage) {
 		if (util.isFunction(this.options.giveawayFinishMessage)) return this.options.giveawayFinishMessage(this, winners, msg);
 		return this.options.giveawayFinishMessage;
 	}
