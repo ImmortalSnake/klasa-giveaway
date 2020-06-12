@@ -1,5 +1,5 @@
 import { KlasaClient, KlasaMessage, util } from 'klasa';
-import { TextChannel } from 'discord.js';
+import { TextChannel, Message, GuildMember } from 'discord.js';
 import Giveaway from './Giveaway';
 import Util from '../util/util';
 
@@ -27,22 +27,22 @@ export default class GiveawayManager {
 		setInterval(this.refresh.bind(this), 5000);
 	}
 
-	public async create(channel: TextChannel, rawData: GiveawayCreateData) {
+	public async create(channel: TextChannel, rawData: GiveawayCreateData): Promise<Giveaway> {
 		const giveaway = await this.add(rawData)
 			.create(channel);
 
 		await this.provider.update('Giveaways', giveaway.messageID!, giveaway.data);
-		return null;
+		return giveaway;
 	}
 
-	public delete(id: string) {
+	public async delete(id: string): Promise<null> {
 		const index = this.running.findIndex(g => g.messageID === id);
 		if (index !== -1) this.running.splice(index, 1).forEach(g => g.state = 'FINISHED');
 
 		return this.provider.delete('Giveaways', id);
 	}
 
-	public async end(id: string) {
+	public async end(id: string): Promise<Message | null> {
 		const giveaway = this.running.find(g => g.messageID === id);
 		if (!giveaway) throw Error(`No giveaway found with ID: ${id}`);
 
@@ -50,15 +50,16 @@ export default class GiveawayManager {
 		return this.update(giveaway);
 	}
 
-	public async edit(id: string, data: GiveawayEditData) {
+	public async edit(id: string, data: GiveawayEditData): Promise<Giveaway> {
 		const giveaway = this.running.find(g => g.messageID === id);
 		if (!giveaway) throw Error(`No giveaway found with ID: ${id}`);
 
 		util.mergeDefault(giveaway.data, data);
-		return this.provider.update('Giveaways', id, giveaway.data);
+		await this.provider.update('Giveaways', id, giveaway.data);
+		return giveaway;
 	}
 
-	public async reroll(msg: KlasaMessage, data?: GiveawayRerollData) {
+	public async reroll(msg: KlasaMessage, data?: GiveawayRerollData): Promise<GuildMember[]> {
 		const reaction = data?.reaction || '🎉';
 		if (msg?.author.id !== msg.client.user!.id
 			|| !msg.reactions.cache.has(reaction)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
@@ -70,15 +71,15 @@ export default class GiveawayManager {
 		return Util.getWinners(msg, users!, data?.winnerCount ?? 1);
 	}
 
-	private async update(giveaway: Giveaway) {
-		if (giveaway.state === 'FINISHED') return;
+	private async update(giveaway: Giveaway): Promise<Message | null> {
+		if (giveaway.state === 'FINISHED') return null;
 		if (giveaway.endsAt <= Date.now()) return giveaway.finish().catch();
 
 		this.giveaways.push(giveaway);
 		return giveaway.update().catch();
 	}
 
-	private refresh() {
+	private refresh(): void {
 		if (!this.giveaways.length) return;
 		for (const giveaway of this.giveaways) {
 			if (giveaway.state !== 'FINISHED') setTimeout(this.update.bind(this, giveaway), giveaway.refreshAt - Date.now());
@@ -88,7 +89,7 @@ export default class GiveawayManager {
 		this.running = this.running.filter(g => g.state !== 'FINISHED');
 	}
 
-	private add(data: GiveawayCreateData) {
+	private add(data: GiveawayCreateData): Giveaway {
 		const giveaway = new Giveaway(this, data);
 		this.giveaways.push(giveaway);
 		this.running.push(giveaway);
@@ -102,7 +103,6 @@ export default class GiveawayManager {
 export interface GiveawayData extends GiveawayCreateData {
 	id: string;
 	channelID: string;
-	guildID: string;
 	endsAt: number;
 	winnerCount: number;
 	title: string;

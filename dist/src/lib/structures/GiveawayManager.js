@@ -25,9 +25,9 @@ class GiveawayManager {
         const giveaway = await this.add(rawData)
             .create(channel);
         await this.provider.update('Giveaways', giveaway.messageID, giveaway.data);
-        return null;
+        return giveaway;
     }
-    delete(id) {
+    async delete(id) {
         const index = this.running.findIndex(g => g.messageID === id);
         if (index !== -1)
             this.running.splice(index, 1).forEach(g => g.state = 'FINISHED');
@@ -45,7 +45,8 @@ class GiveawayManager {
         if (!giveaway)
             throw Error(`No giveaway found with ID: ${id}`);
         klasa_1.util.mergeDefault(giveaway.data, data);
-        return this.provider.update('Giveaways', id, giveaway.data);
+        await this.provider.update('Giveaways', id, giveaway.data);
+        return giveaway;
     }
     async reroll(msg, data) {
         var _a, _b, _c, _d, _e;
@@ -61,7 +62,7 @@ class GiveawayManager {
     }
     async update(giveaway) {
         if (giveaway.state === 'FINISHED')
-            return;
+            return null;
         if (giveaway.endsAt <= Date.now())
             return giveaway.finish().catch();
         this.giveaways.push(giveaway);
