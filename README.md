@@ -9,7 +9,9 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 5. **greroll** - Rerolls a previously finished giveaway.
 6. **gstart** - Immediately starts a giveaway in the current channel
 
-**NOTE**: Use this version if you are using klasa v0.5.0 (stable) and discord.js v12
+**NOTE**: 
+- Use this version if you are using [klasa v0.5.0 (stable)](https://www.npmjs.com/package/klasa) and [discord.js v12](https://www.npmjs.com/package/discord.js)
+
 
 ## Features
 
@@ -22,9 +24,9 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 
 1. **Install the plugin**
 
-   `npm i immortalsnake/klasa-giveaway#stable`\
+   `npm i klasa-giveaway`\
    or if you use yarn\
-   `yarn add immortalsnake/klasa-giveaway#stable`
+   `yarn add klasa-giveaway`
 
 2. **Use the plugin in your code**
 

@@ -5,7 +5,7 @@ notifications:
 node_js:
 - "12.0.0"
 script:
-  - yarn build && yarn test
+  - yarn build
 after_success:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
