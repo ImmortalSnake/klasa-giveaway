@@ -13,12 +13,17 @@ exports.OPTIONS = {
         requiredPermission: 5,
         enableCommands: true,
         commands: {},
-        givewayRunMessage: (giveaway, language) => new discord_js_1.MessageEmbed()
-            .setTitle(giveaway.title)
-            .setColor('#42f54e')
-            .setDescription(language.get('GIVEAWAY_DESCRIPTION', giveaway.winnerCount, util_1.default.ms(giveaway.endsAt - Date.now()), giveaway.author))
-            .setFooter(language.get('ENDS_AT'))
-            .setTimestamp(giveaway.endsAt),
+        givewayRunMessage: (giveaway, language) => {
+            return {
+                content: language.get('GIVEAWAY_CREATE'),
+                embed: new discord_js_1.MessageEmbed()
+                    .setTitle(giveaway.title)
+                    .setColor('#42f54e')
+                    .setDescription(language.get('GIVEAWAY_DESCRIPTION', giveaway.winnerCount, util_1.default.ms(giveaway.endsAt - Date.now()), giveaway.author))
+                    .setFooter(language.get('ENDS_AT'))
+                    .setTimestamp(giveaway.endsAt)
+            };
+        },
         giveawayFinishMessage
     }
 };

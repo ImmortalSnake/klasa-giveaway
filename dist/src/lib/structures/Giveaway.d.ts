@@ -1,5 +1,5 @@
 import GiveawayManager, { GiveawayCreateData, GiveawayData } from './GiveawayManager';
-import { TextChannel, GuildMember, MessageEmbed, Message } from 'discord.js';
+import { TextChannel, GuildMember, MessageEmbed, Message, MessageOptions } from 'discord.js';
 import { KlasaMessage, Language, KlasaClient } from 'klasa';
 import { GiveawayOptions } from '../..';
 export declare type GiveawayState = 'CREATING' | 'RUNNING' | 'ENDING' | 'FINISHED';
@@ -89,7 +89,7 @@ export default class Giveaway {
      * Returns an embed or string after running the `GiveawayOptions.giveawayRunMessage` function
      * @param lang The language to use when rendering the message
      */
-    renderMessage(lang: Language): String | MessageEmbed | undefined;
+    renderMessage(lang: Language): string | MessageEmbed | MessageOptions | undefined;
     /**
      * Returns an embed or string after running the GiveawayOptions.giveawayFinishMessage function
      * @param winners The giveaway winners
