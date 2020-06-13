@@ -14,7 +14,7 @@ class default_1 extends klasa_1.Command {
             extendedHelp: (lang) => lang.get('COMMAND_START_EXTENDED')
         }, store.client.options.giveaway.commands.start));
     }
-    async run(msg, [time, winnerCount = 1, title]) {
+    async run(msg, [time, winnerCount, title]) {
         const giveaways = this.client.giveawayManager.running.filter(g => g.guildID === msg.guild.id);
         const max = this.client.options.giveaway.maxGiveaways;
         if (giveaways.length > max)

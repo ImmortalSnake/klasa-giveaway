@@ -16,7 +16,7 @@ export default class extends Command {
 		}, store.client.options.giveaway.commands!.start));
 	}
 
-	public async run(msg: KlasaMessage, [time, winnerCount=1, title]: [number, number, string]): Promise<KlasaMessage | KlasaMessage[] | null> {
+	public async run(msg: KlasaMessage, [time, winnerCount, title]: [number, number, string]): Promise<KlasaMessage | KlasaMessage[] | null> {
 		const giveaways = this.client.giveawayManager.running.filter(g => g.guildID === msg.guild!.id);
 		const max = this.client.options.giveaway.maxGiveaways!;
 		if (giveaways.length > max) throw msg.language.get('MAX_GIVEAWAYS', max);
