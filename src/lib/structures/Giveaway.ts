@@ -189,11 +189,12 @@ export default class Giveaway {
 	/**
 	 * Updates the giveaway and edits the giveaway message
 	 */
-	public async update(): Promise<Message> {
+	public async update(): Promise<Message | null> {
 		this.state = 'RUNNING';
 		this.lastRefresh = Date.now();
 
 		const msg = await this.fetchMessage();
+		if (!msg) return this.manager.delete(this.messageID!);
 		return msg.edit(this.renderMessage(msg.language));
 	}
 
@@ -203,6 +204,8 @@ export default class Giveaway {
 	public async finish(): Promise<null> {
 		this.state = 'ENDING';
 		const msg = await this.fetchMessage();
+		if (!msg) return this.manager.delete(this.messageID!);
+		
 		const users = await msg.reactions.resolve(this.reaction)!.users.fetch();
 		const winners = Util.getWinners(msg, users, this.winnerCount);
 		await this.finishMessage(winners, msg);

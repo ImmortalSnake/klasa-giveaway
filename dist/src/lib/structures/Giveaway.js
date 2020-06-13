@@ -116,6 +116,8 @@ class Giveaway {
         this.state = 'RUNNING';
         this.lastRefresh = Date.now();
         const msg = await this.fetchMessage();
+        if (!msg)
+            return this.manager.delete(this.messageID);
         return msg.edit(this.renderMessage(msg.language));
     }
     /**
@@ -124,6 +126,8 @@ class Giveaway {
     async finish() {
         this.state = 'ENDING';
         const msg = await this.fetchMessage();
+        if (!msg)
+            return this.manager.delete(this.messageID);
         const users = await msg.reactions.resolve(this.reaction).users.fetch();
         const winners = util_1.default.getWinners(msg, users, this.winnerCount);
         await this.finishMessage(winners, msg);
