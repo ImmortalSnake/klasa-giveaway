@@ -16,12 +16,17 @@ export const OPTIONS = {
 		requiredPermission: 5,
 		enableCommands: true,
 		commands: {},
-		givewayRunMessage: (giveaway, language) => new MessageEmbed()
-			.setTitle(giveaway.title)
-			.setColor('#42f54e')
-			.setDescription(language.get('GIVEAWAY_DESCRIPTION', giveaway.winnerCount, Util.ms(giveaway.endsAt - Date.now()), giveaway.author))
-			.setFooter(language.get('ENDS_AT'))
-			.setTimestamp(giveaway.endsAt),
+		givewayRunMessage: (giveaway, language) => {
+			return { 
+				content: language.get('GIVEAWAY_CREATE'),
+				embed: new MessageEmbed()
+					.setTitle(giveaway.title)
+					.setColor('#42f54e')
+					.setDescription(language.get('GIVEAWAY_DESCRIPTION', giveaway.winnerCount, Util.ms(giveaway.endsAt - Date.now()), giveaway.author))
+					.setFooter(language.get('ENDS_AT'))
+					.setTimestamp(giveaway.endsAt)
+			}
+		},
 
 		giveawayFinishMessage
 	} as GiveawayOptions
