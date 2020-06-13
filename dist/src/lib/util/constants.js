@@ -23,12 +23,11 @@ exports.OPTIONS = {
     }
 };
 async function giveawayFinishMessage(giveaway, winners, msg) {
-    winners = winners.filter(u => u.id !== giveaway.client.user.id);
     const embed = new discord_js_1.MessageEmbed()
         .setTitle(giveaway.title)
         .setFooter(msg.language.get('ENDED_AT'))
         .setTimestamp();
-    if (winners.length < 1) {
+    if (winners.length < giveaway.winnerCount) {
         return msg.edit(msg.language.get('GIVEAWAY_END'), embed
             .setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', giveaway.winnerCount)));
     }

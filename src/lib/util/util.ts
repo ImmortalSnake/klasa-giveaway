@@ -25,7 +25,8 @@ export default abstract class Util {
 		    .filter(u => u.id !== msg.client.user!.id)
 			.mapValues(u => msg.guild!.member(u))
 			.filter(u => Boolean(u))
-			.random(winnerCount) as GuildMember[];
+			.random(winnerCount)
+			.filter(u => Boolean(u)) as GuildMember[];
 	}
 
 }

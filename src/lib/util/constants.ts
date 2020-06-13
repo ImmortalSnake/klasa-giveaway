@@ -33,7 +33,7 @@ async function giveawayFinishMessage(giveaway: Giveaway, winners: GuildMember[],
 		.setFooter(msg.language.get('ENDED_AT'))
 		.setTimestamp();
 
-	if (winners.length < 1) {
+	if (winners.length < giveaway.winnerCount) {
 		return msg.edit(msg.language.get('GIVEAWAY_END'), embed
 			.setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', giveaway.winnerCount)));
 	}

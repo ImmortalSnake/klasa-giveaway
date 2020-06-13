@@ -24,7 +24,8 @@ class Util {
             .filter(u => u.id !== msg.client.user.id)
             .mapValues(u => msg.guild.member(u))
             .filter(u => Boolean(u))
-            .random(winnerCount);
+            .random(winnerCount)
+            .filter(u => Boolean(u));
     }
 }
 exports.default = Util;
