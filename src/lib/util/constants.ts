@@ -16,25 +16,29 @@ export const OPTIONS = {
 		requiredPermission: 5,
 		enableCommands: true,
 		commands: {},
-		givewayRunMessage: (giveaway, language) => new MessageEmbed()
-			.setTitle(giveaway.title)
-			.setColor('#42f54e')
-			.setDescription(language.get('GIVEAWAY_DESCRIPTION', giveaway.winnerCount, Util.ms(giveaway.endsAt - Date.now()), giveaway.author))
-			.setFooter(language.get('ENDS_AT'))
-			.setTimestamp(giveaway.endsAt),
+		givewayRunMessage: (giveaway, language) => {
+			return { 
+				content: language.get('GIVEAWAY_CREATE'),
+				embed: new MessageEmbed()
+					.setTitle(giveaway.title)
+					.setColor('#42f54e')
+					.setDescription(language.get('GIVEAWAY_DESCRIPTION', giveaway.winnerCount, Util.ms(giveaway.endsAt - Date.now()), giveaway.author))
+					.setFooter(language.get('ENDS_AT'))
+					.setTimestamp(giveaway.endsAt)
+			}
+		},
 
 		giveawayFinishMessage
 	} as GiveawayOptions
 };
 
 async function giveawayFinishMessage(giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage) {
-	winners = winners.filter(u => u.id !== giveaway.client.user!.id);
 	const embed = new MessageEmbed()
 		.setTitle(giveaway.title)
 		.setFooter(msg.language.get('ENDED_AT'))
 		.setTimestamp();
 
-	if (winners.length < 1) {
+	if (winners.length < giveaway.winnerCount) {
 		return msg.edit(msg.language.get('GIVEAWAY_END'), embed
 			.setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', giveaway.winnerCount)));
 	}

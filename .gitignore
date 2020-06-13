@@ -1,5 +1,6 @@
 node_modules/
 .env
-dist/
+dist/test
 .vscode/
 test/config.ts
+doc/

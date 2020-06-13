@@ -9,6 +9,10 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 5. **greroll** - Rerolls a previously finished giveaway.
 6. **gstart** - Immediately starts a giveaway in the current channel
 
+**NOTE**: 
+- Use this version if you are using [klasa v0.5.0 (stable)](https://www.npmjs.com/package/klasa) and [discord.js v12](https://www.npmjs.com/package/discord.js)
+
+
 ## Features
 
 * Customizable Built-in commands
@@ -71,3 +75,6 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
   ```
 
 * It also allows you to define your own locales. See [built in en-US Locale](./src/languages/en-US.ts)
+
+## Credits
+- https://github.com/skyra-project/skyra for [timespan](./src/arguments/timespan.ts) argument and Giveaway Queue Structure

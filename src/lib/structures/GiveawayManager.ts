@@ -1,23 +1,46 @@
 import { KlasaClient, KlasaMessage, util } from 'klasa';
-import { TextChannel } from 'discord.js';
+import { TextChannel, Message, GuildMember } from 'discord.js';
 import Giveaway from './Giveaway';
 import Util from '../util/util';
 
 export default class GiveawayManager {
 
+	/**
+	 * The Discord Client 
+	 * @readonly
+	 */
 	public readonly client: KlasaClient;
+
+	/**
+	 * A queue of all running giveaways
+	 */
 	public running: Giveaway[] = [];
+
+	/**
+	 * Array of giveaways to be updated
+	 * @private
+	 */
 	private giveaways: Giveaway[] = [];
 
+	/**
+	 * Constructs the GiveawayManager
+	 * @param {KlasaClient} client The discord client
+	 */
 	public constructor(client: KlasaClient) {
 		this.client = client;
 	}
 
+	/**
+	 * Gets the provider being used by the giveaway manager
+	 */
 	public get provider() {
 		return this.client.providers.get(this.client.options.giveaway.provider || '') || this.client.providers.default;
 	}
 
-	public async init() {
+	/**
+	 * Initializes the GiveawayManager and restarts all giveaways
+	 */
+	public async init(): Promise<void> {
 		const hasTable = await this.provider.hasTable('Giveaways');
 		if (!hasTable) await this.provider.createTable('Giveaways');
 
@@ -27,22 +50,46 @@ export default class GiveawayManager {
 		setInterval(this.refresh.bind(this), 5000);
 	}
 
-	public async create(channel: TextChannel, rawData: GiveawayCreateData) {
+	/**
+	 * Creates a giveaway in the given channel with the the given giveaway data
+	 * @param channel TextChannel where the giveaway will run
+	 * @param rawData Data for the created giveaway
+	 * @example
+	 * client.giveawayManager.create(msg.channel, {
+	 *     endsAt: Date.now() + 1000 * 60 * 60, // 1 hour duration
+	 *     author: msg.author.id,
+	 *     title: 'FREE NITRO!!',
+	 *     winnerCount: 1
+	 * });
+	 */
+	public async create(channel: TextChannel, rawData: GiveawayCreateData): Promise<Giveaway> {
 		const giveaway = await this.add(rawData)
 			.create(channel);
 
 		await this.provider.update('Giveaways', giveaway.messageID!, giveaway.data);
-		return null;
+		return giveaway;
 	}
 
-	public delete(id: string) {
+	/**
+	 * Deletes a giveaway with the given message id (sent by the bot). This giveaway will no longer be run
+	 * @param id ID of the giveaway to delete
+	 * @example 
+	 * client.giveawayManager.delete('720919015068925974').catch(() => console.log());
+	 */
+	public async delete(id: string): Promise<null> {
 		const index = this.running.findIndex(g => g.messageID === id);
 		if (index !== -1) this.running.splice(index, 1).forEach(g => g.state = 'FINISHED');
 
 		return this.provider.delete('Giveaways', id);
 	}
 
-	public async end(id: string) {
+	/**
+	 * Ends a giveaway with the given message id (sent by the bot). The giveaway gets finished and the winners are listed
+	 * @param id ID of the giveaway to end
+	 * @example
+	 * client.giveawayManager.end('720919015068925974').catch(() => console.log());
+	 */
+	public async end(id: string): Promise<Message | null> {
 		const giveaway = this.running.find(g => g.messageID === id);
 		if (!giveaway) throw Error(`No giveaway found with ID: ${id}`);
 
@@ -50,35 +97,58 @@ export default class GiveawayManager {
 		return this.update(giveaway);
 	}
 
-	public async edit(id: string, data: GiveawayEditData) {
+	/**
+	 * Edits the giveaway data with the fields you give
+	 * @param id ID of the giveaway to edit
+	 * @param data Giveaway edit data
+	 * @example
+	 * client.giveawayManager.edit('720919015068925974', {title: 'FREE GIVEAWAY'})
+	 */
+	public async edit(id: string, data: GiveawayEditData): Promise<Giveaway> {
 		const giveaway = this.running.find(g => g.messageID === id);
 		if (!giveaway) throw Error(`No giveaway found with ID: ${id}`);
 
 		util.mergeDefault(giveaway.data, data);
-		return this.provider.update('Giveaways', id, giveaway.data);
+		await this.provider.update('Giveaways', id, giveaway.data);
+		return giveaway;
 	}
 
-	public async reroll(msg: KlasaMessage, data?: GiveawayRerollData) {
-		const reaction = data?.reaction || '🎉';
-		if (msg?.author.id !== msg.client.user!.id
-			|| !msg.reactions.has(reaction)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
+	/**
+	 * Rerolls a finished giveaway with the given message and Reroll Data and returns an array of winners
+	 * @param msg Giveaway Message to reroll
+	 * @param data Giveaway reroll options
+	 * @example
+	 * const winners = await client.giveawayManager.reroll(msg)
+	 * msg.send(`🎉 **New winner(s) are**: ${winners.map(w => w.toString()).join(', ')}`)
+	 */
+	public async reroll(msg: KlasaMessage, data?: GiveawayRerollData): Promise<GuildMember[]> {
+		const reaction = (data && data.reaction) || '🎉';
+		if (msg.author.id !== msg.client.user!.id
+			|| !msg.reactions.cache.has(reaction)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
 
 		const isRunning = this.running.find(g => g.messageID === msg.id);
 		if (isRunning) throw msg.language.get('GIVEAWAY_RUNNING');
 
-		const users = await msg.reactions.get(reaction)?.users.fetch();
-		return Util.getWinners(msg, users!, data?.winnerCount ?? 1);
+		const users = await msg.reactions.resolve(reaction)?.users.fetch();
+		return Util.getWinners(msg, users!, (data && data.winnerCount) ?? 1);
 	}
 
-	private async update(giveaway: Giveaway) {
-		if (giveaway.state === 'FINISHED') return;
+	/**
+	 * Updates a certain giveaway, if the time is up it gets finished
+	 * @param giveaway The giveaway instance to update
+	 */
+	private async update(giveaway: Giveaway): Promise<Message | null> {
+		if (giveaway.state === 'FINISHED') return null;
 		if (giveaway.endsAt <= Date.now()) return giveaway.finish().catch();
 
 		this.giveaways.push(giveaway);
 		return giveaway.update().catch();
 	}
 
-	private refresh() {
+	/**
+	 * Loops through the giveaway queue and sets the update timeout and also filters out the finished giveaways
+	 */
+	private refresh(): void {
 		if (!this.giveaways.length) return;
 		for (const giveaway of this.giveaways) {
 			if (giveaway.state !== 'FINISHED') setTimeout(this.update.bind(this, giveaway), giveaway.refreshAt - Date.now());
@@ -88,7 +158,11 @@ export default class GiveawayManager {
 		this.running = this.running.filter(g => g.state !== 'FINISHED');
 	}
 
-	private add(data: GiveawayCreateData) {
+	/**
+	 * Creates a giveaway and adds it to the giveaway queue
+	 * @param data The giveaway data
+	 */
+	private add(data: GiveawayCreateData): Giveaway {
 		const giveaway = new Giveaway(this, data);
 		this.giveaways.push(giveaway);
 		this.running.push(giveaway);
@@ -102,7 +176,6 @@ export default class GiveawayManager {
 export interface GiveawayData extends GiveawayCreateData {
 	id: string;
 	channelID: string;
-	guildID: string;
 	endsAt: number;
 	winnerCount: number;
 	title: string;
@@ -111,7 +184,7 @@ export interface GiveawayData extends GiveawayCreateData {
 	author: string;
 }
 
-export interface GiveawayCreateData {
+export interface GiveawayCreateData extends Record<string, any> {
 	messageID?: string;
 	channelID?: string;
 	guildID?: string;

@@ -1,18 +1,17 @@
 {
   "name": "klasa-giveaway",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "A discord giveaway plugin for klasa",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "prepare": "tsc",
     "test": "eslint src/**",
     "lint": "eslint src/** --fix",
     "start": "node dist/test/index.js",
-    "build": "yarn tsc"
+    "build": "tsc -p ."
   },
   "engines": {
-    "node": ">=10.1.0",
+    "node": ">=12",
     "npm": "*"
   },
   "author": "ImmortalSnake",
@@ -31,23 +30,26 @@
     "giveaway"
   ],
   "peerDependencies": {
-    "discord.js": "github:discordjs/discord.js#master",
-    "klasa": "github:dirigeants/klasa#master"
+    "discord.js": "^12.2.0",
+    "klasa": "^0.5.0"
   },
   "devDependencies": {
     "@types/node": "^13.1.2",
     "@types/ws": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
-    "discord.js": "github:discordjs/discord.js#fe7df708e44e0280dfaf0f8e457b154781bb5140",
+    "discord.js": "^12.2.0",
     "eslint": "^5.16.0",
     "eslint-config-bamboo": "^3.0.0",
-    "klasa": "github:dirigeants/klasa#master",
+    "klasa": "^0.5.0",
+    "typedoc": "^0.17.7",
+    "typedoc-plugin-markdown": "^2.3.1",
     "typescript": "^3.7.5"
   },
   "files": [
     "dist/src/",
     "README.md",
     "LICENSE"
-  ]
+  ],
+  "dependencies": {}
 }
