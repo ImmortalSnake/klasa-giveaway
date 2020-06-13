@@ -1,4 +1,4 @@
-import { Language, LanguageStore, KlasaClient } from 'klasa';
+import { Language, LanguageStore } from 'klasa';
 import Util from '../lib/util/util';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -7,8 +7,8 @@ import Util from '../lib/util/util';
 
 export default class extends Language {
 
-	public constructor(client: KlasaClient, store: LanguageStore, file: string[], directory: string) {
-		super(client, store, file, directory);
+	public constructor(store: LanguageStore, file: string[], directory: string) {
+		super(store, file, directory);
 
 		this.language = {
 
