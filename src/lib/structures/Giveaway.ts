@@ -166,7 +166,8 @@ export default class Giveaway {
 	 * Initializes the giveaway, used when initializing giveaways on restart
 	 */
 	public async init(): Promise<void> {
-		this.message = await this.fetchMessage();
+		this.message = await this.fetchMessage().catch(() => null);
+		this.manager.delete(this.messageID!);
 	}
 
 	/**
@@ -193,8 +194,9 @@ export default class Giveaway {
 		this.state = 'RUNNING';
 		this.lastRefresh = Date.now();
 
-		const msg = await this.fetchMessage();
+		const msg = await this.fetchMessage().catch(() => null);
 		if (!msg) return this.manager.delete(this.messageID!);
+
 		return msg.edit(this.renderMessage(msg.language));
 	}
 
@@ -203,9 +205,10 @@ export default class Giveaway {
 	 */
 	public async finish(): Promise<null> {
 		this.state = 'ENDING';
-		const msg = await this.fetchMessage();
-		if (!msg) return this.manager.delete(this.messageID!);
 		
+		const msg = await this.fetchMessage().catch(() => null);
+		if (!msg) return this.manager.delete(this.messageID!);
+
 		const users = await msg.reactions.resolve(this.reaction)!.users.fetch();
 		const winners = Util.getWinners(msg, users, this.winnerCount);
 		await this.finishMessage(winners, msg);

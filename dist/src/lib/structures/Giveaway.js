@@ -91,7 +91,8 @@ class Giveaway {
      * Initializes the giveaway, used when initializing giveaways on restart
      */
     async init() {
-        this.message = await this.fetchMessage();
+        this.message = await this.fetchMessage().catch(() => null);
+        this.manager.delete(this.messageID);
     }
     /**
      * Creates the giveaway and sends the giveaway message
@@ -115,7 +116,7 @@ class Giveaway {
     async update() {
         this.state = 'RUNNING';
         this.lastRefresh = Date.now();
-        const msg = await this.fetchMessage();
+        const msg = await this.fetchMessage().catch(() => null);
         if (!msg)
             return this.manager.delete(this.messageID);
         return msg.edit(this.renderMessage(msg.language));
@@ -125,7 +126,7 @@ class Giveaway {
      */
     async finish() {
         this.state = 'ENDING';
-        const msg = await this.fetchMessage();
+        const msg = await this.fetchMessage().catch(() => null);
         if (!msg)
             return this.manager.delete(this.messageID);
         const users = await msg.reactions.resolve(this.reaction).users.fetch();
