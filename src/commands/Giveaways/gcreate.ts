@@ -12,7 +12,7 @@ export default class extends Command {
 			runIn: ['text'],
 			usageDelim: ' ',
 			enabled: store.client.options.giveaway.enableCommands,
-			usage: '<channel:textchannel> <duration:timespan> <winner_count:int> <title:...str{0,250}>',
+			usage: '<channel:textchannel> <duration:duration> <winner_count:int{1,}> <title:...str{0,250}>',
 			description: (lang: Language) => lang.get('COMMAND_CREATE_DESCRIPTION'),
 			extendedHelp: (lang: Language) => lang.get('COMMAND_CREATE_EXTENDED')
 		}, store.client.options.giveaway.commands!.create));
@@ -27,7 +27,7 @@ export default class extends Command {
 		if (giveaways.length > max) throw msg.language.get('MAX_GIVEAWAYS', max);
 
 		return this.client.giveawayManager.create(channel, {
-			endsAt: Date.now() + time,
+			endsAt: time,
 			author: msg.author.id,
 			title,
 			winnerCount
