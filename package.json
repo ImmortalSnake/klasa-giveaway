@@ -8,7 +8,7 @@
     "test": "eslint src/**",
     "lint": "eslint src/** --fix",
     "start": "node dist/test/index.js",
-    "build": "yarn tsc"
+    "build": "tsc -p ."
   },
   "engines": {
     "node": ">=12",
