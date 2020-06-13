@@ -28,7 +28,6 @@ export const OPTIONS = {
 };
 
 async function giveawayFinishMessage(giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage) {
-	winners = winners.filter(u => u.id !== giveaway.client.user!.id);
 	const embed = new MessageEmbed()
 		.setTitle(giveaway.title)
 		.setFooter(msg.language.get('ENDED_AT'))
