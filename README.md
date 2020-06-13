@@ -75,3 +75,6 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
   ```
 
 * It also allows you to define your own locales. See [built in en-US Locale](./src/languages/en-US.ts)
+
+## Credits
+- https://github.com/skyra-project/skyra for [timespan](./src/arguments/timespan.ts) argument and Giveaway Queue Structure
