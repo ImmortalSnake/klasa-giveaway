@@ -48,6 +48,7 @@ declare module 'discord.js' {
 export interface GiveawayOptions {
 	givewayRunMessage?: ((giveaway: Giveaway, language: Language) => string | MessageEmbed | MessageOptions) | string | MessageEmbed | MessageOptions;
 	giveawayFinishMessage?: ((giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage) => Promise<any> | null) | Promise<any> | any;
+	nextRefresh?: (giveaway: Giveaway) => number;
 	maxGiveaways?: number;
 	requiredPermission?: number;
 	refreshInterval?: number;

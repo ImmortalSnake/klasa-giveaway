@@ -117,7 +117,7 @@ export default class Giveaway {
 	 * Time in milliseconds for the next refresh
 	 */
 	public get refreshAt(): number {
-		const nextRefresh = this.lastRefresh + this.options.refreshInterval!;
+		const nextRefresh = this.options.nextRefresh!(this);
 		return Math.min(nextRefresh, this.endsAt);
 	}
 
