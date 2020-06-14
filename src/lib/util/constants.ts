@@ -16,6 +16,7 @@ export const OPTIONS = {
 		requiredPermission: 5,
 		enableCommands: true,
 		commands: {},
+		nextRefresh: (giveaway) => giveaway.lastRefresh + giveaway.options.refreshInterval!,
 		givewayRunMessage: (giveaway, language) => {
 			return { 
 				content: language.get('GIVEAWAY_CREATE'),
