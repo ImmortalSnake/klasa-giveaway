@@ -23,7 +23,7 @@ export default class extends Command {
 		}
 
 		const winners = await this.client.giveawayManager.reroll(message);
-		return msg.send(`🎉 **New winner(s) are**: ${winners.map(w => w.toString()).join(', ')}`);
+		return msg.sendLocale('COMMAND_REROLL_FIXES', [winners.map(w => w.toString()).join(', ')]);
 	}
 
 }
