@@ -117,7 +117,7 @@ export default class Giveaway {
 	 * Time in milliseconds for the next refresh
 	 */
 	public get refreshAt(): number {
-		const nextRefresh = this.lastRefresh + this.options.refreshInterval!;
+		const nextRefresh = this.options.nextRefresh!(this);
 		return Math.min(nextRefresh, this.endsAt);
 	}
 
@@ -166,7 +166,8 @@ export default class Giveaway {
 	 * Initializes the giveaway, used when initializing giveaways on restart
 	 */
 	public async init(): Promise<void> {
-		this.message = await this.fetchMessage();
+		this.message = await this.fetchMessage().catch(() => null);
+		this.manager.delete(this.messageID!);
 	}
 
 	/**
@@ -189,11 +190,13 @@ export default class Giveaway {
 	/**
 	 * Updates the giveaway and edits the giveaway message
 	 */
-	public async update(): Promise<Message> {
+	public async update(): Promise<Message | null> {
 		this.state = 'RUNNING';
 		this.lastRefresh = Date.now();
 
-		const msg = await this.fetchMessage();
+		const msg = await this.fetchMessage().catch(() => null);
+		if (!msg) return this.manager.delete(this.messageID!);
+
 		return msg.edit(this.renderMessage(msg.language));
 	}
 
@@ -202,7 +205,10 @@ export default class Giveaway {
 	 */
 	public async finish(): Promise<null> {
 		this.state = 'ENDING';
-		const msg = await this.fetchMessage();
+		
+		const msg = await this.fetchMessage().catch(() => null);
+		if (!msg) return this.manager.delete(this.messageID!);
+
 		const users = await msg.reactions.resolve(this.reaction)!.users.fetch();
 		const winners = Util.getWinners(msg, users, this.winnerCount);
 		await this.finishMessage(winners, msg);

@@ -8,7 +8,7 @@ class default_1 extends klasa_1.Command {
             permissionLevel: 5,
             runIn: ['text'],
             usageDelim: ' ',
-            usage: '<duration:timespan> <winner_count:int> <title:...str{0,250}>',
+            usage: '<duration:duration> <winner_count:int{1,}> <title:...str{0,250}>',
             enabled: store.client.options.giveaway.enableCommands,
             description: (lang) => lang.get('COMMAND_START_DESCRIPTION'),
             extendedHelp: (lang) => lang.get('COMMAND_START_EXTENDED')
@@ -20,7 +20,7 @@ class default_1 extends klasa_1.Command {
         if (giveaways.length > max)
             throw msg.language.get('MAX_GIVEAWAYS', max);
         await this.client.giveawayManager.create(msg.channel, {
-            endsAt: Date.now() + time,
+            endsAt: time,
             author: msg.author.id,
             title,
             winnerCount

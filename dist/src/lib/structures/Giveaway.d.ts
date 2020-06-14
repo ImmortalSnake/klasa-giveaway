@@ -108,7 +108,7 @@ export default class Giveaway {
     /**
      * Updates the giveaway and edits the giveaway message
      */
-    update(): Promise<Message>;
+    update(): Promise<Message | null>;
     /**
      * Finishes the giveaway and sends the giveaway finish message
      */
