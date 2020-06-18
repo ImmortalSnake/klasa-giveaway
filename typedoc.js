@@ -1,7 +1,7 @@
 module.exports = {
     inputFiles: ["./src"],
     mode: "modules",
-    out: "doc",
+    out: "docs",
     theme: "default",
     exclude: [
         "**/+(test|languages)/*.ts",

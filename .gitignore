@@ -3,4 +3,3 @@ node_modules/
 dist/test
 .vscode/
 test/config.ts
-doc/
