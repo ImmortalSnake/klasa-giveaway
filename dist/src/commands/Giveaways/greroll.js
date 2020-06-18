@@ -14,14 +14,16 @@ class default_1 extends klasa_1.Command {
         }, store.client.options.giveaway.commands.reroll));
     }
     async run(msg, [message]) {
+        const finished = msg.guildSettings.get('giveaways.finished');
+        if (!finished)
+            throw msg.language.get('NO_FINISHED_GIVEAWAY', msg.guildSettings.get('prefix'));
         if (!message) {
-            message = await msg.channel.messages
-                .fetch(msg.guildSettings.get('giveaways.finished'));
+            message = await msg.channel.messages.fetch(finished);
             if (!message)
                 throw msg.language.get('NO_FINISHED_GIVEAWAY', msg.guildSettings.get('prefix'));
         }
         const winners = await this.client.giveawayManager.reroll(message);
-        return msg.sendLocale('COMMAND_REROLL_FIXES', [winners.map(w => w.toString()).join(', ')]);
+        return msg.sendLocale('COMMAND_REROLL_SUCCESS', [winners.map(w => w.toString()).join(', ')]);
     }
 }
 exports.default = default_1;

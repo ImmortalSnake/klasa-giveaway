@@ -20,7 +20,7 @@ class default_1 extends klasa_1.Command {
     async run(msg, [channel, time, winnerCount, title]) {
         const giveaways = this.client.giveawayManager.running.filter(g => g.guildID === msg.guild.id);
         const max = this.client.options.giveaway.maxGiveaways;
-        if (giveaways.length > max)
+        if (giveaways.length >= max)
             throw msg.language.get('MAX_GIVEAWAYS', max);
         return this.client.giveawayManager.create(channel, {
             endsAt: time,

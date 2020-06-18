@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("./constants");
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 class Util {
     static ms(duration) {
         const seconds = Math.floor((duration / constants_1.Second) % 60);

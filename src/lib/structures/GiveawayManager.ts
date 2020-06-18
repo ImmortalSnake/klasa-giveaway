@@ -55,12 +55,14 @@ export default class GiveawayManager {
 	 * @param channel TextChannel where the giveaway will run
 	 * @param rawData Data for the created giveaway
 	 * @example
+	 * ```js
 	 * client.giveawayManager.create(msg.channel, {
 	 *     endsAt: Date.now() + 1000 * 60 * 60, // 1 hour duration
 	 *     author: msg.author.id,
 	 *     title: 'FREE NITRO!!',
 	 *     winnerCount: 1
 	 * });
+	 * ```
 	 */
 	public async create(channel: TextChannel, rawData: GiveawayCreateData): Promise<Giveaway> {
 		const giveaway = await this.add(rawData)
@@ -74,7 +76,9 @@ export default class GiveawayManager {
 	 * Deletes a giveaway with the given message id (sent by the bot). This giveaway will no longer be run
 	 * @param id ID of the giveaway to delete
 	 * @example 
+	 * ```js
 	 * client.giveawayManager.delete('720919015068925974').catch(() => console.log());
+	 * ```
 	 */
 	public async delete(id: string): Promise<null> {
 		const index = this.running.findIndex(g => g.messageID === id);
@@ -87,7 +91,9 @@ export default class GiveawayManager {
 	 * Ends a giveaway with the given message id (sent by the bot). The giveaway gets finished and the winners are listed
 	 * @param id ID of the giveaway to end
 	 * @example
+	 * ```js
 	 * client.giveawayManager.end('720919015068925974').catch(() => console.log());
+	 * ```
 	 */
 	public async end(id: string): Promise<Message | null> {
 		const giveaway = this.running.find(g => g.messageID === id);
@@ -102,7 +108,9 @@ export default class GiveawayManager {
 	 * @param id ID of the giveaway to edit
 	 * @param data Giveaway edit data
 	 * @example
+	 * ```js
 	 * client.giveawayManager.edit('720919015068925974', {title: 'FREE GIVEAWAY'})
+	 * ```
 	 */
 	public async edit(id: string, data: GiveawayEditData): Promise<Giveaway> {
 		const giveaway = this.running.find(g => g.messageID === id);
@@ -118,8 +126,10 @@ export default class GiveawayManager {
 	 * @param msg Giveaway Message to reroll
 	 * @param data Giveaway reroll options
 	 * @example
+	 * ```js
 	 * const winners = await client.giveawayManager.reroll(msg)
 	 * msg.send(`🎉 **New winner(s) are**: ${winners.map(w => w.toString()).join(', ')}`)
+	 * ```
 	 */
 	public async reroll(msg: KlasaMessage, data?: GiveawayRerollData): Promise<GuildMember[]> {
 		const reaction = (data && data.reaction) || '🎉';
@@ -174,13 +184,45 @@ export default class GiveawayManager {
 
 
 export interface GiveawayData extends GiveawayCreateData {
+	/**
+	 * ID of the giveaway message
+	 */
 	id: string;
+
+	/**
+	 * ID of the textchannel, the giveaaway was started in
+	 */
 	channelID: string;
+
+	/**
+	 * Time in milliseconds when the giveaway ends
+	 */
 	endsAt: number;
-	winnerCount: number;
-	title: string;
+
+	/**
+	 * Time in milliseconds when the giveaway start
+	 * @optional
+	 */
 	startAt?: number;
+
+	/**
+	 * Number of winners to be selected
+	 */
+	winnerCount: number;
+
+	/**
+	 * The giveaway title
+	 */
+	title: string;
+
+	/**
+	 * Reaction to be used for the giveaway
+	 */
 	reaction: string;
+
+	/**
+	 * The user who created the giveaewa
+	 */
 	author: string;
 }
 
@@ -197,13 +239,36 @@ export interface GiveawayCreateData extends Record<string, any> {
 }
 
 export interface GiveawayEditData {
+	/**
+	 * New title for the giveaway
+	 */
 	title?: string;
+
+	/**
+	 * New winner count for the giveaway
+	 */
 	winnerCount?: number;
+
+	/**
+	 * Time in milliseconds when the edited giveaway ends
+	 */
 	endsAt?: number;
+
+	/**
+	 * New reaction to be used
+	 */
 	reaction?: string;
 }
 
 export interface GiveawayRerollData {
+	/**
+	 * Number of winners to choose
+	 * @default 1
+	 */
 	winnerCount?: number;
+	/**
+	 * Reaction to use for getting the participants
+	 * @default '🎉'
+	 */
 	reaction?: string;
 }
