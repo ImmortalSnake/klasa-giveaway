@@ -2,8 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const klasa_1 = require("klasa");
 const util_1 = require("../lib/util/util");
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/camelcase */
 class default_1 extends klasa_1.Language {
     constructor(store, file, directory) {
         super(store, file, directory);

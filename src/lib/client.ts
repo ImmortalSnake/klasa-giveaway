@@ -46,14 +46,62 @@ declare module 'discord.js' {
 }
 
 export interface GiveawayOptions {
+	/**
+	 * This function is called on creating and editing the giveaway message. You can customize your
+	 * giveaway message with this. Make sure to return a value that can be used on <Message>.send()
+	 * @param giveaway The giveaway instance
+	 * @param language Language setting of the guild
+	 */
 	givewayRunMessage?: ((giveaway: Giveaway, language: Language) => string | MessageEmbed | MessageOptions) | string | MessageEmbed | MessageOptions;
+	
+	/**
+	 * This function is called when the giveaway finishes. Here you can send a message listing the winners
+	 * if any.
+	 * @param giveaway The giveaway instance
+	 * @param winners An array of randomly selected members who have won the giveaway
+	 * @param msg The giveaway message that was sent
+	 */
 	giveawayFinishMessage?: ((giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage) => Promise<any> | null) | Promise<any> | any;
+	
+	/**
+	 * Determines the time for the next giveaway refresh
+	 * @param giveaway The giveaway instance 
+	 * @example
+	 */
 	nextRefresh?: (giveaway: Giveaway) => number;
+	
+	/**
+	 * Total number of giveaways allowed in a guild (used in default commands)
+	 * @default Infinite
+	 */
 	maxGiveaways?: number;
+	
+	/**
+	 * Required permission level to start and manage giveaways (used in default commands)
+	 * @default 5
+	 */
 	requiredPermission?: number;
+	
+	/**
+	 * Refresh interval used by default when `nextRefresh` param is not provided
+	 */
 	refreshInterval?: number;
+	
+	/**
+	 * The provider to use for the giveaways
+	 * @default 300000 (5 Minutes)
+	 */
 	provider?: string;
+	
+	/**
+	 * Toggle enabling default commands
+	 * @default true
+	 */
 	enableCommands?: boolean;
+	
+	/**
+	 * Configure command options for default commands
+	 */
 	commands?: {
 		create?: CommandOptions;
 		delete?: CommandOptions;
