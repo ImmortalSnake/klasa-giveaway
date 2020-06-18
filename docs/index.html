@@ -1,0 +1,253 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>klasa-giveaway</title>
+	<meta name="description" content="Documentation for klasa-giveaway">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">klasa-giveaway</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>klasa-giveaway</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#klasa-giveaway-plugin" id="klasa-giveaway-plugin" style="color: inherit; text-decoration: none;">
+					<h1>Klasa Giveaway Plugin</h1>
+				</a>
+				<p>This plugin adds a customisable giveway feature in your discord klasa bot. It comes with the following commands:</p>
+				<ol>
+					<li><strong>gcreate</strong> - Creates a giveaway in the specified channel!</li>
+					<li><strong>gdelete</strong> - Deletes a giveaway!</li>
+					<li><strong>gend</strong> - Ends a giveaway immediately</li>
+					<li><strong>glist</strong> - Lists all running giveaways in the server</li>
+					<li><strong>greroll</strong> - Rerolls a previously finished giveaway.</li>
+					<li><strong>gstart</strong> - Immediately starts a giveaway in the current channel</li>
+				</ol>
+				<p><strong>NOTE</strong>: </p>
+				<ul>
+					<li>Use this version if you are using <a href="https://www.npmjs.com/package/klasa">klasa v0.5.0 (stable)</a> and <a href="https://www.npmjs.com/package/discord.js">discord.js v12</a></li>
+				</ul>
+				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+					<h2>Features</h2>
+				</a>
+				<ul>
+					<li>Customizable Built-in commands</li>
+					<li>Customizable update interval</li>
+					<li>Automatic loading and restarting of giveaways</li>
+					<li>Customizable embeds and locales</li>
+				</ul>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h2>How to use</h2>
+				</a>
+				<ol>
+					<li><p><strong>Install the plugin</strong></p>
+						<p><code>npm i klasa-giveaway</code>\
+							or if you use yarn\
+						<code>yarn add klasa-giveaway</code></p>
+					</li>
+					<li><p><strong>Use the plugin in your code</strong></p>
+						<pre><code class="language-js"><span class="hljs-keyword">const</span> { Client } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;klasa&quot;</span>);
+
+Client.use(<span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;klasa-giveaway&quot;</span>));
+<span class="hljs-keyword">new</span> Client().login(<span class="hljs-string">&quot;Your Beautiful Token&quot;</span>);</code></pre>
+						<p>or in typescript</p>
+						<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Client } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;klasa&#x27;</span>;
+<span class="hljs-keyword">import</span> { GiveawayClient } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;klasa-giveaway&#x27;</span>;
+
+Client.use(GiveawayClient);
+<span class="hljs-keyword">new</span> Client().login(<span class="hljs-string">&quot;Your Beautiful Token&quot;</span>);</code></pre>
+					</li>
+				</ol>
+				<a href="#giveawayoptions" id="giveawayoptions" style="color: inherit; text-decoration: none;">
+					<h2>GiveawayOptions</h2>
+				</a>
+				<ul>
+					<li><p>To your KlasaClientOptions you can optionally add giveaway options.</p>
+						<table>
+							<thead>
+								<tr>
+									<th>Option</th>
+									<th>Type</th>
+									<th>Default</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody><tr>
+									<td>refreshInterval</td>
+									<td>Number</td>
+									<td>5 Minutes</td>
+									<td>Duration between each giveaway refresh (in ms)</td>
+								</tr>
+								<tr>
+									<td>maxGiveaways</td>
+									<td>Number</td>
+									<td>Infinite</td>
+									<td>Maximum number of giveaways a guild can have</td>
+								</tr>
+								<tr>
+									<td>requiredPermission</td>
+									<td>Number</td>
+									<td>5</td>
+									<td>Minimum permission level required to run these commands</td>
+								</tr>
+								<tr>
+									<td>provider</td>
+									<td>String</td>
+									<td>Default Provider</td>
+									<td>Database provider to store giveaway data</td>
+								</tr>
+								<tr>
+									<td>enableCommands</td>
+									<td>Boolean</td>
+									<td>true</td>
+									<td>Whether to enable built-in commands or not</td>
+								</tr>
+								<tr>
+									<td>commands</td>
+									<td>Object</td>
+									<td>{}</td>
+									<td>Customize default Command Options</td>
+								</tr>
+								<tr>
+									<td>giveawayRunMessage</td>
+									<td>Function, string</td>
+									<td><a href="src/lib/util/constants.ts">See Here</a></td>
+									<td>The message that will be shown when giveaway starts</td>
+								</tr>
+								<tr>
+									<td>giveawayFinishMessage</td>
+									<td>Function, any</td>
+									<td><a href="src/lib/util/constants.ts">See Here</a></td>
+									<td>Message that will be displayed once the giveaway is over</td>
+								</tr>
+						</tbody></table>
+						<p><strong>For example:</strong></p>
+						<pre><code class="language-js"><span class="hljs-keyword">new</span> Client({
+    <span class="hljs-attr">giveaway</span>: {
+        <span class="hljs-attr">refreshInterval</span>: <span class="hljs-number">1000</span>,
+        <span class="hljs-attr">maxGiveaways</span>: <span class="hljs-number">5</span>,
+        <span class="hljs-attr">requiredPermission</span>: <span class="hljs-number">5</span>
+    }
+})</code></pre>
+					</li>
+					<li><p>It also allows you to define your own locales. See <a href="./src/languages/en-US.ts">built in en-US Locale</a></p>
+					</li>
+				</ul>
+				<a href="#credits" id="credits" style="color: inherit; text-decoration: none;">
+					<h2>Credits</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/skyra-project/skyra">https://github.com/skyra-project/skyra</a> for the Giveaway Queue Structure</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_client_.html">&quot;lib/client&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_structures_giveaway_.html">&quot;lib/structures/<wbr>Giveaway&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_structures_giveawaymanager_.html">&quot;lib/structures/<wbr>Giveaway<wbr>Manager&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_constants_.html">&quot;lib/util/constants&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_util_.html">&quot;lib/util/util&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
