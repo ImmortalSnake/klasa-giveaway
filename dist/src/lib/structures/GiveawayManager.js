@@ -64,9 +64,9 @@ class GiveawayManager {
         if (giveaway.state === 'FINISHED')
             return null;
         if (giveaway.endsAt <= Date.now())
-            return giveaway.finish().catch();
+            return giveaway.finish().catch(() => this.delete(giveaway.messageID));
         this.giveaways.push(giveaway);
-        return giveaway.update().catch();
+        return giveaway.update().catch(() => this.delete(giveaway.messageID));
     }
     refresh() {
         if (!this.giveaways.length)
