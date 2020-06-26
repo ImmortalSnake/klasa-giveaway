@@ -2,8 +2,6 @@ import { Language, LanguageStore } from 'klasa';
 import Util from '../lib/util/util';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/camelcase */
-
 
 export default class extends Language {
 
@@ -58,7 +56,6 @@ export default class extends Language {
 			GIVEAWAY_LIST_BODY: (i, message, channel, wCount, time, title) =>
 				`\n**${i}]** \`${message}\` → <#${channel}> | \`${wCount}\` **Winner(s)** | **Ends At:** ${Util.ms(time - Date.now())} | **Title:** \`${title}\``
 		};
-
 	}
 
 }

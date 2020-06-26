@@ -1,11 +1,9 @@
 {
     "parser": "@typescript-eslint/parser",
-    "extends": [
-        "bamboo"
-    ],
+    "extends":  "klasa/eslint-ts",
     "rules": {
-        "@typescript-eslint/ban-ts-ignore": "off",
-        "no-unused-expressions": "off",
-        "linebreak-style": "off"
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "no-inline-comments": "off"
     }
 }

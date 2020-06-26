@@ -82,7 +82,6 @@ export default class Giveaway {
 	 * @param data The giveaway data
 	 */
 	public constructor(manager: GiveawayManager, data: GiveawayCreateData | GiveawayData) {
-
 		this.manager = manager;
 
 		this.endsAt = data.endsAt;
@@ -96,7 +95,6 @@ export default class Giveaway {
 		this.startAt = data.startAt || Date.now();
 		this.lastRefresh = Date.now();
 		this.reaction = data.reaction || '🎉';
-
 	}
 
 	/**
@@ -205,7 +203,7 @@ export default class Giveaway {
 	 */
 	public async finish(): Promise<null> {
 		this.state = 'ENDING';
-		
+
 		const msg = await this.fetchMessage().catch(() => null);
 		if (!msg) return this.manager.delete(this.messageID!);
 

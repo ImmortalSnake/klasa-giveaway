@@ -20,9 +20,9 @@ export interface GiveawayOptions {
     nextRefresh?: (giveaway: Giveaway) => number;
     maxGiveaways?: number;
     requiredPermission?: number;
-    refreshInterval?: number;
     provider?: string;
     enableCommands?: boolean;
+    updateInterval?: number;
     commands?: {
         create?: CommandOptions;
         delete?: CommandOptions;

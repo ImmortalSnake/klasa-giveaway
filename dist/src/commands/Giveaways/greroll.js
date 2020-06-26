@@ -23,7 +23,7 @@ class default_1 extends klasa_1.Command {
                 throw msg.language.get('NO_FINISHED_GIVEAWAY', msg.guildSettings.get('prefix'));
         }
         const winners = await this.client.giveawayManager.reroll(message);
-        return msg.sendLocale('COMMAND_REROLL_SUCCESS', [winners.map(w => w.toString()).join(', ')]);
+        return msg.sendLocale('COMMAND_REROLL_SUCCESS', [winners.map(win => win.toString()).join(', ')]);
     }
 }
 exports.default = default_1;

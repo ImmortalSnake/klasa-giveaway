@@ -12,7 +12,7 @@ export default class extends Language {
 		};
 	}
 
-	public async init() {
+	public async init(): Promise<void> {
 		// @ts-ignore
 		for (const core of this.store.coreDirectories) {
 			const loc = join(core, ...this.file);

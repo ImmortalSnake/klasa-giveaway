@@ -1,5 +1,11 @@
 # Klasa Giveaway Plugin
 
+[![npm](https://img.shields.io/npm/v/klasa-giveaway.svg?maxAge=3600)](https://www.npmjs.com/package/klasa-giveaway)
+[![npm](https://img.shields.io/npm/dt/klasa-giveaway.svg?maxAge=3600)](https://www.npmjs.com/package/klasa-giveaway)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/ImmortalSnake/klasa-giveaway.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ImmortalSnake/klasa-giveaway/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/ImmortalSnake/klasa-giveaway.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ImmortalSnake/klasa-giveaway/context:javascript)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=ImmortalSnake/klasa-giveaway)](https://dependabot.com)
+
 This plugin adds a customisable giveway feature in your discord klasa bot. It comes with the following commands:
 
 1. **gcreate** - Creates a giveaway in the specified channel!
@@ -15,8 +21,8 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 
 ## Features
 
-* Customizable Built-in commands
-* Customizable update interval
+* Customizable built-in commands
+* Dynamic refresh intervals
 * Automatic loading and restarting of giveaways
 * Customizable embeds and locales
 
@@ -24,8 +30,7 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 
 1. **Install the plugin**
 
-   `npm i klasa-giveaway`\
-   or if you use yarn\
+   `npm i klasa-giveaway` 
    `yarn add klasa-giveaway`
 
 2. **Use the plugin in your code**
@@ -50,31 +55,25 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 ## GiveawayOptions
 
 * To your KlasaClientOptions you can optionally add giveaway options.
-  
-  | Option             | Type    | Default   | Description |
-  |--------------------|---------|-----------|-------------|
-  | refreshInterval    | Number  | 5 Minutes | Duration between each giveaway refresh (in ms) |
-  | maxGiveaways       | Number  | Infinite  | Maximum number of giveaways a guild can have |
-  | requiredPermission | Number  | 5         | Minimum permission level required to run these commands |
-  | provider           | String  | Default Provider | Database provider to store giveaway data |
-  | enableCommands     | Boolean | true      | Whether to enable built-in commands or not |
-  | commands           | Object  | {}        | Customize default Command Options |
-  | giveawayRunMessage   | Function, string  | [See Here](src/lib/util/constants.ts) | The message that will be shown when giveaway starts |
-  | giveawayFinishMessage | Function, any | [See Here](src/lib/util/constants.ts) | Message that will be displayed once the giveaway is over |
 
   **For example:**
   
   ```js
   new Client({
       giveaway: {
-          refreshInterval: 1000,
           maxGiveaways: 5,
-          requiredPermission: 5
+          requiredPermission: 5,
+          provider: 'mongodb'
       }
   })
   ```
 
+  For a list of giveaway options [see here](https://immortalsnake.github.io/klasa-giveaway/interfaces/giveawayoptions)
+
 * It also allows you to define your own locales. See [built in en-US Locale](./src/languages/en-US.ts)
 
+## Contact
+- ImmortalSnake#0449
+
 ## Credits
-- https://github.com/skyra-project/skyra for the Giveaway Queue Structure
+- [https://github.com/skyra-project/skyra](skyra)
