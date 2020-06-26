@@ -16,11 +16,11 @@ export default class extends Command {
 	}
 
 	public async run(msg: KlasaMessage, [message]: [Message?]): Promise<KlasaMessage | KlasaMessage[] | null> {
-		const running = this.client.giveawayManager.running.find(g => g.guildID === msg.guild!.id);
+		const running = this.client.giveawayManager.running.find(gv => gv.guildID === msg.guild!.id);
 		if (!running) throw msg.language.get('NO_RUNNING_GIVEAWAY', msg.guildSettings.get('prefix'));
 
 		const id = message ? message.id : running.messageID;
-		const giveaway = running || this.client.giveawayManager.running.find(g => g.messageID === id);
+		const giveaway = running || this.client.giveawayManager.running.find(gv => gv.messageID === id);
 		if (!giveaway) throw msg.language.get('GIVEAWAY_NOT_FOUND');
 
 		await this.client.giveawayManager.end(id!);

@@ -20,11 +20,11 @@ class Util {
     }
     static getWinners(msg, users, winnerCount) {
         return users
-            .filter(u => u.id !== msg.client.user.id)
-            .mapValues(u => msg.guild.member(u))
-            .filter(u => Boolean(u))
+            .filter(us => us.id !== msg.client.user.id)
+            .mapValues(us => msg.guild.member(us))
+            .filter(us => Boolean(us))
             .random(winnerCount)
-            .filter(u => Boolean(u));
+            .filter(us => Boolean(us));
     }
 }
 exports.default = Util;

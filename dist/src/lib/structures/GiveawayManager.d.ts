@@ -1,4 +1,4 @@
-import { KlasaClient, KlasaMessage } from 'klasa';
+import { KlasaClient, KlasaMessage, Provider } from 'klasa';
 import { TextChannel, Message, GuildMember } from 'discord.js';
 import Giveaway from './Giveaway';
 export default class GiveawayManager {
@@ -6,7 +6,7 @@ export default class GiveawayManager {
     running: Giveaway[];
     private giveaways;
     constructor(client: KlasaClient);
-    get provider(): import("klasa").Provider;
+    get provider(): Provider;
     init(): Promise<void>;
     create(channel: TextChannel, rawData: GiveawayCreateData): Promise<Giveaway>;
     delete(id: string): Promise<null>;

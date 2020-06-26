@@ -17,8 +17,6 @@ class GiveawayClient extends klasa_1.KlasaClient {
         const coreDirectory = path_1.join(__dirname, '../');
         this.commands.registerCoreDirectory(coreDirectory);
         this.languages.registerCoreDirectory(coreDirectory);
-        this.arguments.registerCoreDirectory(coreDirectory);
-        this.tasks.registerCoreDirectory(coreDirectory);
     }
 }
 exports.default = GiveawayClient;

@@ -8,12 +8,12 @@ exports.Hour = 60 * exports.Minute;
 exports.Day = 24 * exports.Hour;
 exports.OPTIONS = {
     giveaway: {
-        refreshInterval: 5 * exports.Minute,
         maxGiveaways: Infinity,
         requiredPermission: 5,
+        updateInterval: 5000,
         enableCommands: true,
         commands: {},
-        nextRefresh: (giveaway) => giveaway.lastRefresh + giveaway.options.refreshInterval,
+        nextRefresh: (giveaway) => giveaway.lastRefresh + (5 * exports.Minute),
         givewayRunMessage,
         giveawayFinishMessage
     }
@@ -39,6 +39,6 @@ async function giveawayFinishMessage(giveaway, winners, msg) {
             .setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', giveaway.winnerCount)));
     }
     await msg.edit(msg.language.get('GIVEAWAY_END'), embed
-        .setDescription(`**Winner: ${winners.map(u => u.toString()).join(', ')}**`));
+        .setDescription(`**Winner: ${winners.map(us => us.toString()).join(', ')}**`));
     return msg.channel.send(msg.language.get('GIVEAWAY_WON', winners, giveaway.title));
 }
