@@ -221,7 +221,7 @@ export interface GiveawayData extends GiveawayCreateData {
 	reaction: string;
 
 	/**
-	 * The user who created the giveaewa
+	 * The user who created the giveaway
 	 */
 	author: string;
 }
