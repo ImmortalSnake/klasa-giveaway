@@ -4,6 +4,7 @@ const klasa_1 = require("klasa");
 class default_1 extends klasa_1.Command {
     constructor(store, file, directory) {
         super(store, file, directory, klasa_1.util.mergeDefault({
+            requiredPermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS'],
             runIn: ['text'],
             usageDelim: ' ',
             enabled: store.client.options.giveaway.enableCommands,

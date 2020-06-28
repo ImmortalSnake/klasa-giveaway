@@ -4,7 +4,7 @@ const klasa_1 = require("klasa");
 class default_1 extends klasa_1.Command {
     constructor(store, file, directory) {
         super(store, file, directory, klasa_1.util.mergeDefault({
-            requiredPermissions: ['ADD_REACTIONS'],
+            requiredPermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS'],
             permissionLevel: 5,
             runIn: ['text'],
             usageDelim: ' ',

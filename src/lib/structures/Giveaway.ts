@@ -146,8 +146,8 @@ export default class Giveaway {
 	 * @param lang The language to use when rendering the message
 	 */
 	public renderMessage(lang: Language): string | MessageEmbed | MessageOptions | undefined {
-		if (util.isFunction(this.options.givewayRunMessage)) return this.options.givewayRunMessage(this, lang);
-		return this.options.givewayRunMessage;
+		if (util.isFunction(this.options.runMessage)) return this.options.runMessage(this, lang);
+		return this.options.runMessage;
 	}
 
 	/**
@@ -156,8 +156,8 @@ export default class Giveaway {
 	 * @param msg The giveaway message that can be edited
 	 */
 	public async finishMessage(winners: GuildMember[], msg: KlasaMessage): Promise<any> {
-		if (util.isFunction(this.options.giveawayFinishMessage)) return this.options.giveawayFinishMessage(this, winners, msg);
-		return this.options.giveawayFinishMessage;
+		if (util.isFunction(this.options.finishMessage)) return this.options.finishMessage(this, winners, msg);
+		return this.options.finishMessage;
 	}
 
 	/**

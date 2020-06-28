@@ -43,14 +43,14 @@ class Giveaway {
         };
     }
     renderMessage(lang) {
-        if (klasa_1.util.isFunction(this.options.givewayRunMessage))
-            return this.options.givewayRunMessage(this, lang);
-        return this.options.givewayRunMessage;
+        if (klasa_1.util.isFunction(this.options.runMessage))
+            return this.options.runMessage(this, lang);
+        return this.options.runMessage;
     }
     async finishMessage(winners, msg) {
-        if (klasa_1.util.isFunction(this.options.giveawayFinishMessage))
-            return this.options.giveawayFinishMessage(this, winners, msg);
-        return this.options.giveawayFinishMessage;
+        if (klasa_1.util.isFunction(this.options.finishMessage))
+            return this.options.finishMessage(this, winners, msg);
+        return this.options.finishMessage;
     }
     async init() {
         this.message = await this.fetchMessage().catch(() => null);

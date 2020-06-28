@@ -20,9 +20,9 @@ class Util {
     }
     static getWinners(msg, users, winnerCount) {
         return users
-            .filter(us => us.id !== msg.client.user.id)
             .mapValues(us => msg.guild.member(us))
             .filter(us => Boolean(us))
+            .filter(us => msg.client.options.giveaway.winnersFilter(us))
             .random(winnerCount)
             .filter(us => Boolean(us));
     }

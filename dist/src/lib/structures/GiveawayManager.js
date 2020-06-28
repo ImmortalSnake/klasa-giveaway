@@ -10,7 +10,7 @@ class GiveawayManager {
         this.client = client;
     }
     get provider() {
-        return this.client.providers.get(this.client.options.giveaway.provider || '') || this.client.providers.default;
+        return this.client.providers.get(this.client.options.giveaway.provider) || this.client.providers.default;
     }
     async init() {
         const hasTable = await this.provider.hasTable('Giveaways');
