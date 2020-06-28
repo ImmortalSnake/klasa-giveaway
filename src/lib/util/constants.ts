@@ -1,5 +1,4 @@
-import { GiveawayOptions } from '../client';
-import { MessageEmbed, GuildMember, Message } from 'discord.js';
+import { MessageEmbed, GuildMember, Message, ClientOptions } from 'discord.js';
 import Util from './util';
 import { Giveaway } from '../..';
 import { KlasaMessage, Language } from 'klasa';
@@ -9,22 +8,24 @@ export const Minute = 60 * Second;
 export const Hour = 60 * Minute;
 export const Day = 24 * Hour;
 
-export const OPTIONS = {
+export const OPTIONS: ClientOptions = {
 	giveaway: {
 		maxGiveaways: Infinity,
 		requiredPermission: 5,
 		updateInterval: 5000,
 		enableCommands: true,
+		provider: '',
 		commands: {},
-		nextRefresh: (giveaway) => giveaway.lastRefresh + (5 * Minute),
+		nextRefresh: (giveaway: Giveaway): number => giveaway.lastRefresh + (5 * Minute),
+		winnersFilter: (member: GuildMember): boolean => member.id !== member.client.user?.id,
 
-		givewayRunMessage,
-		giveawayFinishMessage
-	} as GiveawayOptions
+		runMessage,
+		finishMessage
+	}
 };
 
 
-function givewayRunMessage(giveaway: Giveaway, language: Language): { content: string, embed: MessageEmbed } {
+function runMessage(giveaway: Giveaway, language: Language): { content: string, embed: MessageEmbed } {
 	return {
 		content: language.get('GIVEAWAY_CREATE'),
 		embed: new MessageEmbed()
@@ -36,7 +37,7 @@ function givewayRunMessage(giveaway: Giveaway, language: Language): { content: s
 	};
 }
 
-async function giveawayFinishMessage(giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage): Promise<Message> {
+async function finishMessage(giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage): Promise<Message> {
 	const embed = new MessageEmbed()
 		.setTitle(giveaway.title)
 		.setFooter(msg.language.get('ENDED_AT'))

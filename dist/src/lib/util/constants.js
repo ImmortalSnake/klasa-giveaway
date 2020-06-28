@@ -12,13 +12,15 @@ exports.OPTIONS = {
         requiredPermission: 5,
         updateInterval: 5000,
         enableCommands: true,
+        provider: '',
         commands: {},
         nextRefresh: (giveaway) => giveaway.lastRefresh + (5 * exports.Minute),
-        givewayRunMessage,
-        giveawayFinishMessage
+        winnersFilter: (member) => { var _a; return member.id !== ((_a = member.client.user) === null || _a === void 0 ? void 0 : _a.id); },
+        runMessage,
+        finishMessage
     }
 };
-function givewayRunMessage(giveaway, language) {
+function runMessage(giveaway, language) {
     return {
         content: language.get('GIVEAWAY_CREATE'),
         embed: new discord_js_1.MessageEmbed()
@@ -29,7 +31,7 @@ function givewayRunMessage(giveaway, language) {
             .setTimestamp(giveaway.endsAt)
     };
 }
-async function giveawayFinishMessage(giveaway, winners, msg) {
+async function finishMessage(giveaway, winners, msg) {
     const embed = new discord_js_1.MessageEmbed()
         .setTitle(giveaway.title)
         .setFooter(msg.language.get('ENDED_AT'))

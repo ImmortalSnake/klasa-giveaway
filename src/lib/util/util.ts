@@ -22,9 +22,9 @@ export default abstract class Util {
 
 	public static getWinners(msg: KlasaMessage, users: Collection<string, User>, winnerCount: number): GuildMember[] {
 		return users
-			.filter(us => us.id !== msg.client.user!.id)
 			.mapValues(us => msg.guild!.member(us))
 			.filter(us => Boolean(us))
+			.filter(us => msg.client.options.giveaway.winnersFilter!(us!))
 			.random(winnerCount)
 			.filter(us => Boolean(us)) as GuildMember[];
 	}

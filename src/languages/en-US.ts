@@ -26,6 +26,7 @@ export default class extends Language {
 
 			COMMAND_REROLL_DESCRIPTION: 'Rerolls a previously finished giveaway.',
 			COMMAND_REROLL_EXTENDED: 'If you do not provide a message id, it will reroll the most recently finished giveaway',
+			COMMAND_REROLL_NO_WINNER: 'Sorry! could not determine a winner',
 			COMMAND_REROLL_SUCCESS: (winners) => `🎉 **New winner(s) are**: ${winners}`,
 
 			COMMAND_START_DESCRIPTION: 'Immediately starts a giveaway in the current channel',

@@ -49,7 +49,7 @@ export interface GiveawayOptions {
 	 * @param language Language setting of the guild
 	 * @see {@link https://github.com/ImmortalSnake/klasa-giveaway/blob/master/src/lib/util/constants.ts#L27|this} for a sample implementation
 	 */
-	givewayRunMessage?: ((giveaway: Giveaway, language: Language) => string | MessageEmbed | MessageOptions) | string | MessageEmbed | MessageOptions;
+	runMessage?: ((giveaway: Giveaway, language: Language) => string | MessageEmbed | MessageOptions) | string | MessageEmbed | MessageOptions;
 
 	/**
 	 * This function is called when the giveaway finishes. Here you can send a message listing the winners
@@ -59,7 +59,7 @@ export interface GiveawayOptions {
 	 * @param msg The giveaway message that was sent
 	 * @see {@link https://github.com/ImmortalSnake/klasa-giveaway/blob/master/src/lib/util/constants.ts#L39|this} for a sample implementation
 	 */
-	giveawayFinishMessage?: ((giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage) => Promise<any> | null) | Promise<any> | any;
+	finishMessage?: ((giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage) => Promise<any> | null) | Promise<any> | any;
 
 	/**
 	 * Determines the time for the next giveaway refresh
@@ -67,6 +67,12 @@ export interface GiveawayOptions {
 	 * @see {@link https://github.com/ImmortalSnake/klasa-giveaway/blob/master/test/config.ts|this} for a sample usage
 	 */
 	nextRefresh?: (giveaway: Giveaway) => number;
+
+	/**
+	 * Filters out certain users who reacted to the giveaway, use this if you would like to add additional filters before selecting a winner
+	 * @param member A guild member who reacted to the giveaway
+	 */
+	winnersFilter?: (member: GuildMember) => boolean;
 
 	/**
 	 * Total number of giveaways allowed in a guild (used in default commands)
@@ -82,7 +88,7 @@ export interface GiveawayOptions {
 
 	/**
 	 * The provider to use for the giveaways
-	 * @default 300000 (5 Minutes)
+	 * @default ""
 	 */
 	provider?: string;
 

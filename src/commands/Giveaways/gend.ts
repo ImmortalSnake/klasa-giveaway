@@ -5,6 +5,7 @@ export default class extends Command {
 
 	public constructor(store: CommandStore, file: string[], directory: string) {
 		super(store, file, directory, util.mergeDefault({
+			requiredPermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS'],
 			permissionLevel: 5,
 			runIn: ['text'],
 			usageDelim: ' ',

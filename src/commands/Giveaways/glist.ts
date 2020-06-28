@@ -4,6 +4,7 @@ export default class extends Command {
 
 	public constructor(store: CommandStore, file: string[], directory: string) {
 		super(store, file, directory, util.mergeDefault({
+			requiredPermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS'],
 			runIn: ['text'],
 			usageDelim: ' ',
 			enabled: store.client.options.giveaway.enableCommands,

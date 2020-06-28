@@ -34,7 +34,7 @@ export default class GiveawayManager {
 	 * Gets the provider being used by the giveaway manager
 	 */
 	public get provider(): Provider {
-		return this.client.providers.get(this.client.options.giveaway.provider || '') || this.client.providers.default;
+		return this.client.providers.get(this.client.options.giveaway.provider!) || this.client.providers.default;
 	}
 
 	/**
