@@ -82,7 +82,6 @@ export default class Giveaway {
 	 * @param data The giveaway data
 	 */
 	public constructor(manager: GiveawayManager, data: GiveawayCreateData | GiveawayData) {
-
 		this.manager = manager;
 
 		this.endsAt = data.endsAt;
@@ -96,7 +95,6 @@ export default class Giveaway {
 		this.startAt = data.startAt || Date.now();
 		this.lastRefresh = Date.now();
 		this.reaction = data.reaction || '🎉';
-
 	}
 
 	/**
@@ -148,8 +146,8 @@ export default class Giveaway {
 	 * @param lang The language to use when rendering the message
 	 */
 	public renderMessage(lang: Language): string | MessageEmbed | MessageOptions | undefined {
-		if (util.isFunction(this.options.givewayRunMessage)) return this.options.givewayRunMessage(this, lang);
-		return this.options.givewayRunMessage;
+		if (util.isFunction(this.options.runMessage)) return this.options.runMessage(this, lang);
+		return this.options.runMessage;
 	}
 
 	/**
@@ -158,8 +156,8 @@ export default class Giveaway {
 	 * @param msg The giveaway message that can be edited
 	 */
 	public async finishMessage(winners: GuildMember[], msg: KlasaMessage): Promise<any> {
-		if (util.isFunction(this.options.giveawayFinishMessage)) return this.options.giveawayFinishMessage(this, winners, msg);
-		return this.options.giveawayFinishMessage;
+		if (util.isFunction(this.options.finishMessage)) return this.options.finishMessage(this, winners, msg);
+		return this.options.finishMessage;
 	}
 
 	/**
@@ -167,7 +165,7 @@ export default class Giveaway {
 	 */
 	public async init(): Promise<void> {
 		this.message = await this.fetchMessage().catch(() => null);
-		this.manager.delete(this.messageID!);
+		if (!this.message) this.manager.delete(this.messageID!);
 	}
 
 	/**
@@ -205,7 +203,7 @@ export default class Giveaway {
 	 */
 	public async finish(): Promise<null> {
 		this.state = 'ENDING';
-		
+
 		const msg = await this.fetchMessage().catch(() => null);
 		if (!msg) return this.manager.delete(this.messageID!);
 

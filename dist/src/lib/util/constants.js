@@ -8,17 +8,19 @@ exports.Hour = 60 * exports.Minute;
 exports.Day = 24 * exports.Hour;
 exports.OPTIONS = {
     giveaway: {
-        refreshInterval: 5 * exports.Minute,
         maxGiveaways: Infinity,
         requiredPermission: 5,
+        updateInterval: 5000,
         enableCommands: true,
+        provider: '',
         commands: {},
-        nextRefresh: (giveaway) => giveaway.lastRefresh + giveaway.options.refreshInterval,
-        givewayRunMessage,
-        giveawayFinishMessage
+        nextRefresh: (giveaway) => giveaway.lastRefresh + (5 * exports.Minute),
+        winnersFilter: (member) => { var _a; return member.id !== ((_a = member.client.user) === null || _a === void 0 ? void 0 : _a.id); },
+        runMessage,
+        finishMessage
     }
 };
-function givewayRunMessage(giveaway, language) {
+function runMessage(giveaway, language) {
     return {
         content: language.get('GIVEAWAY_CREATE'),
         embed: new discord_js_1.MessageEmbed()
@@ -29,7 +31,7 @@ function givewayRunMessage(giveaway, language) {
             .setTimestamp(giveaway.endsAt)
     };
 }
-async function giveawayFinishMessage(giveaway, winners, msg) {
+async function finishMessage(giveaway, winners, msg) {
     const embed = new discord_js_1.MessageEmbed()
         .setTitle(giveaway.title)
         .setFooter(msg.language.get('ENDED_AT'))
@@ -39,6 +41,6 @@ async function giveawayFinishMessage(giveaway, winners, msg) {
             .setDescription(msg.language.get('NOT_ENOUGH_REACTIONS', giveaway.winnerCount)));
     }
     await msg.edit(msg.language.get('GIVEAWAY_END'), embed
-        .setDescription(`**Winner: ${winners.map(u => u.toString()).join(', ')}**`));
+        .setDescription(`**Winner: ${winners.map(us => us.toString()).join(', ')}**`));
     return msg.channel.send(msg.language.get('GIVEAWAY_WON', winners, giveaway.title));
 }

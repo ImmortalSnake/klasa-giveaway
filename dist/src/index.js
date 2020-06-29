@@ -7,4 +7,6 @@ const GiveawayManager_1 = require("./lib/structures/GiveawayManager");
 exports.GiveawayManager = GiveawayManager_1.default;
 const Giveaway_1 = require("./lib/structures/Giveaway");
 exports.Giveaway = Giveaway_1.default;
+const util_1 = require("./lib/util/util");
+exports.Util = util_1.default;
 exports[klasa_1.KlasaClient.plugin] = client_1.default[klasa_1.KlasaClient.plugin];

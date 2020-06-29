@@ -4,6 +4,7 @@ export default class extends Command {
 
 	public constructor(store: CommandStore, file: string[], directory: string) {
 		super(store, file, directory, util.mergeDefault({
+			requiredPermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS'],
 			permissionLevel: 5,
 			runIn: ['text'],
 			usageDelim: ' ',
@@ -15,11 +16,11 @@ export default class extends Command {
 	}
 
 	public async run(msg: KlasaMessage, [message]: [KlasaMessage | undefined]): Promise<KlasaMessage | KlasaMessage[]> {
-		const running = this.client.giveawayManager.running.find(g => g.guildID === msg.guild!.id);
+		const running = this.client.giveawayManager.running.find(gv => gv.guildID === msg.guild!.id);
 		if (!running) throw msg.language.get('NO_RUNNING_GIVEAWAY', msg.guildSettings.get('prefix'));
 
 		const id = message ? message.id : running.messageID;
-		const giveaway = this.client.giveawayManager.running.find(g => g.messageID === id);
+		const giveaway = this.client.giveawayManager.running.find(gv => gv.messageID === id);
 		if (!giveaway) throw msg.language.get('GIVEAWAY_NOT_FOUND');
 
 		await this.client.giveawayManager.delete(id!).catch(() => console.log());

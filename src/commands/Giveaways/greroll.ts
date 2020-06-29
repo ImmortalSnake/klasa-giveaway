@@ -5,6 +5,7 @@ export default class extends Command {
 	public constructor(store: CommandStore, file: string[], directory: string) {
 		super(store, file, directory, util.mergeDefault({
 			permissionLevel: 5,
+			requiredPermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
 			runIn: ['text'],
 			usageDelim: ' ',
 			usage: '[message:message]',
@@ -15,16 +16,18 @@ export default class extends Command {
 	}
 
 	public async run(msg: KlasaMessage, [message]: [KlasaMessage | null]): Promise<KlasaMessage | KlasaMessage[] | null> {
-		const finished = msg.guildSettings.get('giveaways.finished')
+		const finished = msg.guildSettings.get('giveaways.finished');
 		if (!finished) throw msg.language.get('NO_FINISHED_GIVEAWAY', msg.guildSettings.get('prefix'));
 		if (!message) {
-			message = await msg.channel.messages.fetch(finished) as KlasaMessage;
+			message = await msg.channel.messages.fetch(finished).catch(() => null) as KlasaMessage | null;
 
 			if (!message) throw msg.language.get('NO_FINISHED_GIVEAWAY', msg.guildSettings.get('prefix'));
 		}
 
 		const winners = await this.client.giveawayManager.reroll(message);
-		return msg.sendLocale('COMMAND_REROLL_SUCCESS', [winners.map(w => w.toString()).join(', ')]);
+		if (!winners.length) return msg.sendLocale('COMMAND_REROLL_NO_WINNER');
+
+		return msg.sendLocale('COMMAND_REROLL_SUCCESS', [winners.map(win => win.toString()).join(', ')]);
 	}
 
 }

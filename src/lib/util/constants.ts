@@ -1,5 +1,4 @@
-import { GiveawayOptions } from '../client';
-import { MessageEmbed, GuildMember } from 'discord.js';
+import { MessageEmbed, GuildMember, Message, ClientOptions } from 'discord.js';
 import Util from './util';
 import { Giveaway } from '../..';
 import { KlasaMessage, Language } from 'klasa';
@@ -9,23 +8,25 @@ export const Minute = 60 * Second;
 export const Hour = 60 * Minute;
 export const Day = 24 * Hour;
 
-export const OPTIONS = {
+export const OPTIONS: ClientOptions = {
 	giveaway: {
-		refreshInterval: 5 * Minute,
 		maxGiveaways: Infinity,
 		requiredPermission: 5,
+		updateInterval: 5000,
 		enableCommands: true,
+		provider: '',
 		commands: {},
-		nextRefresh: (giveaway) => giveaway.lastRefresh + giveaway.options.refreshInterval!,
-		
-		givewayRunMessage,
-		giveawayFinishMessage
-	} as GiveawayOptions
+		nextRefresh: (giveaway: Giveaway): number => giveaway.lastRefresh + (5 * Minute),
+		winnersFilter: (member: GuildMember): boolean => member.id !== member.client.user?.id,
+
+		runMessage,
+		finishMessage
+	}
 };
 
 
-function givewayRunMessage(giveaway: Giveaway, language: Language) {
-	return { 
+function runMessage(giveaway: Giveaway, language: Language): { content: string, embed: MessageEmbed } {
+	return {
 		content: language.get('GIVEAWAY_CREATE'),
 		embed: new MessageEmbed()
 			.setTitle(giveaway.title)
@@ -33,10 +34,10 @@ function givewayRunMessage(giveaway: Giveaway, language: Language) {
 			.setDescription(language.get('GIVEAWAY_DESCRIPTION', giveaway.winnerCount, Util.ms(giveaway.endsAt - Date.now()), giveaway.author))
 			.setFooter(language.get('ENDS_AT'))
 			.setTimestamp(giveaway.endsAt)
-	}
+	};
 }
 
-async function giveawayFinishMessage(giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage) {
+async function finishMessage(giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage): Promise<Message> {
 	const embed = new MessageEmbed()
 		.setTitle(giveaway.title)
 		.setFooter(msg.language.get('ENDED_AT'))
@@ -48,7 +49,7 @@ async function giveawayFinishMessage(giveaway: Giveaway, winners: GuildMember[],
 	}
 
 	await msg.edit(msg.language.get('GIVEAWAY_END'), embed
-		.setDescription(`**Winner: ${winners.map(u => u.toString()).join(', ')}**`));
+		.setDescription(`**Winner: ${winners.map(us => us.toString()).join(', ')}**`));
 
 	return msg.channel.send(msg.language.get('GIVEAWAY_WON', winners, giveaway.title));
 }

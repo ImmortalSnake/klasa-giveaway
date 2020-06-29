@@ -67,6 +67,11 @@
 				<a href="#klasa-giveaway-plugin" id="klasa-giveaway-plugin" style="color: inherit; text-decoration: none;">
 					<h1>Klasa Giveaway Plugin</h1>
 				</a>
+				<p><a href="https://www.npmjs.com/package/klasa-giveaway"><img src="https://img.shields.io/npm/v/klasa-giveaway.svg?maxAge=3600" alt="npm"></a>
+					<a href="https://www.npmjs.com/package/klasa-giveaway"><img src="https://img.shields.io/npm/dt/klasa-giveaway.svg?maxAge=3600" alt="npm"></a>
+					<a href="https://lgtm.com/projects/g/ImmortalSnake/klasa-giveaway/alerts/"><img src="https://img.shields.io/lgtm/alerts/g/ImmortalSnake/klasa-giveaway.svg?logo=lgtm&logoWidth=18" alt="Total alerts"></a>
+					<a href="https://lgtm.com/projects/g/ImmortalSnake/klasa-giveaway/context:javascript"><img src="https://img.shields.io/lgtm/grade/javascript/g/ImmortalSnake/klasa-giveaway.svg?logo=lgtm&logoWidth=18" alt="Language grade: JavaScript"></a>
+				<a href="https://dependabot.com"><img src="https://api.dependabot.com/badges/status?host=github&repo=ImmortalSnake/klasa-giveaway" alt="Dependabot Status"></a></p>
 				<p>This plugin adds a customisable giveway feature in your discord klasa bot. It comes with the following commands:</p>
 				<ol>
 					<li><strong>gcreate</strong> - Creates a giveaway in the specified channel!</li>
@@ -84,8 +89,8 @@
 					<h2>Features</h2>
 				</a>
 				<ul>
-					<li>Customizable Built-in commands</li>
-					<li>Customizable update interval</li>
+					<li>Customizable built-in commands</li>
+					<li>Dynamic refresh intervals</li>
 					<li>Automatic loading and restarting of giveaways</li>
 					<li>Customizable embeds and locales</li>
 				</ul>
@@ -94,8 +99,7 @@
 				</a>
 				<ol>
 					<li><p><strong>Install the plugin</strong></p>
-						<p><code>npm i klasa-giveaway</code>\
-							or if you use yarn\
+						<p><code>npm i klasa-giveaway</code>
 						<code>yarn add klasa-giveaway</code></p>
 					</li>
 					<li><p><strong>Use the plugin in your code</strong></p>
@@ -116,81 +120,30 @@ Client.use(GiveawayClient);
 				</a>
 				<ul>
 					<li><p>To your KlasaClientOptions you can optionally add giveaway options.</p>
-						<table>
-							<thead>
-								<tr>
-									<th>Option</th>
-									<th>Type</th>
-									<th>Default</th>
-									<th>Description</th>
-								</tr>
-							</thead>
-							<tbody><tr>
-									<td>refreshInterval</td>
-									<td>Number</td>
-									<td>5 Minutes</td>
-									<td>Duration between each giveaway refresh (in ms)</td>
-								</tr>
-								<tr>
-									<td>maxGiveaways</td>
-									<td>Number</td>
-									<td>Infinite</td>
-									<td>Maximum number of giveaways a guild can have</td>
-								</tr>
-								<tr>
-									<td>requiredPermission</td>
-									<td>Number</td>
-									<td>5</td>
-									<td>Minimum permission level required to run these commands</td>
-								</tr>
-								<tr>
-									<td>provider</td>
-									<td>String</td>
-									<td>Default Provider</td>
-									<td>Database provider to store giveaway data</td>
-								</tr>
-								<tr>
-									<td>enableCommands</td>
-									<td>Boolean</td>
-									<td>true</td>
-									<td>Whether to enable built-in commands or not</td>
-								</tr>
-								<tr>
-									<td>commands</td>
-									<td>Object</td>
-									<td>{}</td>
-									<td>Customize default Command Options</td>
-								</tr>
-								<tr>
-									<td>giveawayRunMessage</td>
-									<td>Function, string</td>
-									<td><a href="src/lib/util/constants.ts">See Here</a></td>
-									<td>The message that will be shown when giveaway starts</td>
-								</tr>
-								<tr>
-									<td>giveawayFinishMessage</td>
-									<td>Function, any</td>
-									<td><a href="src/lib/util/constants.ts">See Here</a></td>
-									<td>Message that will be displayed once the giveaway is over</td>
-								</tr>
-						</tbody></table>
 						<p><strong>For example:</strong></p>
 						<pre><code class="language-js"><span class="hljs-keyword">new</span> Client({
     <span class="hljs-attr">giveaway</span>: {
-        <span class="hljs-attr">refreshInterval</span>: <span class="hljs-number">1000</span>,
         <span class="hljs-attr">maxGiveaways</span>: <span class="hljs-number">5</span>,
-        <span class="hljs-attr">requiredPermission</span>: <span class="hljs-number">5</span>
+        <span class="hljs-attr">requiredPermission</span>: <span class="hljs-number">5</span>,
+        <span class="hljs-attr">provider</span>: <span class="hljs-string">&#x27;mongodb&#x27;</span>
     }
 })</code></pre>
+						<p>For a list of giveaway options <a href="https://immortalsnake.github.io/klasa-giveaway/interfaces/giveawayoptions">see here</a></p>
 					</li>
 					<li><p>It also allows you to define your own locales. See <a href="./src/languages/en-US.ts">built in en-US Locale</a></p>
 					</li>
+				</ul>
+				<a href="#contact" id="contact" style="color: inherit; text-decoration: none;">
+					<h2>Contact</h2>
+				</a>
+				<ul>
+					<li>ImmortalSnake#0449</li>
 				</ul>
 				<a href="#credits" id="credits" style="color: inherit; text-decoration: none;">
 					<h2>Credits</h2>
 				</a>
 				<ul>
-					<li><a href="https://github.com/skyra-project/skyra">https://github.com/skyra-project/skyra</a> for the Giveaway Queue Structure</li>
+					<li><a href="skyra">https://github.com/skyra-project/skyra</a></li>
 				</ul>
 			</div>
 		</div>
@@ -201,24 +154,63 @@ Client.use(GiveawayClient);
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_lib_client_.html">&quot;lib/client&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_lib_structures_giveaway_.html">&quot;lib/structures/<wbr>Giveaway&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_lib_structures_giveawaymanager_.html">&quot;lib/structures/<wbr>Giveaway<wbr>Manager&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_lib_util_constants_.html">&quot;lib/util/constants&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_lib_util_util_.html">&quot;lib/util/util&quot;</a>
+						<a href="modules/_discord_js_.html">&quot;discord.js&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/giveaway.html" class="tsd-kind-icon">Giveaway</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/giveawayclient.html" class="tsd-kind-icon">Giveaway<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/giveawaymanager.html" class="tsd-kind-icon">Giveaway<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/util.html" class="tsd-kind-icon">Util</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/giveawaycreatedata.html" class="tsd-kind-icon">Giveaway<wbr>Create<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/giveawaydata.html" class="tsd-kind-icon">Giveaway<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/giveawayeditdata.html" class="tsd-kind-icon">Giveaway<wbr>Edit<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/giveawayoptions.html" class="tsd-kind-icon">Giveaway<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/giveawayrerolldata.html" class="tsd-kind-icon">Giveaway<wbr>Reroll<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#giveawaystate" class="tsd-kind-icon">Giveaway<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#day" class="tsd-kind-icon">Day</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#hour" class="tsd-kind-icon">Hour</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#minute" class="tsd-kind-icon">Minute</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#second" class="tsd-kind-icon">Second</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#giveawayfinishmessage" class="tsd-kind-icon">giveaway<wbr>Finish<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#givewayrunmessage" class="tsd-kind-icon">giveway<wbr>Run<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#options" class="tsd-kind-icon">OPTIONS</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -229,16 +221,24 @@ Client.use(GiveawayClient);
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>
 	</div>
