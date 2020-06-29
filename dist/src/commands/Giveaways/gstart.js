@@ -20,7 +20,7 @@ class default_1 extends klasa_1.Command {
         if (giveaways.length >= max)
             throw msg.language.get('MAX_GIVEAWAYS', max);
         await this.client.giveawayManager.create(msg.channel, {
-            endsAt: time,
+            endsAt: time.getTime(),
             author: msg.author.id,
             title,
             winnerCount
