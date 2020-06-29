@@ -40,7 +40,7 @@
     "@typescript-eslint/parser": "^2.14.0",
     "discord.js": "^12.2.0",
     "eslint": "^6.8.0",
-    "eslint-config-bamboo": "^3.0.0",
+    "eslint-config-bamboo": "^4.0.1",
     "klasa": "^0.5.0",
     "typedoc": "^0.17.7",
     "typescript": "^3.7.5"
