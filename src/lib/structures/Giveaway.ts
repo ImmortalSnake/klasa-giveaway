@@ -165,7 +165,7 @@ export default class Giveaway {
 	 */
 	public async init(): Promise<void> {
 		this.message = await this.fetchMessage().catch(() => null);
-		this.manager.delete(this.messageID!);
+		if (!this.message) this.manager.delete(this.messageID!);
 	}
 
 	/**

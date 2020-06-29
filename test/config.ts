@@ -8,7 +8,7 @@ export const config: KlasaClientOptions = {
 	noPrefixDM: true,
 	giveaway: {
 		maxGiveaways: 2,
-		nextRefresh: (giveaway: Giveaway): number => {
+		nextRefresh(giveaway: Giveaway): number {
 			const timeLeft = giveaway.endsAt - Date.now();
 			let nextRefresh = 4 * 3600 * 1000; // 4 hours at more than 1 day
 
@@ -17,6 +17,9 @@ export const config: KlasaClientOptions = {
 			else if (timeLeft < 24 * 3600 * 1000) nextRefresh = 3600 * 1000; // 1 hour at less than 1 day
 
 			return giveaway.lastRefresh + nextRefresh;
-		}
+		},
+		winnersFilter(member) {
+            return !member.user.bot && member.guild.ownerID !== member.id;
+        }
 	}
 };

@@ -54,7 +54,8 @@ class Giveaway {
     }
     async init() {
         this.message = await this.fetchMessage().catch(() => null);
-        this.manager.delete(this.messageID);
+        if (!this.message)
+            this.manager.delete(this.messageID);
     }
     async create(channel) {
         if (!channel)
