@@ -1,4 +1,4 @@
-import { KlasaClient, KlasaMessage, util } from 'klasa';
+import { KlasaClient, KlasaMessage, util, Provider } from 'klasa';
 import { TextChannel, Message, GuildMember } from 'discord.js';
 import Giveaway from './Giveaway';
 import Util from '../util/util';
@@ -6,7 +6,7 @@ import Util from '../util/util';
 export default class GiveawayManager {
 
 	/**
-	 * The Discord Client 
+	 * The Discord Client
 	 * @readonly
 	 */
 	public readonly client: KlasaClient;
@@ -33,8 +33,8 @@ export default class GiveawayManager {
 	/**
 	 * Gets the provider being used by the giveaway manager
 	 */
-	public get provider() {
-		return this.client.providers.get(this.client.options.giveaway.provider || '') || this.client.providers.default;
+	public get provider(): Provider {
+		return this.client.providers.get(this.client.options.giveaway.provider!) || this.client.providers.default;
 	}
 
 	/**
@@ -47,7 +47,7 @@ export default class GiveawayManager {
 		const entries = await this.provider.getAll('Giveaways') as GiveawayData[];
 		for (const entry of entries) await this.add(entry).init();
 
-		setInterval(this.refresh.bind(this), 5000);
+		setInterval(this.refresh.bind(this), this.client.options.giveaway.updateInterval!);
 	}
 
 	/**
@@ -75,14 +75,14 @@ export default class GiveawayManager {
 	/**
 	 * Deletes a giveaway with the given message id (sent by the bot). This giveaway will no longer be run
 	 * @param id ID of the giveaway to delete
-	 * @example 
+	 * @example
 	 * ```js
 	 * client.giveawayManager.delete('720919015068925974').catch(() => console.log());
 	 * ```
 	 */
 	public async delete(id: string): Promise<null> {
-		const index = this.running.findIndex(g => g.messageID === id);
-		if (index !== -1) this.running.splice(index, 1).forEach(g => g.state = 'FINISHED');
+		const index = this.running.findIndex(gv => gv.messageID === id);
+		if (index !== -1) this.running.splice(index, 1).forEach(gv => { gv.state = 'FINISHED'; });
 
 		return this.provider.delete('Giveaways', id);
 	}
@@ -96,7 +96,7 @@ export default class GiveawayManager {
 	 * ```
 	 */
 	public async end(id: string): Promise<Message | null> {
-		const giveaway = this.running.find(g => g.messageID === id);
+		const giveaway = this.running.find(gv => gv.messageID === id);
 		if (!giveaway) throw Error(`No giveaway found with ID: ${id}`);
 
 		giveaway.endsAt = Date.now();
@@ -113,7 +113,7 @@ export default class GiveawayManager {
 	 * ```
 	 */
 	public async edit(id: string, data: GiveawayEditData): Promise<Giveaway> {
-		const giveaway = this.running.find(g => g.messageID === id);
+		const giveaway = this.running.find(gv => gv.messageID === id);
 		if (!giveaway) throw Error(`No giveaway found with ID: ${id}`);
 
 		util.mergeDefault(giveaway.data, data);
@@ -133,10 +133,10 @@ export default class GiveawayManager {
 	 */
 	public async reroll(msg: KlasaMessage, data?: GiveawayRerollData): Promise<GuildMember[]> {
 		const reaction = (data && data.reaction) || '🎉';
-		if (msg.author.id !== msg.client.user!.id
-			|| !msg.reactions.cache.has(reaction)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
+		if (msg.author.id !== msg.client.user!.id ||
+			!msg.reactions.cache.has(reaction)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
 
-		const isRunning = this.running.find(g => g.messageID === msg.id);
+		const isRunning = this.running.find(gv => gv.messageID === msg.id);
 		if (isRunning) throw msg.language.get('GIVEAWAY_RUNNING');
 
 		const users = await msg.reactions.resolve(reaction)?.users.fetch();
@@ -165,7 +165,7 @@ export default class GiveawayManager {
 		}
 
 		this.giveaways = [];
-		this.running = this.running.filter(g => g.state !== 'FINISHED');
+		this.running = this.running.filter(gv => gv.state !== 'FINISHED');
 	}
 
 	/**
@@ -221,7 +221,7 @@ export interface GiveawayData extends GiveawayCreateData {
 	reaction: string;
 
 	/**
-	 * The user who created the giveaewa
+	 * The user who created the giveaway
 	 */
 	author: string;
 }

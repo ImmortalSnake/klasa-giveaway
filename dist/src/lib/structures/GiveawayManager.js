@@ -10,7 +10,7 @@ class GiveawayManager {
         this.client = client;
     }
     get provider() {
-        return this.client.providers.get(this.client.options.giveaway.provider || '') || this.client.providers.default;
+        return this.client.providers.get(this.client.options.giveaway.provider) || this.client.providers.default;
     }
     async init() {
         const hasTable = await this.provider.hasTable('Giveaways');
@@ -19,7 +19,7 @@ class GiveawayManager {
         const entries = await this.provider.getAll('Giveaways');
         for (const entry of entries)
             await this.add(entry).init();
-        setInterval(this.refresh.bind(this), 5000);
+        setInterval(this.refresh.bind(this), this.client.options.giveaway.updateInterval);
     }
     async create(channel, rawData) {
         const giveaway = await this.add(rawData)
@@ -28,20 +28,20 @@ class GiveawayManager {
         return giveaway;
     }
     async delete(id) {
-        const index = this.running.findIndex(g => g.messageID === id);
+        const index = this.running.findIndex(gv => gv.messageID === id);
         if (index !== -1)
-            this.running.splice(index, 1).forEach(g => g.state = 'FINISHED');
+            this.running.splice(index, 1).forEach(gv => { gv.state = 'FINISHED'; });
         return this.provider.delete('Giveaways', id);
     }
     async end(id) {
-        const giveaway = this.running.find(g => g.messageID === id);
+        const giveaway = this.running.find(gv => gv.messageID === id);
         if (!giveaway)
             throw Error(`No giveaway found with ID: ${id}`);
         giveaway.endsAt = Date.now();
         return this.update(giveaway);
     }
     async edit(id, data) {
-        const giveaway = this.running.find(g => g.messageID === id);
+        const giveaway = this.running.find(gv => gv.messageID === id);
         if (!giveaway)
             throw Error(`No giveaway found with ID: ${id}`);
         klasa_1.util.mergeDefault(giveaway.data, data);
@@ -51,10 +51,10 @@ class GiveawayManager {
     async reroll(msg, data) {
         var _a, _b;
         const reaction = (data && data.reaction) || '🎉';
-        if (msg.author.id !== msg.client.user.id
-            || !msg.reactions.cache.has(reaction))
+        if (msg.author.id !== msg.client.user.id ||
+            !msg.reactions.cache.has(reaction))
             throw msg.language.get('GIVEAWAY_NOT_FOUND');
-        const isRunning = this.running.find(g => g.messageID === msg.id);
+        const isRunning = this.running.find(gv => gv.messageID === msg.id);
         if (isRunning)
             throw msg.language.get('GIVEAWAY_RUNNING');
         const users = await ((_a = msg.reactions.resolve(reaction)) === null || _a === void 0 ? void 0 : _a.users.fetch());
@@ -76,7 +76,7 @@ class GiveawayManager {
                 setTimeout(this.update.bind(this, giveaway), giveaway.refreshAt - Date.now());
         }
         this.giveaways = [];
-        this.running = this.running.filter(g => g.state !== 'FINISHED');
+        this.running = this.running.filter(gv => gv.state !== 'FINISHED');
     }
     add(data) {
         const giveaway = new Giveaway_1.default(this, data);

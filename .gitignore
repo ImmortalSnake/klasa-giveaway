@@ -1,5 +1,14 @@
+# node modules
 node_modules/
+
+# environment files
 .env
+
+# compiled test folders
 dist/test
+
+# editor configurations
 .vscode/
-test/config.ts
+
+# logs
+*.log

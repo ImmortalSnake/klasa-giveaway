@@ -4,6 +4,7 @@ const klasa_1 = require("klasa");
 class default_1 extends klasa_1.Command {
     constructor(store, file, directory) {
         super(store, file, directory, klasa_1.util.mergeDefault({
+            requiredPermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS'],
             runIn: ['text'],
             usageDelim: ' ',
             enabled: store.client.options.giveaway.enableCommands,
@@ -12,7 +13,7 @@ class default_1 extends klasa_1.Command {
         }, store.client.options.giveaway.commands.list));
     }
     async run(msg) {
-        const giveaways = this.client.giveawayManager.running.filter(g => g.guildID === msg.guild.id);
+        const giveaways = this.client.giveawayManager.running.filter(gv => gv.guildID === msg.guild.id);
         if (giveaways.length === 0)
             throw msg.language.get('NO_RUNNING_GIVEAWAY', msg.guildSettings.get('prefix'));
         let mess = msg.language.get('GIVEWAY_LIST_TITLE', msg.guild.name);

@@ -15,14 +15,15 @@ declare module 'discord.js' {
     }
 }
 export interface GiveawayOptions {
-    givewayRunMessage?: ((giveaway: Giveaway, language: Language) => string | MessageEmbed | MessageOptions) | string | MessageEmbed | MessageOptions;
-    giveawayFinishMessage?: ((giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage) => Promise<any> | null) | Promise<any> | any;
+    runMessage?: ((giveaway: Giveaway, language: Language) => string | MessageEmbed | MessageOptions) | string | MessageEmbed | MessageOptions;
+    finishMessage?: ((giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage) => Promise<any> | null) | Promise<any> | any;
     nextRefresh?: (giveaway: Giveaway) => number;
+    winnersFilter?: (member: GuildMember) => boolean;
     maxGiveaways?: number;
     requiredPermission?: number;
-    refreshInterval?: number;
     provider?: string;
     enableCommands?: boolean;
+    updateInterval?: number;
     commands?: {
         create?: CommandOptions;
         delete?: CommandOptions;

@@ -4,7 +4,7 @@ const klasa_1 = require("klasa");
 class default_1 extends klasa_1.Command {
     constructor(store, file, directory) {
         super(store, file, directory, klasa_1.util.mergeDefault({
-            requiredPermissions: ['ADD_REACTIONS'],
+            requiredPermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS'],
             permissionLevel: 5,
             runIn: ['text'],
             usageDelim: ' ',
@@ -15,12 +15,12 @@ class default_1 extends klasa_1.Command {
         }, store.client.options.giveaway.commands.start));
     }
     async run(msg, [time, winnerCount, title]) {
-        const giveaways = this.client.giveawayManager.running.filter(g => g.guildID === msg.guild.id);
+        const giveaways = this.client.giveawayManager.running.filter(gv => gv.guildID === msg.guild.id);
         const max = this.client.options.giveaway.maxGiveaways;
         if (giveaways.length >= max)
             throw msg.language.get('MAX_GIVEAWAYS', max);
         await this.client.giveawayManager.create(msg.channel, {
-            endsAt: time,
+            endsAt: time.getTime(),
             author: msg.author.id,
             title,
             winnerCount

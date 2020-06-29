@@ -4,6 +4,7 @@ export default class extends Command {
 
 	public constructor(store: CommandStore, file: string[], directory: string) {
 		super(store, file, directory, util.mergeDefault({
+			requiredPermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS'],
 			runIn: ['text'],
 			usageDelim: ' ',
 			enabled: store.client.options.giveaway.enableCommands,
@@ -13,7 +14,7 @@ export default class extends Command {
 	}
 
 	public async run(msg: KlasaMessage): Promise<KlasaMessage | KlasaMessage[] | null> {
-		const giveaways = this.client.giveawayManager.running.filter(g => g.guildID === msg.guild!.id);
+		const giveaways = this.client.giveawayManager.running.filter(gv => gv.guildID === msg.guild!.id);
 		if (giveaways.length === 0) throw msg.language.get('NO_RUNNING_GIVEAWAY', msg.guildSettings.get('prefix'));
 
 		let mess = msg.language.get('GIVEWAY_LIST_TITLE', msg.guild!.name);

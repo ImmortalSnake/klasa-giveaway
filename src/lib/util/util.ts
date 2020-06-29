@@ -20,13 +20,13 @@ export default abstract class Util {
 		return mess;
 	}
 
-	public static getWinners(msg: KlasaMessage, users: Collection<string, User>, winnerCount: number) {
+	public static getWinners(msg: KlasaMessage, users: Collection<string, User>, winnerCount: number): GuildMember[] {
 		return users
-		    .filter(u => u.id !== msg.client.user!.id)
-			.mapValues(u => msg.guild!.member(u))
-			.filter(u => Boolean(u))
+			.mapValues(us => msg.guild!.member(us))
+			.filter(us => Boolean(us))
+			.filter(us => msg.client.options.giveaway.winnersFilter!(us!))
 			.random(winnerCount)
-			.filter(u => Boolean(u)) as GuildMember[];
+			.filter(us => Boolean(us)) as GuildMember[];
 	}
 
 }
