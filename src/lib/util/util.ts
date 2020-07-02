@@ -1,6 +1,6 @@
 import { Second, Minute, Hour, Day } from './constants';
 import { KlasaMessage } from 'klasa';
-import { Collection, User, GuildMember } from 'discord.js';
+import { GuildMember, MessageReactionUserStore } from '@klasa/core';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default abstract class Util {
@@ -20,13 +20,18 @@ export default abstract class Util {
 		return mess;
 	}
 
-	public static getWinners(msg: KlasaMessage, users: Collection<string, User>, winnerCount: number): GuildMember[] {
-		return users
-			.mapValues(us => msg.guild!.member(us))
+	public static getWinners(msg: KlasaMessage, users: MessageReactionUserStore, winnerCount: number): GuildMember[] {
+		const filtered = users
+			.map(us => msg.guild!.members.resolve(us))
 			.filter(us => Boolean(us))
-			.filter(us => msg.client.options.giveaway.winnersFilter!(us!))
-			.random(winnerCount)
+			.filter(us => msg.client.options.giveaway.winnersFilter!(us!));
+
+		return Util.sample(filtered, winnerCount)
 			.filter(us => Boolean(us)) as GuildMember[];
+	}
+
+	public static sample<V>(array: V[], size: number): V[] {
+		return Array.from({ length: size }, () => array.splice(Math.floor(Math.random() * array.length), 1)[0]);
 	}
 
 }

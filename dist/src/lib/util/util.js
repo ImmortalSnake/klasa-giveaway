@@ -19,12 +19,15 @@ class Util {
         return mess;
     }
     static getWinners(msg, users, winnerCount) {
-        return users
-            .mapValues(us => msg.guild.member(us))
+        const filtered = users
+            .map(us => msg.guild.members.resolve(us))
             .filter(us => Boolean(us))
-            .filter(us => msg.client.options.giveaway.winnersFilter(us))
-            .random(winnerCount)
+            .filter(us => msg.client.options.giveaway.winnersFilter(us));
+        return Util.sample(filtered, winnerCount)
             .filter(us => Boolean(us));
+    }
+    static sample(array, size) {
+        return Array.from({ length: size }, () => array.splice(Math.floor(Math.random() * array.length), 1)[0]);
     }
 }
 exports.default = Util;

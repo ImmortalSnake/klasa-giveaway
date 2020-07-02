@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const klasa_1 = require("klasa");
+exports.Giveaway = void 0;
+const utils_1 = require("@klasa/utils");
 const util_1 = require("../util/util");
 class Giveaway {
     constructor(manager, data) {
@@ -43,12 +44,12 @@ class Giveaway {
         };
     }
     renderMessage(lang) {
-        if (klasa_1.util.isFunction(this.options.runMessage))
+        if (utils_1.isFunction(this.options.runMessage))
             return this.options.runMessage(this, lang);
         return this.options.runMessage;
     }
     async finishMessage(winners, msg) {
-        if (klasa_1.util.isFunction(this.options.finishMessage))
+        if (utils_1.isFunction(this.options.finishMessage))
             return this.options.finishMessage(this, winners, msg);
         return this.options.finishMessage;
     }
@@ -61,8 +62,8 @@ class Giveaway {
         if (!channel)
             channel = await this.client.channels.fetch(this.channelID);
         const { language } = channel.guild;
-        const msg = await channel.send(this.renderMessage(language));
-        await msg.react(this.reaction);
+        const [msg] = await channel.send(this.renderMessage(language));
+        await msg.reactions.add(this.reaction);
         this.message = msg;
         this.messageID = msg.id;
         this.channelID = msg.channel.id;
@@ -97,4 +98,4 @@ class Giveaway {
             .then(msg => msg);
     }
 }
-exports.default = Giveaway;
+exports.Giveaway = Giveaway;

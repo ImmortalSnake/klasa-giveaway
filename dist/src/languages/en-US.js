@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const klasa_1 = require("klasa");
 const util_1 = require("../lib/util/util");
 class default_1 extends klasa_1.Language {
-    constructor(store, file, directory) {
-        super(store, file, directory);
+    constructor() {
+        super(...arguments);
         this.language = {
+            DEFAULT: () => '',
             ENDS_AT: 'Ends At:',
             ENDED_AT: 'Ended At:',
             GIVEAWAY_NOT_FOUND: 'Could not find that giveaway! Try again!',

@@ -1,12 +1,13 @@
-import GiveawayManager, { GiveawayCreateData, GiveawayData } from './GiveawayManager';
-import { TextChannel, GuildMember, MessageEmbed, Message, MessageOptions } from 'discord.js';
-import { KlasaMessage, util, Language, KlasaClient } from 'klasa';
+import { GiveawayManager, GiveawayCreateData, GiveawayData } from './GiveawayManager';
+import { KlasaMessage, Language } from 'klasa';
+import { Message, TextChannel, Client, GuildMember, MessageBuilder } from '@klasa/core';
+import { isFunction } from '@klasa/utils';
 import Util from '../util/util';
 import { GiveawayOptions } from '../..';
 
 export type GiveawayState = 'CREATING' | 'RUNNING' | 'ENDING' | 'FINISHED';
 
-export default class Giveaway {
+export class Giveaway {
 
 	/**
 	 * The giveaway manager that manages this giveaway instance
@@ -100,7 +101,7 @@ export default class Giveaway {
 	/**
 	 * The Discord client
 	 */
-	public get client(): KlasaClient {
+	public get client(): Client {
 		return this.manager.client;
 	}
 
@@ -145,8 +146,8 @@ export default class Giveaway {
 	 * Returns an embed or string after running the `GiveawayOptions.giveawayRunMessage` function
 	 * @param lang The language to use when rendering the message
 	 */
-	public renderMessage(lang: Language): string | MessageEmbed | MessageOptions | undefined {
-		if (util.isFunction(this.options.runMessage)) return this.options.runMessage(this, lang);
+	public renderMessage(lang: Language): ((arg0: MessageBuilder) => MessageBuilder) | undefined {
+		if (isFunction(this.options.runMessage)) return this.options.runMessage(this, lang);
 		return this.options.runMessage;
 	}
 
@@ -156,7 +157,7 @@ export default class Giveaway {
 	 * @param msg The giveaway message that can be edited
 	 */
 	public async finishMessage(winners: GuildMember[], msg: KlasaMessage): Promise<any> {
-		if (util.isFunction(this.options.finishMessage)) return this.options.finishMessage(this, winners, msg);
+		if (isFunction(this.options.finishMessage)) return this.options.finishMessage(this, winners, msg);
 		return this.options.finishMessage;
 	}
 
@@ -175,8 +176,8 @@ export default class Giveaway {
 	public async create(channel?: TextChannel): Promise<this> {
 		if (!channel) channel = await this.client.channels.fetch(this.channelID!) as TextChannel;
 		const { language } = channel.guild;
-		const msg = await channel.send(this.renderMessage(language));
-		await msg.react(this.reaction);
+		const [msg] = await channel.send(this.renderMessage(language)!);
+		await msg.reactions.add(this.reaction);
 
 		this.message = msg as KlasaMessage;
 		this.messageID = msg.id;
@@ -188,20 +189,20 @@ export default class Giveaway {
 	/**
 	 * Updates the giveaway and edits the giveaway message
 	 */
-	public async update(): Promise<Message | null> {
+	public async update(): Promise<Message | unknown> {
 		this.state = 'RUNNING';
 		this.lastRefresh = Date.now();
 
 		const msg = await this.fetchMessage().catch(() => null);
 		if (!msg) return this.manager.delete(this.messageID!);
 
-		return msg.edit(this.renderMessage(msg.language));
+		return msg.edit(this.renderMessage(msg.language)!);
 	}
 
 	/**
 	 * Finishes the giveaway and sends the giveaway finish message
 	 */
-	public async finish(): Promise<null> {
+	public async finish(): Promise<unknown> {
 		this.state = 'ENDING';
 
 		const msg = await this.fetchMessage().catch(() => null);

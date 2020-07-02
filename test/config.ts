@@ -1,11 +1,14 @@
-import { KlasaClientOptions } from 'klasa';
 import { Giveaway } from '../src';
+import { GuildMember } from '@klasa/core';
+import { KlasaClientOptions } from 'klasa';
 
 export const config: KlasaClientOptions = {
 	owners: ['410806297580011520'],
-	prefix: '..',
-	preserveSettings: false,
-	noPrefixDM: true,
+	rest: {},
+	commands: {
+		prefix: '..',
+		noPrefixDM: true
+	},
 	giveaway: {
 		maxGiveaways: 2,
 		nextRefresh(giveaway: Giveaway): number {
@@ -18,8 +21,8 @@ export const config: KlasaClientOptions = {
 
 			return giveaway.lastRefresh + nextRefresh;
 		},
-		winnersFilter(member) {
-			return !member.user.bot && member.guild.ownerID !== member.id;
+		winnersFilter(member: GuildMember): boolean {
+			return !member.user?.bot && member.guild.ownerID !== member.id;
 		}
 	}
 };

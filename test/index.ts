@@ -1,9 +1,12 @@
-import { KlasaClient } from 'klasa';
 import { GiveawayClient } from '../src';
 import { config } from './config';
+import { KlasaClient } from 'klasa';
 
 KlasaClient.use(GiveawayClient);
-const client = new KlasaClient(config);
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-client.login('TOKEN GOES HERE');
+const client = new KlasaClient(config);
+// @ts-ignore
+// client.loadPlugins();
+
+client.token = 'TOKEN GOES HERE';
+client.connect();

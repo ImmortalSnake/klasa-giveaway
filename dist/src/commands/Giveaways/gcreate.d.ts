@@ -1,6 +1,6 @@
 import { KlasaMessage, CommandStore, Command } from 'klasa';
-import { TextChannel } from 'discord.js';
+import { Message, TextChannel } from '@klasa/core';
 export default class extends Command {
-    constructor(store: CommandStore, file: string[], directory: string);
-    run(msg: KlasaMessage, [channel, time, winnerCount, title]: [TextChannel, Date, number, string]): Promise<KlasaMessage | KlasaMessage[] | null>;
+    constructor(store: CommandStore, directory: string, files: string[]);
+    run(msg: KlasaMessage, [channel, time, winnerCount, title]: [TextChannel, Date, number, string]): Promise<Message[]>;
 }

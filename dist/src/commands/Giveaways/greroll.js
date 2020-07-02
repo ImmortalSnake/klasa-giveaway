@@ -1,18 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const klasa_1 = require("klasa");
+const utils_1 = require("@klasa/utils");
+const core_1 = require("@klasa/core");
 class default_1 extends klasa_1.Command {
-    constructor(store, file, directory) {
-        super(store, file, directory, klasa_1.util.mergeDefault({
+    constructor(store, directory, file) {
+        super(store, directory, file, utils_1.mergeObjects({
             permissionLevel: 5,
-            requiredPermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
-            runIn: ['text'],
+            requiredPermissions: [core_1.Permissions.FLAGS.EMBED_LINKS, core_1.Permissions.FLAGS.ADD_REACTIONS, core_1.Permissions.FLAGS.READ_MESSAGE_HISTORY],
+            runIn: [0],
             usageDelim: ' ',
             usage: '[message:message]',
             enabled: store.client.options.giveaway.enableCommands,
             description: (lang) => lang.get('COMMAND_REROLL_DESCRIPTION'),
             extendedHelp: (lang) => lang.get('COMMAND_REROLL_EXTENDED')
-        }, store.client.options.giveaway.commands.reroll));
+        }, store.client.options.giveaway.commands.reroll || {}));
     }
     async run(msg, [message]) {
         const finished = msg.guildSettings.get('giveaways.finished');
@@ -25,8 +27,8 @@ class default_1 extends klasa_1.Command {
         }
         const winners = await this.client.giveawayManager.reroll(message);
         if (!winners.length)
-            return msg.sendLocale('COMMAND_REROLL_NO_WINNER');
-        return msg.sendLocale('COMMAND_REROLL_SUCCESS', [winners.map(win => win.toString()).join(', ')]);
+            return msg.replyLocale('COMMAND_REROLL_NO_WINNER');
+        return msg.replyLocale('COMMAND_REROLL_SUCCESS', [winners.map(win => win.toString()).join(', ')]);
     }
 }
 exports.default = default_1;

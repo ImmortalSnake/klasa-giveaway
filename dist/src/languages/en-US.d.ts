@@ -1,4 +1,6 @@
-import { Language, LanguageStore } from 'klasa';
+import { Language, LanguageValue } from 'klasa';
 export default class extends Language {
-    constructor(store: LanguageStore, file: string[], directory: string);
+    language: Record<string, LanguageValue> & {
+        DEFAULT: (term: string) => string;
+    };
 }

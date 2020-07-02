@@ -1,16 +1,16 @@
-import { KlasaClient, KlasaMessage, Provider } from 'klasa';
-import { TextChannel, Message, GuildMember } from 'discord.js';
-import Giveaway from './Giveaway';
-export default class GiveawayManager {
-    readonly client: KlasaClient;
+import { KlasaMessage, Provider } from 'klasa';
+import { Client, TextChannel, Message, GuildMember } from '@klasa/core';
+import { Giveaway } from './Giveaway';
+export declare class GiveawayManager {
+    readonly client: Client;
     running: Giveaway[];
     private giveaways;
-    constructor(client: KlasaClient);
+    constructor(client: Client);
     get provider(): Provider;
     init(): Promise<void>;
     create(channel: TextChannel, rawData: GiveawayCreateData): Promise<Giveaway>;
-    delete(id: string): Promise<null>;
-    end(id: string): Promise<Message | null>;
+    delete(id: string): Promise<unknown>;
+    end(id: string): Promise<Message | unknown>;
     edit(id: string, data: GiveawayEditData): Promise<Giveaway>;
     reroll(msg: KlasaMessage, data?: GiveawayRerollData): Promise<GuildMember[]>;
     private update;

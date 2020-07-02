@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const klasa_1 = require("klasa");
+exports.GiveawayManager = void 0;
+const utils_1 = require("@klasa/utils");
 const Giveaway_1 = require("./Giveaway");
 const util_1 = require("../util/util");
 class GiveawayManager {
@@ -10,7 +11,10 @@ class GiveawayManager {
         this.client = client;
     }
     get provider() {
-        return this.client.providers.get(this.client.options.giveaway.provider) || this.client.providers.default;
+        const provider = this.client.providers.get(this.client.options.giveaway.provider) || this.client.providers.default;
+        if (!provider)
+            throw Error('No provider was set!');
+        return provider;
     }
     async init() {
         const hasTable = await this.provider.hasTable('Giveaways');
@@ -44,7 +48,7 @@ class GiveawayManager {
         const giveaway = this.running.find(gv => gv.messageID === id);
         if (!giveaway)
             throw Error(`No giveaway found with ID: ${id}`);
-        klasa_1.util.mergeDefault(giveaway.data, data);
+        utils_1.mergeDefault(giveaway.data, data);
         await this.provider.update('Giveaways', id, giveaway.data);
         return giveaway;
     }
@@ -52,13 +56,13 @@ class GiveawayManager {
         var _a, _b;
         const reaction = (data && data.reaction) || '🎉';
         if (msg.author.id !== msg.client.user.id ||
-            !msg.reactions.cache.has(reaction))
+            !msg.reactions.has(reaction))
             throw msg.language.get('GIVEAWAY_NOT_FOUND');
         const isRunning = this.running.find(gv => gv.messageID === msg.id);
         if (isRunning)
             throw msg.language.get('GIVEAWAY_RUNNING');
         const users = await ((_a = msg.reactions.resolve(reaction)) === null || _a === void 0 ? void 0 : _a.users.fetch());
-        return util_1.default.getWinners(msg, users, (_b = (data && data.winnerCount), (_b !== null && _b !== void 0 ? _b : 1)));
+        return util_1.default.getWinners(msg, users, (_b = (data && data.winnerCount)) !== null && _b !== void 0 ? _b : 1);
     }
     async update(giveaway) {
         if (giveaway.state === 'FINISHED')
@@ -79,10 +83,10 @@ class GiveawayManager {
         this.running = this.running.filter(gv => gv.state !== 'FINISHED');
     }
     add(data) {
-        const giveaway = new Giveaway_1.default(this, data);
+        const giveaway = new Giveaway_1.Giveaway(this, data);
         this.giveaways.push(giveaway);
         this.running.push(giveaway);
         return giveaway;
     }
 }
-exports.default = GiveawayManager;
+exports.GiveawayManager = GiveawayManager;

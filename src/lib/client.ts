@@ -1,38 +1,29 @@
-import { KlasaClient, KlasaClientOptions, util, Language, CommandOptions, KlasaMessage } from 'klasa';
-import GiveawayManager from './structures/GiveawayManager';
+import { Language, CommandOptions, KlasaMessage } from 'klasa';
+import { mergeDefault } from '@klasa/utils';
+import { Plugin, GuildMember, MessageBuilder, Client } from '@klasa/core';
+import { GiveawayManager } from './structures/GiveawayManager';
 import './schemas/Guild';
-import { join } from 'path';
 import { OPTIONS } from './util/constants';
-import { MessageEmbed, GuildMember, MessageOptions } from 'discord.js';
-import Giveaway from './structures/Giveaway';
+import { Giveaway } from './structures/Giveaway';
+import { join } from 'path';
 
-export default class GiveawayClient extends KlasaClient {
+export class GiveawayClient extends Client implements Plugin {
 
-	public constructor(options?: KlasaClientOptions) {
-		super(options);
-
-		// @ts-ignore
-		this.constructor[KlasaClient.plugin].call(this);
-	}
-
-	public static [KlasaClient.plugin](this: GiveawayClient): void {
-		util.mergeDefault(OPTIONS, this.options);
+	public static [Client.plugin](this: Client): void {
+		mergeDefault(OPTIONS, this.options);
 		this.giveawayManager = new GiveawayManager(this);
-		// eslint-disable-next-line @typescript-eslint/no-floating-promises
-		this.once('klasaReady', () => this.giveawayManager.init());
 
 		const coreDirectory = join(__dirname, '../');
+		this.once('ready', async () => await this.giveawayManager.init());
 
-		// @ts-ignore
 		this.commands.registerCoreDirectory(coreDirectory);
-		// @ts-ignore
 		this.languages.registerCoreDirectory(coreDirectory);
 	}
 
 }
 
 
-declare module 'discord.js' {
+declare module '@klasa/core/dist/src/lib/client/Client' {
 	interface Client {
 		giveawayManager: GiveawayManager;
 	}
@@ -49,7 +40,7 @@ export interface GiveawayOptions {
 	 * @param language Language setting of the guild
 	 * @see {@link https://github.com/ImmortalSnake/klasa-giveaway/blob/master/src/lib/util/constants.ts#L27|this} for a sample implementation
 	 */
-	runMessage?: ((giveaway: Giveaway, language: Language) => string | MessageEmbed | MessageOptions) | string | MessageEmbed | MessageOptions;
+	runMessage?: ((giveaway: Giveaway, language: Language) => ((arg0: MessageBuilder) => MessageBuilder));
 
 	/**
 	 * This function is called when the giveaway finishes. Here you can send a message listing the winners

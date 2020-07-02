@@ -1,5 +1,4 @@
-import { Client } from 'klasa';
+import { KlasaClient } from 'klasa';
 
-Client.defaultGuildSchema
-	.add('giveaways', folder => folder
-		.add('finished', 'string', { configurable: false }));
+KlasaClient.defaultGuildSchema
+	.add('giveaways.finished', 'string');

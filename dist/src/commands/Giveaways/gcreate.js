@@ -1,20 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const klasa_1 = require("klasa");
+const core_1 = require("@klasa/core");
+const utils_1 = require("@klasa/utils");
 class default_1 extends klasa_1.Command {
-    constructor(store, file, directory) {
-        super(store, file, directory, klasa_1.util.mergeDefault({
-            requiredPermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS'],
+    constructor(store, directory, files) {
+        super(store, directory, files, utils_1.mergeObjects({
+            requiredPermissions: [core_1.Permissions.FLAGS.EMBED_LINKS, core_1.Permissions.FLAGS.ADD_REACTIONS, core_1.Permissions.FLAGS.READ_MESSAGE_HISTORY],
             permissionLevel: store.client.options.giveaway.requiredPermission,
             promptLimit: 1,
             promptTime: 60 * 1000,
-            runIn: ['text'],
+            runIn: [0],
             usageDelim: ' ',
             enabled: store.client.options.giveaway.enableCommands,
             usage: '<channel:textchannel> <duration:duration> <winner_count:int{1,}> <title:...str{0,250}>',
             description: (lang) => lang.get('COMMAND_CREATE_DESCRIPTION'),
             extendedHelp: (lang) => lang.get('COMMAND_CREATE_EXTENDED')
-        }, store.client.options.giveaway.commands.create));
+        }, store.client.options.giveaway.commands.create || {}));
         this.createCustomResolver('textchannel', (arg, possible, message) => this.client.arguments.get('textChannel').run(arg, possible, message));
     }
     async run(msg, [channel, time, winnerCount, title]) {
@@ -28,7 +30,7 @@ class default_1 extends klasa_1.Command {
             title,
             winnerCount
         })
-            .then(() => msg.sendLocale('GIVEAWAY_CREATE_SUCCESS', [channel.toString()]));
+            .then(() => msg.replyLocale('GIVEAWAY_CREATE_SUCCESS', [channel.toString()]));
     }
 }
 exports.default = default_1;

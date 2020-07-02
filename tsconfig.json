@@ -21,12 +21,8 @@
 		"strictBindCallApply": true,
 		"strictNullChecks": true,
 		"strictPropertyInitialization": true,
-		"target": "es2020",
-		"types": [
-			"discord.js",
-			"klasa",
-			"node"
-		]
+		"target": "es2018",
+		"types": ["node"]
 	},
 	"include": [
 		"src/**/*",

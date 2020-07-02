@@ -1,15 +1,16 @@
-import { KlasaClient, KlasaMessage, util, Provider } from 'klasa';
-import { TextChannel, Message, GuildMember } from 'discord.js';
-import Giveaway from './Giveaway';
+import { KlasaMessage, Provider } from 'klasa';
+import { Client, TextChannel, Message, GuildMember } from '@klasa/core';
+import { mergeDefault } from '@klasa/utils';
+import { Giveaway } from './Giveaway';
 import Util from '../util/util';
 
-export default class GiveawayManager {
+export class GiveawayManager {
 
 	/**
 	 * The Discord Client
 	 * @readonly
 	 */
-	public readonly client: KlasaClient;
+	public readonly client: Client;
 
 	/**
 	 * A queue of all running giveaways
@@ -24,9 +25,9 @@ export default class GiveawayManager {
 
 	/**
 	 * Constructs the GiveawayManager
-	 * @param {KlasaClient} client The discord client
+	 * @param {Client} client The discord client
 	 */
-	public constructor(client: KlasaClient) {
+	public constructor(client: Client) {
 		this.client = client;
 	}
 
@@ -34,7 +35,10 @@ export default class GiveawayManager {
 	 * Gets the provider being used by the giveaway manager
 	 */
 	public get provider(): Provider {
-		return this.client.providers.get(this.client.options.giveaway.provider!) || this.client.providers.default;
+		const provider = this.client.providers.get(this.client.options.giveaway.provider!) || this.client.providers.default;
+		if (!provider) throw Error('No provider was set!');
+
+		return provider;
 	}
 
 	/**
@@ -80,7 +84,7 @@ export default class GiveawayManager {
 	 * client.giveawayManager.delete('720919015068925974').catch(() => console.log());
 	 * ```
 	 */
-	public async delete(id: string): Promise<null> {
+	public async delete(id: string): Promise<unknown> {
 		const index = this.running.findIndex(gv => gv.messageID === id);
 		if (index !== -1) this.running.splice(index, 1).forEach(gv => { gv.state = 'FINISHED'; });
 
@@ -95,7 +99,7 @@ export default class GiveawayManager {
 	 * client.giveawayManager.end('720919015068925974').catch(() => console.log());
 	 * ```
 	 */
-	public async end(id: string): Promise<Message | null> {
+	public async end(id: string): Promise<Message | unknown> {
 		const giveaway = this.running.find(gv => gv.messageID === id);
 		if (!giveaway) throw Error(`No giveaway found with ID: ${id}`);
 
@@ -116,7 +120,7 @@ export default class GiveawayManager {
 		const giveaway = this.running.find(gv => gv.messageID === id);
 		if (!giveaway) throw Error(`No giveaway found with ID: ${id}`);
 
-		util.mergeDefault(giveaway.data, data);
+		mergeDefault(giveaway.data, data);
 		await this.provider.update('Giveaways', id, giveaway.data);
 		return giveaway;
 	}
@@ -134,7 +138,7 @@ export default class GiveawayManager {
 	public async reroll(msg: KlasaMessage, data?: GiveawayRerollData): Promise<GuildMember[]> {
 		const reaction = (data && data.reaction) || '🎉';
 		if (msg.author.id !== msg.client.user!.id ||
-			!msg.reactions.cache.has(reaction)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
+			!msg.reactions.has(reaction)) throw msg.language.get('GIVEAWAY_NOT_FOUND');
 
 		const isRunning = this.running.find(gv => gv.messageID === msg.id);
 		if (isRunning) throw msg.language.get('GIVEAWAY_RUNNING');
@@ -147,7 +151,7 @@ export default class GiveawayManager {
 	 * Updates a certain giveaway, if the time is up it gets finished
 	 * @param giveaway The giveaway instance to update
 	 */
-	private async update(giveaway: Giveaway): Promise<Message | null> {
+	private async update(giveaway: Giveaway): Promise<Message | unknown> {
 		if (giveaway.state === 'FINISHED') return null;
 		if (giveaway.endsAt <= Date.now()) return giveaway.finish().catch(() => this.delete(giveaway.messageID!));
 
