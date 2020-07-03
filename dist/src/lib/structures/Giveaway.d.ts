@@ -1,5 +1,5 @@
 import { GiveawayManager, GiveawayCreateData, GiveawayData } from './GiveawayManager';
-import { KlasaMessage, Language } from 'klasa';
+import { Language } from 'klasa';
 import { Message, TextChannel, Client, GuildMember, MessageBuilder } from '@klasa/core';
 import { GiveawayOptions } from '../..';
 export declare type GiveawayState = 'CREATING' | 'RUNNING' | 'ENDING' | 'FINISHED';
@@ -14,7 +14,7 @@ export declare class Giveaway {
     channelID?: string;
     guildID?: string;
     author?: string;
-    message: KlasaMessage | null;
+    message: Message | null;
     state: GiveawayState;
     reaction: string;
     constructor(manager: GiveawayManager, data: GiveawayCreateData | GiveawayData);
@@ -24,7 +24,7 @@ export declare class Giveaway {
     get duration(): number;
     get data(): GiveawayCreateData;
     renderMessage(lang: Language): ((arg0: MessageBuilder) => MessageBuilder) | undefined;
-    finishMessage(winners: GuildMember[], msg: KlasaMessage): Promise<any>;
+    finishMessage(winners: GuildMember[], msg: Message): Promise<any>;
     init(): Promise<void>;
     create(channel?: TextChannel): Promise<this>;
     update(): Promise<Message | unknown>;

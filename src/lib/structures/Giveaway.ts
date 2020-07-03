@@ -1,5 +1,5 @@
 import { GiveawayManager, GiveawayCreateData, GiveawayData } from './GiveawayManager';
-import { KlasaMessage, Language } from 'klasa';
+import { Language } from 'klasa';
 import { Message, TextChannel, Client, GuildMember, MessageBuilder } from '@klasa/core';
 import { isFunction } from '@klasa/utils';
 import Util from '../util/util';
@@ -64,7 +64,7 @@ export class Giveaway {
 	/**
 	 * The giveway message
 	 */
-	public message: KlasaMessage | null = null;
+	public message: Message | null = null;
 
 	/**
 	 * Current state of the giveaway
@@ -156,7 +156,7 @@ export class Giveaway {
 	 * @param winners The giveaway winners
 	 * @param msg The giveaway message that can be edited
 	 */
-	public async finishMessage(winners: GuildMember[], msg: KlasaMessage): Promise<any> {
+	public async finishMessage(winners: GuildMember[], msg: Message): Promise<any> {
 		if (isFunction(this.options.finishMessage)) return this.options.finishMessage(this, winners, msg);
 		return this.options.finishMessage;
 	}
@@ -179,7 +179,7 @@ export class Giveaway {
 		const [msg] = await channel.send(this.renderMessage(language)!);
 		await msg.reactions.add(this.reaction);
 
-		this.message = msg as KlasaMessage;
+		this.message = msg;
 		this.messageID = msg.id;
 		this.channelID = msg.channel.id;
 		this.guildID = msg.guild!.id;
@@ -220,11 +220,13 @@ export class Giveaway {
 	/**
 	 * Returns the cached message if it exists or else fetches it
 	 */
-	private async fetchMessage(): Promise<KlasaMessage> {
+	private async fetchMessage(): Promise<Message> {
 		if (this.message) return this.message;
 		return this.client.channels.fetch(this.channelID!)
-			.then(chan => (chan as TextChannel).messages.fetch(this.messageID!))
-			.then(msg => msg as KlasaMessage);
+			.then(chan => {
+				this.guildID = (chan as TextChannel).guild.id;
+				return (chan as TextChannel).messages.fetch(this.messageID!);
+			});
 	}
 
 }

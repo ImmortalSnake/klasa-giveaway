@@ -1,6 +1,5 @@
 import { Second, Minute, Hour, Day } from './constants';
-import { KlasaMessage } from 'klasa';
-import { GuildMember, MessageReactionUserStore } from '@klasa/core';
+import { GuildMember, MessageReactionUserStore, Message } from '@klasa/core';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default abstract class Util {
@@ -20,7 +19,7 @@ export default abstract class Util {
 		return mess;
 	}
 
-	public static getWinners(msg: KlasaMessage, users: MessageReactionUserStore, winnerCount: number): GuildMember[] {
+	public static getWinners(msg: Message, users: MessageReactionUserStore, winnerCount: number): GuildMember[] {
 		const filtered = users
 			.map(us => msg.guild!.members.resolve(us))
 			.filter(us => Boolean(us))

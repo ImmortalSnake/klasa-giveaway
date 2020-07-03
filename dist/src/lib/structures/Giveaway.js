@@ -94,8 +94,10 @@ class Giveaway {
         if (this.message)
             return this.message;
         return this.client.channels.fetch(this.channelID)
-            .then(chan => chan.messages.fetch(this.messageID))
-            .then(msg => msg);
+            .then(chan => {
+            this.guildID = chan.guild.id;
+            return chan.messages.fetch(this.messageID);
+        });
     }
 }
 exports.Giveaway = Giveaway;
