@@ -40,7 +40,7 @@ async function finishMessage(giveaway: Giveaway, winners: GuildMember[], msg: Kl
 	const embed = new Embed()
 		.setTitle(giveaway.title)
 		.setFooter(msg.language.get('ENDED_AT'))
-		.setTimestamp();
+		.setTimestamp(Date.now());
 
 	if (winners.length < giveaway.winnerCount) {
 		return msg.edit(mb => mb

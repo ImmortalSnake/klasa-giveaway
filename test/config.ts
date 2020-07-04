@@ -22,7 +22,7 @@ export const config: KlasaClientOptions = {
 			return giveaway.lastRefresh + nextRefresh;
 		},
 		winnersFilter(member: GuildMember): boolean {
-			return !member.user?.bot && member.guild.ownerID !== member.id;
+			return !member.user?.bot;
 		}
 	}
 };

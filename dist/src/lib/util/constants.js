@@ -35,7 +35,7 @@ async function finishMessage(giveaway, winners, msg) {
     const embed = new core_1.Embed()
         .setTitle(giveaway.title)
         .setFooter(msg.language.get('ENDED_AT'))
-        .setTimestamp();
+        .setTimestamp(Date.now());
     if (winners.length < giveaway.winnerCount) {
         return msg.edit(mb => mb
             .setContent(msg.language.get('GIVEAWAY_END'))
