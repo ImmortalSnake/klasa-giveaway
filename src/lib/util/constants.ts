@@ -1,6 +1,6 @@
 import Util from './util';
 import { Giveaway } from '../..';
-import { KlasaMessage, Language } from 'klasa';
+import { Language } from 'klasa';
 import { GuildMember, Embed, Message, MessageBuilder } from '@klasa/core';
 
 export const Second = 1000;
@@ -36,7 +36,7 @@ function runMessage(giveaway: Giveaway, language: Language): (arg0: MessageBuild
 			.setTimestamp(giveaway.endsAt));
 }
 
-async function finishMessage(giveaway: Giveaway, winners: GuildMember[], msg: KlasaMessage): Promise<Message | Message[]> {
+async function finishMessage(giveaway: Giveaway, winners: GuildMember[], msg: Message): Promise<Message | Message[]> {
 	const embed = new Embed()
 		.setTitle(giveaway.title)
 		.setFooter(msg.language.get('ENDED_AT'))

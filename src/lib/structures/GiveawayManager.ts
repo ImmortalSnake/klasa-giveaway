@@ -88,7 +88,7 @@ export class GiveawayManager {
 		const index = this.running.findIndex(gv => gv.messageID === id);
 		if (index !== -1) this.running.splice(index, 1).forEach(gv => { gv.state = 'FINISHED'; });
 
-		return this.provider.delete('Giveaways', id);
+		return this.provider.delete('Giveaways', id).catch(() => null);
 	}
 
 	/**

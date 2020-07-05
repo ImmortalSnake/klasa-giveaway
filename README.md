@@ -16,7 +16,7 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
 6. **gstart** - Immediately starts a giveaway in the current channel
 
 **NOTE**: 
-- Use this version if you are using [klasa v0.5.0 (stable)](https://www.npmjs.com/package/klasa) and [discord.js v12](https://www.npmjs.com/package/discord.js)
+- Use this version if you are using [klasa master](https://github.com/dirigeants/klasa) and [klasa core](https://github.com/dirigeants/core)
 
 
 ## Features
@@ -71,6 +71,7 @@ This plugin adds a customisable giveway feature in your discord klasa bot. It co
   For a list of giveaway options [see here](https://immortalsnake.github.io/klasa-giveaway/interfaces/giveawayoptions)
 
 * It also allows you to define your own locales. See [built in en-US Locale](./src/languages/en-US.ts)
+* You may need to enable caching
 
 ## Contact
 - ImmortalSnake#0449

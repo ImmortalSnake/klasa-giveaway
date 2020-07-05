@@ -4,6 +4,7 @@ import { KlasaClientOptions } from 'klasa';
 
 export const config: KlasaClientOptions = {
 	owners: ['410806297580011520'],
+	cache: { enabled: true },
 	rest: {},
 	commands: {
 		prefix: '..',

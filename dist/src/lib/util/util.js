@@ -20,7 +20,7 @@ class Util {
     }
     static getWinners(msg, users, winnerCount) {
         const filtered = users
-            .map(us => msg.guild.members.resolve(us))
+            .map(us => { var _a; return (_a = msg.guild) === null || _a === void 0 ? void 0 : _a.members.resolve(us); })
             .filter(us => Boolean(us))
             .filter(us => msg.client.options.giveaway.winnersFilter(us));
         return Util.sample(filtered, winnerCount)
