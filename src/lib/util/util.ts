@@ -1,5 +1,5 @@
 import { Second, Minute, Hour, Day } from './constants';
-import { GuildMember, MessageReactionUserStore, Message } from '@klasa/core';
+import { GuildMember, MessageReactionUserStore, Message, TextChannel } from '@klasa/core';
 
 export default abstract class Util {
 
@@ -30,7 +30,7 @@ export default abstract class Util {
 	 */
 	public static getWinners(msg: Message, users: MessageReactionUserStore, winnerCount: number): GuildMember[] {
 		const filtered = users
-			.map(us => msg.guild?.members.resolve(us))
+			.map(us => (msg.channel as TextChannel).guild.members.resolve(us))
 			.filter(us => Boolean(us))
 			.filter(us => msg.client.options.giveaway.winnersFilter!(us!));
 

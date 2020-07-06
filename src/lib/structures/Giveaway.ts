@@ -182,7 +182,7 @@ export class Giveaway {
 		this.message = msg;
 		this.messageID = msg.id;
 		this.channelID = msg.channel.id;
-		this.guildID = msg.guild!.id;
+		this.guildID = (msg.channel as TextChannel).guild!.id;
 		return this;
 	}
 
