@@ -13,7 +13,6 @@ export default class extends Command {
 			promptTime: 60 * 1000,
 			runIn: [ChannelType.GuildText],
 			usageDelim: ' ',
-			enabled: store.client.options.giveaway.enableCommands,
 			usage: '<channel:textchannel> <duration:duration> <winner_count:int{1,}> <title:...str{0,250}>',
 			description: (lang: Language) => lang.get('COMMAND_CREATE_DESCRIPTION'),
 			extendedHelp: (lang: Language) => lang.get('COMMAND_CREATE_EXTENDED')

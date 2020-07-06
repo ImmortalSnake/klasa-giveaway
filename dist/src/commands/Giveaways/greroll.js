@@ -11,7 +11,6 @@ class default_1 extends klasa_1.Command {
             runIn: [0],
             usageDelim: ' ',
             usage: '[message:message]',
-            enabled: store.client.options.giveaway.enableCommands,
             description: (lang) => lang.get('COMMAND_REROLL_DESCRIPTION'),
             extendedHelp: (lang) => lang.get('COMMAND_REROLL_EXTENDED')
         }, store.client.options.giveaway.commands.reroll || {}));

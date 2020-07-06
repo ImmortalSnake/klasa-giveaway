@@ -12,7 +12,6 @@ export default class extends Command {
 			runIn: [ChannelType.GuildText],
 			usageDelim: ' ',
 			usage: '[message:message]',
-			enabled: store.client.options.giveaway.enableCommands,
 			description: (lang: Language) => lang.get('COMMAND_REROLL_DESCRIPTION'),
 			extendedHelp: (lang: Language) => lang.get('COMMAND_REROLL_EXTENDED')
 		}, store.client.options.giveaway.commands!.reroll || {}));

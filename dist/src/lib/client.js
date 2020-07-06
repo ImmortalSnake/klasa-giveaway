@@ -13,7 +13,8 @@ class GiveawayClient extends core_1.Client {
         this.giveawayManager = new GiveawayManager_1.GiveawayManager(this);
         const coreDirectory = path_1.join(__dirname, '../');
         this.once('ready', async () => await this.giveawayManager.init());
-        this.commands.registerCoreDirectory(coreDirectory);
+        if (this.options.giveaway.enableCommands)
+            this.commands.registerCoreDirectory(coreDirectory);
         this.languages.registerCoreDirectory(coreDirectory);
     }
 }

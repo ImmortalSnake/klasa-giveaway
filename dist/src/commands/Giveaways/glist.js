@@ -9,7 +9,6 @@ class default_1 extends klasa_1.Command {
             requiredPermissions: [core_1.Permissions.FLAGS.EMBED_LINKS, core_1.Permissions.FLAGS.ADD_REACTIONS, core_1.Permissions.FLAGS.READ_MESSAGE_HISTORY],
             runIn: [0],
             usageDelim: ' ',
-            enabled: store.client.options.giveaway.enableCommands,
             description: (lang) => lang.get('COMMAND_LIST_DESCRIPTION'),
             extendedHelp: (lang) => lang.get('COMMAND_LIST_EXTENDED')
         }, store.client.options.giveaway.commands.list || {}));

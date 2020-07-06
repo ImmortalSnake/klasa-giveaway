@@ -12,7 +12,6 @@ class default_1 extends klasa_1.Command {
             promptTime: 60 * 1000,
             runIn: [0],
             usageDelim: ' ',
-            enabled: store.client.options.giveaway.enableCommands,
             usage: '<channel:textchannel> <duration:duration> <winner_count:int{1,}> <title:...str{0,250}>',
             description: (lang) => lang.get('COMMAND_CREATE_DESCRIPTION'),
             extendedHelp: (lang) => lang.get('COMMAND_CREATE_EXTENDED')

@@ -10,7 +10,6 @@ export default class extends Command {
 			requiredPermissions: [Permissions.FLAGS.EMBED_LINKS, Permissions.FLAGS.ADD_REACTIONS, Permissions.FLAGS.READ_MESSAGE_HISTORY],
 			runIn: [ChannelType.GuildText],
 			usageDelim: ' ',
-			enabled: store.client.options.giveaway.enableCommands,
 			description: (lang: Language) => lang.get('COMMAND_LIST_DESCRIPTION'),
 			extendedHelp: (lang: Language) => lang.get('COMMAND_LIST_EXTENDED')
 		}, store.client.options.giveaway.commands!.list || {}));

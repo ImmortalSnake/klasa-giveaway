@@ -12,7 +12,6 @@ export default class extends Command {
 			runIn: [ChannelType.GuildText],
 			usageDelim: ' ',
 			usage: '[message:message]',
-			enabled: store.client.options.giveaway.enableCommands,
 			description: (lang: Language) => lang.get('COMMAND_DELETE_DESCRIPTION'),
 			extendedHelp: (lang: Language) => lang.get('COMMAND_DELETE_EXTENDED')
 		}, store.client.options.giveaway.commands!.delete || {}));

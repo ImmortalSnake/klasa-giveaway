@@ -16,7 +16,7 @@ export class GiveawayClient extends Client implements Plugin {
 		const coreDirectory = join(__dirname, '../');
 		this.once('ready', async () => await this.giveawayManager.init());
 
-		this.commands.registerCoreDirectory(coreDirectory);
+		if (this.options.giveaway.enableCommands) this.commands.registerCoreDirectory(coreDirectory);
 		this.languages.registerCoreDirectory(coreDirectory);
 	}
 
