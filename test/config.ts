@@ -1,5 +1,6 @@
 import { KlasaClientOptions } from 'klasa';
 import { Giveaway } from '../src';
+import { GuildMember } from 'discord.js';
 
 export const config: KlasaClientOptions = {
 	owners: ['410806297580011520'],
@@ -18,7 +19,7 @@ export const config: KlasaClientOptions = {
 
 			return giveaway.lastRefresh + nextRefresh;
 		},
-		winnersFilter(member) {
+		winnersFilter(member: GuildMember) : boolean {
 			return !member.user.bot && member.guild.ownerID !== member.id;
 		}
 	}

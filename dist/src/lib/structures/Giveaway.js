@@ -11,7 +11,6 @@ class Giveaway {
         this.winnerCount = data.winnerCount;
         this.messageID = data.messageID || data.id;
         this.channelID = data.channelID;
-        this.guildID = data.guildID;
         this.title = data.title;
         this.author = data.author;
         this.startAt = data.startAt || Date.now();
@@ -20,6 +19,10 @@ class Giveaway {
     }
     get client() {
         return this.manager.client;
+    }
+    get guildID() {
+        var _a;
+        return ((_a = this.message) === null || _a === void 0 ? void 0 : _a.guild).id;
     }
     get options() {
         return this.client.options.giveaway;
@@ -66,7 +69,6 @@ class Giveaway {
         this.message = msg;
         this.messageID = msg.id;
         this.channelID = msg.channel.id;
-        this.guildID = msg.guild.id;
         return this;
     }
     async update() {

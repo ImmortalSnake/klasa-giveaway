@@ -51,11 +51,6 @@ export default class Giveaway {
 	public channelID?: string;
 
 	/**
-	 * The guild ID of the giveway message
-	 */
-	public guildID?: string;
-
-	/**
 	 * The ID of the author who created the giveaway
 	 */
 	public author?: string;
@@ -88,7 +83,6 @@ export default class Giveaway {
 		this.winnerCount = data.winnerCount;
 		this.messageID = data.messageID || (data as GiveawayData).id;
 		this.channelID = data.channelID;
-		this.guildID = data.guildID;
 		this.title = data.title;
 		this.author = data.author;
 
@@ -102,6 +96,13 @@ export default class Giveaway {
 	 */
 	public get client(): KlasaClient {
 		return this.manager.client;
+	}
+
+	/**
+	 * The guild ID of the giveway message
+	 */
+	public get guildID(): string | undefined {
+		return this.message?.guild!.id;
 	}
 
 	/**
@@ -181,7 +182,6 @@ export default class Giveaway {
 		this.message = msg as KlasaMessage;
 		this.messageID = msg.id;
 		this.channelID = msg.channel.id;
-		this.guildID = msg.guild!.id;
 		return this;
 	}
 

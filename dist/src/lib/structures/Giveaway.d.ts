@@ -12,13 +12,13 @@ export default class Giveaway {
     title: string;
     messageID?: string;
     channelID?: string;
-    guildID?: string;
     author?: string;
     message: KlasaMessage | null;
     state: GiveawayState;
     reaction: string;
     constructor(manager: GiveawayManager, data: GiveawayCreateData | GiveawayData);
     get client(): KlasaClient;
+    get guildID(): string | undefined;
     get options(): GiveawayOptions;
     get refreshAt(): number;
     get duration(): number;
