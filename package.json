@@ -42,7 +42,7 @@
     "eslint": "^7.3.1",
     "eslint-config-klasa": "github:dirigeants/klasa-lint",
     "klasa": "^0.5.0",
-    "typedoc": "^0.17.7",
+    "typedoc": "^0.20.19",
     "typescript": "^3.9.5"
   },
   "files": [
